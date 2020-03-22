@@ -1,11 +1,15 @@
 package it.notreference.bungee.premiumlogin;
 
+import it.notreference.bungee.premiumlogin.commands.PremiumAddCmd;
 import it.notreference.bungee.premiumlogin.commands.PremiumCmd;
 import it.notreference.bungee.premiumlogin.commands.PremiumLoginCmd;
 import it.notreference.bungee.premiumlogin.commands.PremiumLookUpCmd;
 import it.notreference.bungee.premiumlogin.commands.PremiumReloadCmd;
+import it.notreference.bungee.premiumlogin.commands.PremiumRemoveCmd;
 import it.notreference.bungee.premiumlogin.listeners.Eventi;
 //import it.notreference.bungee.premiumlogin.utils.AuthUtils;
+
+
 
 import java.io.File;
 import java.io.IOException;
@@ -38,7 +42,7 @@ public class PremiumLoginMain extends Plugin{
 	public void onEnable() {
 		
 		
-		if(PremiumLoginCmd.getByMessage() != "§7This server is using §bPremiumLogin §e1.1 §7by §3NotReference§7.") {
+		if(PremiumLoginCmd.getByMessage() != "§7This server is using §bPremiumLogin 1.1.2 §7by §eNotReference§7.") {
 			getLogger().info("MERDONE - Brutto skidder di merda fottiti, ora non mi abiliterò.");
 			getLogger().info("TASSINELLO - You are a fucking skidder, fuck you; now i will not enable.");
 			return;
@@ -115,6 +119,8 @@ public class PremiumLoginMain extends Plugin{
 		getProxy().getPluginManager().registerCommand(this, new PremiumLoginCmd());
 		getProxy().getPluginManager().registerCommand(this, new PremiumLookUpCmd());
 		getProxy().getPluginManager().registerCommand(this, new PremiumReloadCmd());
+		getProxy().getPluginManager().registerCommand(this, new PremiumAddCmd());
+		getProxy().getPluginManager().registerCommand(this, new PremiumRemoveCmd());
 		
 		setInstance(this);
 		//Registriamo il canale bungeecord compatibile anche con 1.13+

@@ -20,7 +20,7 @@ public class PremiumLoginCmd extends Command{
 		super("premiumlogin");
 	}
 
-	private static String by = "§7This server is using §bPremiumLogin 1.1 §7by §eNotReference§7.";
+	private static String by = "§7This server is using §bPremiumLogin 1.1.2 §7by §eNotReference§7.";
 	
 	public static String getByMessage() {
 		return by;

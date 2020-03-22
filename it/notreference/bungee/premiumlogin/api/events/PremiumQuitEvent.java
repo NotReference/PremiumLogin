@@ -1,4 +1,4 @@
-package it.notreference.bungee.premiumlogin.api.exceptions;
+package it.notreference.bungee.premiumlogin.api.events;
 
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 //import it.notreference.bungee.premiumlogin.api.PremiumLoginEvent;

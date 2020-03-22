@@ -4,7 +4,7 @@ package it.notreference.bungee.premiumlogin.utils;
 
 import it.notreference.bungee.premiumlogin.PremiumLoginEventManager;
 import it.notreference.bungee.premiumlogin.PremiumLoginMain;
-import it.notreference.bungee.premiumlogin.api.exceptions.PremiumAutologinEvent;
+import it.notreference.bungee.premiumlogin.api.events.PremiumAutologinEvent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import com.google.common.io.ByteArrayDataOutput;

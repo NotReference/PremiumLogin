@@ -1,4 +1,4 @@
-package it.notreference.bungee.premiumlogin.api.exceptions;
+package it.notreference.bungee.premiumlogin.api.events;
 
 import it.notreference.bungee.premiumlogin.utils.TipoConnessione;
 

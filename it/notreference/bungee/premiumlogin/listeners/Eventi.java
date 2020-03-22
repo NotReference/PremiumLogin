@@ -7,8 +7,8 @@ import java.util.UUID;
 
 import it.notreference.bungee.premiumlogin.PremiumLoginEventManager;
 import it.notreference.bungee.premiumlogin.PremiumLoginMain;
-import it.notreference.bungee.premiumlogin.api.exceptions.PremiumJoinEvent;
-import it.notreference.bungee.premiumlogin.api.exceptions.PremiumQuitEvent;
+import it.notreference.bungee.premiumlogin.api.events.PremiumJoinEvent;
+import it.notreference.bungee.premiumlogin.api.events.PremiumQuitEvent;
 import it.notreference.bungee.premiumlogin.utils.AuthenticationKey;
 import it.notreference.bungee.premiumlogin.utils.AuthType;
 import it.notreference.bungee.premiumlogin.utils.AuthenticationHandler;
