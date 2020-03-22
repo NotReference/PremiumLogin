@@ -3,6 +3,13 @@ package it.notreference.bungee.premiumlogin.utils;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import it.notreference.bungee.premiumlogin.PremiumLoginMain;
 
+/**
+ * PremiumLogin 1.1 by NotReference
+ *
+ * @description Autologin premium players easily and safely.
+ * @dependency AuthMe 5.5.0
+ */
+
 public class ConfigUtils {
 
 	public static String getConfStr(String id) {
@@ -73,6 +80,18 @@ public class ConfigUtils {
 	
 	public static void disablePremium(ProxiedPlayer p) {
 		PremiumLoginMain.i().getPlayersConf().set("users." + p.getName() , "false");
+		player_save();
+		player_reload();
+	}
+	
+	public static void enablePremium(String p) {
+		PremiumLoginMain.i().getPlayersConf().set("users." + p , "true");
+		player_save();
+		player_reload();
+	}
+	
+	public static void disablePremium(String p) {
+		PremiumLoginMain.i().getPlayersConf().set("users." + p , "false");
 		player_save();
 		player_reload();
 	}

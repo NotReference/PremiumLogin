@@ -7,11 +7,18 @@ package it.notreference.bungee.premiumlogin.commands;
 import it.notreference.bungee.premiumlogin.utils.ConfigUtils;
 import it.notreference.bungee.premiumlogin.utils.Messages;
 //import it.notreference.bungee.premiumlogin.utils.TipoConnessione;
-import it.notreference.bungee.premiumlogin.utils.UUIDVerify;
+import it.notreference.bungee.premiumlogin.utils.UUIDUtils;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
+
+/**
+ * PremiumLogin 1.1 by NotReference
+ *
+ * @description Autologin premium players easily and safely.
+ * @dependency AuthMe 5.5.0
+ */
 
 public class PremiumCmd extends Command{
 
@@ -30,7 +37,7 @@ public class PremiumCmd extends Command{
 			} 
 		}
 		
-		if(!UUIDVerify.isPremium(p)) {
+		if(!UUIDUtils.isPremium(p)) {
 			Messages.send(p, ConfigUtils.getConfStr("no-premium"));
 			return;
 		}

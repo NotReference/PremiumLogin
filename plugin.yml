@@ -1,5 +1,5 @@
 name: PremiumLogin
 author: NotReference
-description: AutoLogin Premium Players Easily And Safe. Requires AuthMe, compatible with authmebungee.
+description: AutoLogin Premium Players Easily And Safely. Requires AuthMe, compatible with authmebungee.
 main: it.notreference.bungee.premiumlogin.PremiumLoginMain
-version: 1.0
+version: 1.1

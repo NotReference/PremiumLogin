@@ -6,6 +6,9 @@
 # Select the authentication server.
 auth-server: Auth
 
+# If you have AuthMe in all servers, change this true.
+all-servers-are-server-auth: false
+
 # Minecraft in the 1.6 implemented a new Authentication service. If you type this true, players with 1.5 ecc.. can login with premium too..
 allow-premium-legacy-connections: false
 
@@ -33,11 +36,12 @@ error-generic: '&cAn error has occurred.'
 default-login-system-switch-to-premiumlogin: '&aYour default login system has been switched to PremiumLogin.'
 default-login-system-switch-to-authme: '&aYour default login system has been switched to AuthMe.'
 enabled-autologin: '&aYou can now autologin with premium account.'
-disable-autologin: '&eYou disabled autologin with premium account.'
+disable-autologin: '&aYou disabled autologin with premium account.'
 no-premium: '&cYou are not premium.'
 no-legacy: '&cSorry, currently we do not support legacy premium connections. Login with 1.7+'
 not-used-premium-launcher: '&cFor enable this function, you need to be logged from the official &cMinecraft Premium Launcher.'
 no-perms: '&cYou do not have permissions.'
+staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.'
 
 
 # - Log Messages -

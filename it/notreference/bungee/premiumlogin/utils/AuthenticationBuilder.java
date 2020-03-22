@@ -5,6 +5,13 @@ import java.util.UUID;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
+/**
+ * PremiumLogin 1.1 by NotReference
+ *
+ * @description Autologin premium players easily and safely.
+ * @dependency AuthMe 5.5.0
+ */
+
 public class AuthenticationBuilder {
 
 	private AuthType type;
@@ -45,8 +52,8 @@ public class AuthenticationBuilder {
 		return this;
 	}
 	
-	public AuthKey build() {
-		return new AuthKey(unique, p, madonna, name, cont, type);
+	public AuthenticationKey build() {
+		return new AuthenticationKey(unique, p, madonna, name, cont, type);
 	}
 	
 	

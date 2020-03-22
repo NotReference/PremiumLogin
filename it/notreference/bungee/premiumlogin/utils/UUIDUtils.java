@@ -9,7 +9,14 @@ import java.util.UUID;
 import net.md_5.bungee.api.connection.PendingConnection;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
-public class UUIDVerify {
+/**
+ * PremiumLogin 1.1 by NotReference
+ *
+ * @description Autologin premium players easily and safely.
+ * @dependency AuthMe 5.5.0
+ */
+
+public class UUIDUtils {
 
 	public static boolean isPremium(UUID ud) {
 		ProxiedPlayer prox = PremiumLoginMain.i().getProxy().getPlayer(ud);

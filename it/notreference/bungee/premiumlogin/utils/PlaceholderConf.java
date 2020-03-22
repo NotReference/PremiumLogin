@@ -3,6 +3,13 @@ package it.notreference.bungee.premiumlogin.utils;
 import java.net.InetSocketAddress;
 import java.util.UUID;
 
+/**
+ * PremiumLogin 1.1 by NotReference
+ *
+ * @description Autologin premium players easily and safely.
+ * @dependency AuthMe 5.5.0
+ */
+
 public class PlaceholderConf {
 
 	private String name;

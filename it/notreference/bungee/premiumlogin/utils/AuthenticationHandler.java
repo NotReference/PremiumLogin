@@ -1,52 +1,39 @@
 package it.notreference.bungee.premiumlogin.utils;
 
 
-import java.util.ArrayList;
-import java.util.List;
 
+import it.notreference.bungee.premiumlogin.PremiumLoginEventManager;
 import it.notreference.bungee.premiumlogin.PremiumLoginMain;
-import net.md_5.bungee.api.chat.TextComponent;
+import it.notreference.bungee.premiumlogin.api.exceptions.PremiumAutologinEvent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 
-public class AuthUtils  {
+/**
+ * PremiumLogin 1.1 by NotReference
+ *
+ * @description Autologin premium players easily and safely.
+ * @dependency AuthMe 5.5.0
+ */
+
+public class AuthenticationHandler  {
 
 	
 	//Codes:
-	//0 - UUID Error
+	//0 - UUID Error (Not showed anymore).
 	//1 - Success
 	//2 - No Premium
 	//3 - Not Online
 	//4 - No Premium Connection but is premium.
-	//5 - Arleady logged in.
+	//5 - Arleady logged in. (Not showed anymore).
 	//6 - Other error..
 	//7 - User logged in legacy mode && non consentito nel config.
 	
 	//3 + 6 (9) = combo of Not Online // Other error.
 	
-	private static List<ProxiedPlayer> loggedin_premium = new ArrayList<ProxiedPlayer>();
 	
-	@Deprecated
-	public static List<ProxiedPlayer> getLogged() {
-		return loggedin_premium;
-	}
-	
-	@Deprecated
-	public static boolean isPremiumLogged(ProxiedPlayer p) {
-		return loggedin_premium.contains(p);
-	}
-	
-	@Deprecated
-	public static void clearLoggedIn() {
-		for(ProxiedPlayer player: loggedin_premium) {
-			player.disconnect(new TextComponent(ConfigUtils.getConfStr("kick-reload")));
-		}
-		loggedin_premium.clear();
-	}
-	
-	public static int login(ProxiedPlayer p, AuthKey key) {
+	public static int login(ProxiedPlayer p, AuthenticationKey key) {
 		
 		//if(isPremiumLogged(p)) {
 			//Messages.logConsole("arleady_logged_user: " + p.getName());
@@ -66,7 +53,7 @@ public class AuthUtils  {
 			return 6;
 		}
 		
-		if(!UUIDVerify.isPremium(p)) {
+		if(!UUIDUtils.isPremium(p)) {
 			Messages.logConsole("nopremium_user: " + p.getName());
 			return 2;
 		}
@@ -77,13 +64,13 @@ public class AuthUtils  {
 				Messages.logConsole("[[nolegacy]] connectionblock_user: " + p.getName());
 				return 7;
 			}
-		if(!UUIDVerify.isPremiumConnectionLegacy(p) && !UUIDVerify.isPremiumConnection(p)) {
+		if(!UUIDUtils.isPremiumConnectionLegacy(p) && !UUIDUtils.isPremiumConnection(p)) {
 			Messages.logConsole("no_launcher_user: " + p.getName());
 			return 4;
 		}
 		} else {
 			
-			if(!UUIDVerify.isPremiumConnection(p)) {
+			if(!UUIDUtils.isPremiumConnection(p)) {
 				Messages.logConsole("no_launcher_user: " + p.getName());
 				return 4;
 			}
@@ -108,16 +95,14 @@ public class AuthUtils  {
         	 Messages.logConsole(p.getName() + " has been forcelogged (premium mode)."); 
         	 Messages.sendParseColors(p, PremiumLoginMain.i().getConfig().getString("auto-login-premium"));
         	 Messages.logStaff(ConfigUtils.getConfStr("user-forcelogged"), new PlaceholderConf(p.getName(), p.getUniqueId(), p.getAddress().getHostName()));
-            // getLogged().add(p);
-         } else {
-        	 Messages.logConsole(p.getName() + " has been forcelogged using /premium (premium mode)."); 
-        	 Messages.sendParseColors(p, PremiumLoginMain.i().getConfig().getString("login-premium"));
-        	 Messages.logStaff(ConfigUtils.getConfStr("user-forcelogged"), new PlaceholderConf(p.getName(), p.getUniqueId(), p.getAddress().getHostName()));
-            // getLogged().add(p);
-         }
+			PremiumLoginEventManager.fire(new PremiumAutologinEvent(p, p.getName(), p.getPendingConnection(), p.getUniqueId(), key));
+
+        	 // getLogged().add(p);
+         } 
          return 1;
 		} catch(Exception exc) {
 			Messages.sendParseColors(p, PremiumLoginMain.i().getConfig().getString("error-generic"));
+			Messages.logConsole("Unable to premium login " + p.getName());
 			exc.printStackTrace();
 			return 6;
 		}

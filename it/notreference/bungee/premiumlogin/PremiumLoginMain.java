@@ -17,6 +17,14 @@ import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 
+/**
+ * PremiumLogin 1.1 by NotReference
+ *
+ * @class Main class
+ * @description Autologin premium players easily and safely.
+ * @dependency AuthMe 5.5.0
+ */
+
 public class PremiumLoginMain extends Plugin{
 
 	private static PremiumLoginMain in;
@@ -30,7 +38,7 @@ public class PremiumLoginMain extends Plugin{
 	public void onEnable() {
 		
 		
-		if(PremiumLoginCmd.getByMessage() != "§c§l(!) §7This server is using §bPremiumLogin §e1.0 §7by §3NotReference§7.") {
+		if(PremiumLoginCmd.getByMessage() != "§7This server is using §bPremiumLogin §e1.1 §7by §3NotReference§7.") {
 			getLogger().info("MERDONE - Brutto skidder di merda fottiti, ora non mi abiliterò.");
 			getLogger().info("TASSINELLO - You are a fucking skidder, fuck you; now i will not enable.");
 			return;
@@ -89,7 +97,7 @@ public class PremiumLoginMain extends Plugin{
 		}
 		
 		if(getProxy().getPluginManager().getPlugin("PremiumLock") != null) {
-			getLogger().info("WARNING - Please remove PremiumLock for prevent UUIDVerify bugs.");
+			getLogger().info("WARNING - Please remove PremiumLock for prevent UUID bugs.");
 		}
 		
 		try {
@@ -123,13 +131,13 @@ public class PremiumLoginMain extends Plugin{
 			xb = false;
 		}
 		
-		getLogger().info("SUCCESS - PremiumLogin 1.0 By NotReference Enabled.");
+		getLogger().info("SUCCESS - PremiumLogin 1.1 By NotReference Enabled.");
 		
 	}
 	
 	public void onDisable() {
 		//AuthUtils.clearLoggedIn();
-		getLogger().info("INFO - PremiumLogin 1.0 By NotReference Disabled.. Byeee");
+		getLogger().info("INFO - PremiumLogin 1.1 By NotReference Disabled.. Byeee");
 	}
 	
 	protected void setInstance(PremiumLoginMain diocane) {
