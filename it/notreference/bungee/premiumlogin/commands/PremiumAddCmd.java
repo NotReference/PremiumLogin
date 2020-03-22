@@ -7,6 +7,7 @@ package it.notreference.bungee.premiumlogin.commands;
 import it.notreference.bungee.premiumlogin.PremiumLoginMain;
 import it.notreference.bungee.premiumlogin.utils.ConfigUtils;
 import it.notreference.bungee.premiumlogin.utils.Messages;
+import it.notreference.bungee.premiumlogin.utils.UUIDUtils;
 //import it.notreference.bungee.premiumlogin.utils.TipoConnessione;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -46,6 +47,11 @@ public class PremiumAddCmd extends Command{
 			Messages.send(p, "§cThis player is arleady in premium list.");
 		} else {
 		
+			if(!UUIDUtils.isPremium(p)) {
+				Messages.send(p, "§cThis player is not premium.");
+				return;
+			}
+			
 			ConfigUtils.enablePremium(p);
 			ConfigUtils.player_save();
 			ConfigUtils.player_reload();

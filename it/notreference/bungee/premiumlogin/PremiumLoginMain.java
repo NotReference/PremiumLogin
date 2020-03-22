@@ -42,7 +42,7 @@ public class PremiumLoginMain extends Plugin{
 	public void onEnable() {
 		
 		
-		if(PremiumLoginCmd.getByMessage() != "§7This server is using §bPremiumLogin 1.1.2 §7by §eNotReference§7.") {
+		if(PremiumLoginCmd.getByMessage() != "§7This server is using §bPremiumLogin 1.1.3 §7by §eNotReference§7.") {
 			getLogger().info("MERDONE - Brutto skidder di merda fottiti, ora non mi abiliterò.");
 			getLogger().info("TASSINELLO - You are a fucking skidder, fuck you; now i will not enable.");
 			return;

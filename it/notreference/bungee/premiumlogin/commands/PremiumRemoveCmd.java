@@ -23,7 +23,7 @@ import net.md_5.bungee.api.plugin.Command;
 public class PremiumRemoveCmd extends Command{
 
 	public PremiumRemoveCmd() {
-		super("premium");
+		super("premiumremove");
 	}
 	
 	@Override
