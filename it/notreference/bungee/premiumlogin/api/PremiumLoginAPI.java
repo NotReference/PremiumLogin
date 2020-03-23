@@ -53,7 +53,7 @@ public class PremiumLoginAPI implements LoginHandler{
 		} else if(AuthenticationHandler.login(p, k) == 0) {
 			return LoginResponse.ERROR;
 		} else {
-			return LoginResponse.UNAUTHORIZED;
+			return LoginResponse.UNABLE;
 		}
 		
 	}

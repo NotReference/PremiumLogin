@@ -31,7 +31,7 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
 /**
- * PremiumLogin 1.1 by NotReference
+ * PremiumLogin 1.2 by NotReference
  *
  * @description Autologin premium players easily and safely.
  * @dependency AuthMe 5.5.0
@@ -62,93 +62,110 @@ public class Eventi implements Listener{
 					uniqueIdField.set(connection, nuovoUUID);
              PremiumLoginMain.i().logConsole("Successfully set " + connection.getName() + "'s UUID.");
          } catch (Exception exc) {
-        	   PremiumLoginMain.i().logConsole("Cannot setup " + connection.getName() + "'s UUID.");
+        	   PremiumLoginMain.i().logConsole("Unable to setup " + connection.getName() + "'s UUID.");
         	   exc.printStackTrace();
-             connection.disconnect(new TextComponent("§cCannot setup your account's UUID. Please retry."));
+             connection.disconnect(new TextComponent("§cUnable to setup your account's UUID. Please retry."));
              return;
          }
 	}
 	
 	@EventHandler
 	public void entrata(PostLoginEvent event) {
-		//PendingConnection connection = event.getPlayer().getPendingConnection();
-		 
 		ProxiedPlayer p = event.getPlayer();
 		
-		if(!ConfigUtils.hasPremiumAutoLogin(p)) {
-			return;
-		}
-		
-			if(!UUIDUtils.isPremium(p)) {
-				ConfigUtils.disablePremium(p);
-				return;
-			}
-			if(p.isConnected()) {
-				if(ConfigUtils.allowLegacy()) {
-				if(!UUIDUtils.isPremiumConnectionLegacy(p) || !UUIDUtils.isPremiumConnection(p)) {
-					PlaceholderConf c = new PlaceholderConf(p.getName(), p.getUniqueId(), p.getAddress().getHostString());
-					Messages.logStaff(ConfigUtils.getConfStr("try-join-nopremium"), c);
-					p.disconnect(new TextComponent(Messages.parse(ConfigUtils.getConfStr("join-with-premium"))));
-					return;
-				} else if(!UUIDUtils.isPremiumConnectionLegacy(p) && UUIDUtils.isPremiumConnection(p)) {
-					//1
-					PremiumLoginEventManager.fire(new PremiumJoinEvent(p, p.getName(), p.getUniqueId(), p.getAddress(), TipoConnessione.NOTLEGACY));
-					AuthenticationKey key = new AuthenticationBuilder()
-					                     .setName(p.getName())
-					                 .setConnectionType(TipoConnessione.NOTLEGACY)
-					                   .setPlayer(p)
-					                   .setUUID(p.getUniqueId())
-					                   .setServer(p.getServer().getInfo())
-					                   .setAuthType(AuthType.AUTO)
-					                   .build();
-					if(AuthenticationHandler.login(p, key) != 1) {
-						Messages.send(p, ConfigUtils.getConfStr("error-generic"));
-					} 
-				} else if(UUIDUtils.isPremiumConnectionLegacy(p) && !UUIDUtils.isPremiumConnection(p)) {
-					//1
-					PremiumLoginEventManager.fire(new PremiumJoinEvent(p, p.getName(), p.getUniqueId(), p.getAddress(), TipoConnessione.LEGACY));
-					AuthenticationKey key = new AuthenticationBuilder()
-                    .setName(p.getName())
-                .setConnectionType(TipoConnessione.LEGACY)
-                  .setPlayer(p)
-                  .setUUID(p.getUniqueId())
-                  .setServer(p.getServer().getInfo())
-                  .setAuthType(AuthType.AUTO)
-                  .build();
-if(AuthenticationHandler.login(p, key) != 1) {
-	Messages.send(p, ConfigUtils.getConfStr("error-generic"));
-} 
-				}
-				} else {
-					if(UUIDUtils.isPremiumConnection(p) && p.getPendingConnection().isLegacy() || !UUIDUtils.isPremiumConnection(p) && p.getPendingConnection().isLegacy()) {
-						PlaceholderConf c = new PlaceholderConf(p.getName(), p.getUniqueId(), p.getAddress().getHostString());
-						Messages.logStaff(ConfigUtils.getConfStr("try-join-nopremium") + " §c(Legacy Not Supported)§7.", c);
-						p.disconnect(new TextComponent(ConfigUtils.getConfStr("no-legacy")));
+		PremiumLoginMain.i().getProxy().getScheduler().runAsync(PremiumLoginMain.i(), new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					if(!ConfigUtils.hasPremiumAutoLogin(p)) {
 						return;
-					} else if(!UUIDUtils.isPremiumConnection(p)) {
-						PlaceholderConf c = new PlaceholderConf(p.getName(), p.getUniqueId(), p.getAddress().getHostString());
-						Messages.logStaff(ConfigUtils.getConfStr("try-join-nopremium"), c);
-						p.disconnect(new TextComponent(ConfigUtils.getConfStr("join-with-premium")));
-						return;
-					} else if(UUIDUtils.isPremiumConnection(p) && !p.getPendingConnection().isLegacy()) {
-						//1
-						PremiumLoginEventManager.fire(new PremiumJoinEvent(p, p.getName(), p.getUniqueId(), p.getAddress(), TipoConnessione.NOTLEGACY));
-						AuthenticationKey key = new AuthenticationBuilder()
-	                     .setName(p.getName())
-	                 .setConnectionType(TipoConnessione.NOTLEGACY)
-	                   .setPlayer(p)
-	                   .setUUID(p.getUniqueId())
-	                   .setServer(p.getServer().getInfo())
-	                   .setAuthType(AuthType.AUTO)
-	                   .build();
-	if(AuthenticationHandler.login(p, key) != 1) {
-		Messages.send(p, ConfigUtils.getConfStr("error-generic"));
-	}
 					}
+					
+						if(!UUIDUtils.isPremium(p)) {
+							ConfigUtils.disablePremium(p);
+							return;
+						}
+						
+						if(p.isConnected()) {
+							if(ConfigUtils.allowLegacy()) {
+							if(!UUIDUtils.isPremiumConnectionLegacy(p) || !UUIDUtils.isPremiumConnection(p)) {
+								PlaceholderConf c = new PlaceholderConf(p.getName(), p.getUniqueId(), p.getAddress().getHostString());
+								Messages.logStaff(ConfigUtils.getConfStr("try-join-nopremium"), c);
+								p.disconnect(new TextComponent(Messages.parse(ConfigUtils.getConfStr("join-with-premium"))));
+								return;
+							} else if(!UUIDUtils.isPremiumConnectionLegacy(p) && UUIDUtils.isPremiumConnection(p)) {
+								//1
+								PremiumLoginEventManager.fire(new PremiumJoinEvent(p, p.getName(), p.getUniqueId(), p.getAddress(), TipoConnessione.NOTLEGACY));
+								AuthenticationKey key = new AuthenticationBuilder()
+								                     .setName(p.getName())
+								                 .setConnectionType(TipoConnessione.NOTLEGACY)
+								                   .setPlayer(p)
+								                   .setUUID(p.getUniqueId())
+								                   .setServer(p.getServer().getInfo())
+								                   .setAuthType(AuthType.AUTO)
+								                   .build();
+								if(AuthenticationHandler.login(p, key) != 1) {
+									Messages.send(p, ConfigUtils.getConfStr("unable"));
+								} 
+							} else if(UUIDUtils.isPremiumConnectionLegacy(p) && !UUIDUtils.isPremiumConnection(p)) {
+								//1
+								PremiumLoginEventManager.fire(new PremiumJoinEvent(p, p.getName(), p.getUniqueId(), p.getAddress(), TipoConnessione.LEGACY));
+								AuthenticationKey key = new AuthenticationBuilder()
+			                    .setName(p.getName())
+			                .setConnectionType(TipoConnessione.LEGACY)
+			                  .setPlayer(p)
+			                  .setUUID(p.getUniqueId())
+			                  .setServer(p.getServer().getInfo())
+			                  .setAuthType(AuthType.AUTO)
+			                  .build();
+			if(AuthenticationHandler.login(p, key) != 1) {
+				Messages.send(p, ConfigUtils.getConfStr("error-generic"));
+			} 
+							}
+							} else {
+								if(UUIDUtils.isPremiumConnection(p) && p.getPendingConnection().isLegacy() || !UUIDUtils.isPremiumConnection(p) && p.getPendingConnection().isLegacy()) {
+									PlaceholderConf c = new PlaceholderConf(p.getName(), p.getUniqueId(), p.getAddress().getHostString());
+									Messages.logStaff(ConfigUtils.getConfStr("try-join-nopremium") + " §c(Legacy Not Supported)§7.", c);
+									p.disconnect(new TextComponent(ConfigUtils.getConfStr("no-legacy")));
+									return;
+								} else if(!UUIDUtils.isPremiumConnection(p)) {
+									PlaceholderConf c = new PlaceholderConf(p.getName(), p.getUniqueId(), p.getAddress().getHostString());
+									Messages.logStaff(ConfigUtils.getConfStr("try-join-nopremium"), c);
+									p.disconnect(new TextComponent(ConfigUtils.getConfStr("join-with-premium")));
+									return;
+								} else if(UUIDUtils.isPremiumConnection(p) && !p.getPendingConnection().isLegacy()) {
+									//1
+									PremiumLoginEventManager.fire(new PremiumJoinEvent(p, p.getName(), p.getUniqueId(), p.getAddress(), TipoConnessione.NOTLEGACY));
+									AuthenticationKey key = new AuthenticationBuilder()
+				                     .setName(p.getName())
+				                 .setConnectionType(TipoConnessione.NOTLEGACY)
+				                   .setPlayer(p)
+				                   .setUUID(p.getUniqueId())
+				                   .setServer(p.getServer().getInfo())
+				                   .setAuthType(AuthType.AUTO)
+				                   .build();
+				if(AuthenticationHandler.login(p, key) != 1) {
+					Messages.send(p, ConfigUtils.getConfStr("unable"));
 				}
-			} else {
-				return;
+								}
+							}
+						} else {
+							return;
+						}
+					} catch(Exception exc) {
+						Messages.send(p, ConfigUtils.getConfStr("unable"));
+						PremiumLoginMain.i().getLogger().severe("ERROR - Unable to autologin " + p.getName() + " (ignore this, this is not an error [sometimes], is just for block console spam.)");
+						return;
+					}	
 			}
+			
+			
+			
+			
+		});
+		
+		
 			}
 	
 	
@@ -225,7 +242,7 @@ if(AuthenticationHandler.login(p, key) != 1) {
 	                   .setAuthType(AuthType.AUTO)
 	                   .build();
 	if(AuthenticationHandler.login(p, key) != 1) {
-		Messages.send(p, ConfigUtils.getConfStr("error-generic"));
+		Messages.send(p, ConfigUtils.getConfStr("unable"));
 	}
 					}
 				}
@@ -296,7 +313,7 @@ if(AuthenticationHandler.login(p, key) != 1) {
 	                   .setAuthType(AuthType.AUTO)
 	                   .build();
 	if(AuthenticationHandler.login(p, key) != 1) {
-		Messages.send(p, ConfigUtils.getConfStr("error-generic"));
+		Messages.send(p, ConfigUtils.getConfStr("unable"));
 	}
 					}
 				}

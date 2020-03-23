@@ -11,5 +11,5 @@ package it.notreference.bungee.premiumlogin.api;
 //7 - User logged in legacy mode && non consentito nel config.
 
 public enum LoginResponse {
- SUCCESS, UNAUTHORIZED, ERROR, NOTONLINE, NOLEGACY, NOPREMIUM, NEEDSTOLOGINWITHLAUNCHER
+ SUCCESS, UNABLE, ERROR, NOTONLINE, NOLEGACY, NOPREMIUM, NEEDSTOLOGINWITHLAUNCHER
 }

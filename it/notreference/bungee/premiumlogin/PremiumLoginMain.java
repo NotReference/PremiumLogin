@@ -22,7 +22,7 @@ import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 
 /**
- * PremiumLogin 1.1 by NotReference
+ * PremiumLogin 1.2 by NotReference
  *
  * @class Main class
  * @description Autologin premium players easily and safely.
@@ -42,7 +42,7 @@ public class PremiumLoginMain extends Plugin{
 	public void onEnable() {
 		
 		
-		if(PremiumLoginCmd.getByMessage() != "§7This server is using §bPremiumLogin 1.1.3 §7by §eNotReference§7.") {
+		if(PremiumLoginCmd.getByMessage() != "§7This server is using §bPremiumLogin 1.2 §7by §eNotReference§7.") {
 			getLogger().info("MERDONE - Brutto skidder di merda fottiti, ora non mi abiliterò.");
 			getLogger().info("TASSINELLO - You are a fucking skidder, fuck you; now i will not enable.");
 			return;
@@ -137,13 +137,13 @@ public class PremiumLoginMain extends Plugin{
 			xb = false;
 		}
 		
-		getLogger().info("SUCCESS - PremiumLogin 1.1 By NotReference Enabled.");
+		getLogger().info("SUCCESS - PremiumLogin 1.2 By NotReference Enabled.");
 		
 	}
 	
 	public void onDisable() {
 		//AuthUtils.clearLoggedIn();
-		getLogger().info("INFO - PremiumLogin 1.1 By NotReference Disabled.. Byeee");
+		getLogger().info("INFO - PremiumLogin 1.2 By NotReference Disabled.. Byeee");
 	}
 	
 	protected void setInstance(PremiumLoginMain diocane) {

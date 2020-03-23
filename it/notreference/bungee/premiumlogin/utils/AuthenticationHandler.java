@@ -11,7 +11,7 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 
 /**
- * PremiumLogin 1.1 by NotReference
+ * PremiumLogin 1.2 by NotReference
  *
  * @description Autologin premium players easily and safely.
  * @dependency AuthMe 5.5.0
@@ -54,24 +54,24 @@ public class AuthenticationHandler  {
 		}
 		
 		if(!UUIDUtils.isPremium(p)) {
-			Messages.logConsole("nopremium_user: " + p.getName());
+			Messages.logConsole("[err] nopremium_user: " + p.getName());
 			return 2;
 		}
 		
 		if(key.getConType() == TipoConnessione.LEGACY) {
 		
 			if(!ConfigUtils.allowLegacy()) {
-				Messages.logConsole("[[nolegacy]] connectionblock_user: " + p.getName());
+				Messages.logConsole("[err=>[nolegacy]] connectionblock_user: " + p.getName());
 				return 7;
 			}
 		if(!UUIDUtils.isPremiumConnectionLegacy(p) && !UUIDUtils.isPremiumConnection(p)) {
-			Messages.logConsole("no_launcher_user: " + p.getName());
+			Messages.logConsole("[err] no_launcher_user: " + p.getName());
 			return 4;
 		}
 		} else {
 			
 			if(!UUIDUtils.isPremiumConnection(p)) {
-				Messages.logConsole("no_launcher_user: " + p.getName());
+				Messages.logConsole("[err] no_launcher_user: " + p.getName());
 				return 4;
 			}
 		}
@@ -82,7 +82,7 @@ public class AuthenticationHandler  {
 		
 		//Forcelogghiamo.
 		
-		Messages.logConsole("forcelogging_user: " + p.getName());
+		Messages.logConsole("[action] forcelogging (user= " + p.getName() + ")");
 		try {
 		ByteArrayDataOutput out = ByteStreams.newDataOutput();
          out.writeUTF("AuthMe.v2");
@@ -101,7 +101,7 @@ public class AuthenticationHandler  {
          } 
          return 1;
 		} catch(Exception exc) {
-			Messages.sendParseColors(p, PremiumLoginMain.i().getConfig().getString("error-generic"));
+			Messages.sendParseColors(p, PremiumLoginMain.i().getConfig().getString("unable"));
 			Messages.logConsole("Unable to premium login " + p.getName());
 			exc.printStackTrace();
 			return 6;

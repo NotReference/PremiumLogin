@@ -14,7 +14,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
 /**
- * PremiumLogin 1.1 by NotReference
+ * PremiumLogin 1.2 by NotReference
  *
  * @description Autologin premium players easily and safely.
  * @dependency AuthMe 5.5.0

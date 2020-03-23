@@ -14,7 +14,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
 /**
- * PremiumLogin 1.1 by NotReference
+ * PremiumLogin 1.2 by NotReference
  *
  * @description Autologin premium players easily and safely.
  * @dependency AuthMe 5.5.0
@@ -50,7 +50,7 @@ public class PremiumRemoveCmd extends Command{
 		ConfigUtils.player_save();
 		ConfigUtils.player_reload();
 		
-		Messages.send(p, "§aSuccessfully disable PremiumLogin to " + args[0]);
+		Messages.send(p, "§aSuccessfully disabled PremiumLogin to " + args[0]);
 		
 		if(target.isConnected()) {
 		target.disconnect(new TextComponent(Messages.parse(ConfigUtils.getConfStr("staff-disable"))));

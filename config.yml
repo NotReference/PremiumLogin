@@ -1,4 +1,4 @@
-# PremiumLogin 1.0 by NotReference
+# PremiumLogin 1.2 by NotReference
 # AutoLogin Premium Players Easily. AuthMeBungee Support. Require AuthMe with BungeeCord Hook enabled to Work.
 
 # - Utils -
@@ -21,6 +21,9 @@ allow-premium-legacy-connections: false
 # Log all actions to online staffs with permission premiumlogin.staff
 log-staff: true
 
+# /premiumlogin Informations.
+disable-informations: false
+
 # Allow to use PremiumLogin if the server is online mode. [BETA] This can be bugged. I recommend you to put this false.
 allow-online: false 
 
@@ -33,6 +36,7 @@ premium-permission: nessuno
 join-with-premium: '&cYou are not authenticated through Minecraft.net'
 auto-login-premium: '&aPremium account found. You have been forcelogged.'
 error-generic: '&cAn error has occurred.'
+unable: '&cUnable to login.'
 default-login-system-switch-to-premiumlogin: '&aYour default login system has been switched to PremiumLogin.'
 default-login-system-switch-to-authme: '&aYour default login system has been switched to AuthMe.'
 enabled-autologin: '&aYou can now autologin with premium account.'

@@ -8,7 +8,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
 /**
- * PremiumLogin 1.1 by NotReference
+ * PremiumLogin 1.2 by NotReference
  *
  * @description Autologin premium players easily and safely.
  * @dependency AuthMe 5.5.0
@@ -20,7 +20,7 @@ public class PremiumLoginCmd extends Command{
 		super("premiumlogin");
 	}
 
-	private static String by = "§7This server is using §bPremiumLogin 1.1.3 §7by §eNotReference§7.";
+	private static String by = "§7This server is using §bPremiumLogin 1.2 §7by §eNotReference§7.";
 	
 	public static String getByMessage() {
 		return by;
@@ -31,6 +31,11 @@ public class PremiumLoginCmd extends Command{
 		
 		ProxiedPlayer p = (ProxiedPlayer) sender;
 		Messages.send(p, by);
+		
+		if(ConfigUtils.getConfBool("disable-informations")) {
+			return;
+		}
+		
 		Messages.send(p, "§7Your informations:");
 		if(UUIDUtils.isPremium(p)) {
 		Messages.send(p, "§7Premium:§a Yes");
