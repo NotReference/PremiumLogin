@@ -4,11 +4,12 @@ import it.notreference.bungee.premiumlogin.utils.ConfigUtils;
 import it.notreference.bungee.premiumlogin.utils.Messages;
 import it.notreference.bungee.premiumlogin.utils.UUIDUtils;
 import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
 /**
- * PremiumLogin 1.2 by NotReference
+ * PremiumLogin 1.3 by NotReference
  *
  * @description Autologin premium players easily and safely.
  * @dependency AuthMe 5.5.0
@@ -20,7 +21,7 @@ public class PremiumLoginCmd extends Command{
 		super("premiumlogin");
 	}
 
-	private static String by = "§7This server is using §bPremiumLogin 1.2 §7by §eNotReference§7.";
+	private static String by = "§7This server is using §bPremiumLogin 1.3 §7by §eNotReference§7.";
 	
 	public static String getByMessage() {
 		return by;
@@ -28,6 +29,11 @@ public class PremiumLoginCmd extends Command{
 	
 	@Override
 	public void execute(CommandSender sender, String[] args) {
+		
+		if(!(sender instanceof ProxiedPlayer)) {
+			sender.sendMessage(new TextComponent(by));
+			return;
+		}
 		
 		ProxiedPlayer p = (ProxiedPlayer) sender;
 		Messages.send(p, by);

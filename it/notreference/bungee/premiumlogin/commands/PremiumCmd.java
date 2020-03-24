@@ -14,7 +14,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
 /**
- * PremiumLogin 1.2 by NotReference
+ * PremiumLogin 1.3 by NotReference
  *
  * @description Autologin premium players easily and safely.
  * @dependency AuthMe 5.5.0
@@ -28,6 +28,11 @@ public class PremiumCmd extends Command{
 	
 	@Override
 	public void execute(CommandSender sender, String[] args) {
+		
+		if(!(sender instanceof ProxiedPlayer)) {
+			sender.sendMessage(new TextComponent("§cERROR - You must be a player."));
+			return;
+		}
 		
 		ProxiedPlayer p = (ProxiedPlayer) sender;
 		if(ConfigUtils.permessoSettato()) {

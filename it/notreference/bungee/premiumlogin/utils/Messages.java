@@ -1,6 +1,7 @@
 package it.notreference.bungee.premiumlogin.utils;
 
 import it.notreference.bungee.premiumlogin.PremiumLoginMain;
+import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
@@ -19,6 +20,12 @@ public class Messages {
 		String nuovoMessaggio = m.replace("&", "§");
 		p.sendMessage(new TextComponent(nuovoMessaggio));
 	}
+	
+	public static void send(CommandSender c, String m) {
+		String nuovoMessaggio = m.replace("&", "§");
+		c.sendMessage(new TextComponent(nuovoMessaggio));
+	}
+	
 	
 	public static String parse(String f) {
 		String culo = f.replace("&", "§");

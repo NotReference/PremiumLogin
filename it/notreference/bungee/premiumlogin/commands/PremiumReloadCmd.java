@@ -9,7 +9,7 @@ import net.md_5.bungee.api.plugin.Command;
 
 
 /**
- * PremiumLogin 1.2 by NotReference
+ * PremiumLogin 1.3 by NotReference
  *
  * @description Autologin premium players easily and safely.
  * @dependency AuthMe 5.5.0
@@ -24,6 +24,13 @@ public class PremiumReloadCmd extends Command {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
+		
+		if(!(sender instanceof ProxiedPlayer)) {
+			ConfigUtils.reload();
+			ConfigUtils.player_reload();
+			Messages.send(sender, "§aConfiguration successfully reloaded.");
+			return;
+		}
 		
 		ProxiedPlayer p = (ProxiedPlayer) sender;
 		if(p.hasPermission("premiumlogin.reload")) {

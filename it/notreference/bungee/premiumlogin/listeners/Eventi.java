@@ -31,7 +31,7 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
 /**
- * PremiumLogin 1.2 by NotReference
+ * PremiumLogin 1.3 by NotReference
  *
  * @description Autologin premium players easily and safely.
  * @dependency AuthMe 5.5.0
@@ -73,6 +73,9 @@ public class Eventi implements Listener{
 	public void entrata(PostLoginEvent event) {
 		ProxiedPlayer p = event.getPlayer();
 		
+		
+		//1.2 - Now event is async.
+		//1.2 - Fixed console spam.
 		PremiumLoginMain.i().getProxy().getScheduler().runAsync(PremiumLoginMain.i(), new Runnable() {
 
 			@Override
