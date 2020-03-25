@@ -10,7 +10,7 @@ import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 /**
- * PremiumLogin 1.1 by NotReference
+ * PremiumLogin 1.4 by NotReference
  *
  * @class API
  * @description Autologin premium players easily and safely.

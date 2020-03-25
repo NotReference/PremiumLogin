@@ -1,5 +1,7 @@
 package it.notreference.bungee.premiumlogin;
 
+import io.github.karmaconfigs.Bungee.LockLoginBungee;
+import io.github.karmaconfigs.Bungee.API.PlayerAPI;
 import it.notreference.bungee.premiumlogin.commands.PremiumAddCmd;
 import it.notreference.bungee.premiumlogin.commands.PremiumCmd;
 import it.notreference.bungee.premiumlogin.commands.PremiumLoginCmd;
@@ -11,18 +13,22 @@ import it.notreference.bungee.premiumlogin.listeners.Eventi;
 
 
 
+
+
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 
 /**
- * PremiumLogin 1.3 by NotReference
+ * PremiumLogin 1.4 by NotReference
  *
  * @class Main class
  * @description Autologin premium players easily and safely.
@@ -35,14 +41,24 @@ public class PremiumLoginMain extends Plugin{
 	private boolean xb = false;
 	private Configuration configuration;
 	private Configuration players;
+	private boolean locklogin = false;
+	private LockLoginBungee locklog;
 	
+	
+	public LockLoginBungee getLockLogin() {
+		return locklog;
+	}
+	
+	public PlayerAPI makeLockLoginAPI(ProxiedPlayer name) {
+		return new PlayerAPI(locklog, name);
+	}
 	
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onEnable() {
 		
 		
-		if(PremiumLoginCmd.getByMessage() != "§7This server is using §bPremiumLogin 1.3 §7by §eNotReference§7.") {
+		if(PremiumLoginCmd.getByMessage() != "§7This server is using §bPremiumLogin 1.4 §7by §eNotReference§7.") {
 			getLogger().info("MERDONE - Brutto skidder di merda fottiti, ora non mi abiliterò.");
 			getLogger().info("TASSINELLO - You are a fucking skidder, fuck you; now i will not enable.");
 			return;
@@ -137,8 +153,26 @@ public class PremiumLoginMain extends Plugin{
 			xb = false;
 		}
 		
+		//LockLogin API Support (1.4)
+		if(getProxy().getPluginManager().getPlugin("LockLogin") != null) {
+			locklogin = true;
+			getLogger().info("HOOK - LockLogin Found..");
+			locklog = (LockLoginBungee) getProxy().getPluginManager().getPlugin("LockLogin");
+		}
+		
 		getLogger().info("SUCCESS - PremiumLogin 1.3 By NotReference Enabled.");
 		
+	}
+	
+	public boolean isHooked(String pluginName) {
+		if(pluginName.equalsIgnoreCase("locklogin")) {
+			return locklogin;
+		} else if(pluginName.equalsIgnoreCase("authmebungee")) {
+			return xb;
+		}
+		
+		return false;
+			
 	}
 	
 	public void onDisable() {

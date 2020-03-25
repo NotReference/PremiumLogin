@@ -12,7 +12,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Event;
 
 /**
- * PremiumLogin 1.2 by NotReference
+ * PremiumLogin 1.4 by NotReference
  *
  * @eventfiredesc This event will be fired if a premium player has been forcelogged.
  * @description Autologin premium players easily and safely.

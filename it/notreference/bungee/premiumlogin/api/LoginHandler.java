@@ -7,7 +7,7 @@ import it.notreference.bungee.premiumlogin.utils.AuthType;
 import it.notreference.bungee.premiumlogin.utils.TipoConnessione;
 
 /**
- * PremiumLogin 1.3 by NotReference
+ * PremiumLogin 1.4 by NotReference
  *
  * @interface LoginHandler
  * @description Autologin premium players easily and safely.

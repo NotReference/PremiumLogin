@@ -1,4 +1,4 @@
-# PremiumLogin 1.3 by NotReference
+# PremiumLogin 1.4 by NotReference
 # AutoLogin Premium Players Easily. AuthMeBungee Support. Require AuthMe with BungeeCord Hook enabled to Work.
 
 # - Utils -
@@ -32,7 +32,7 @@ premium-permission: nessuno
 
 # - Messages -
 
-
+lock-login: '&aSuccessfully logged in with LockLogin API Support.'
 join-with-premium: '&cUnable to connect. Your session is not vaild.'
 auto-login-premium: '&aPremium account found. You have been forcelogged.'
 error-generic: '&cAn error has occurred.'
