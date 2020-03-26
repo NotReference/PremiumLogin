@@ -1,10 +1,12 @@
 # PremiumLogin
 Autologin premium players easily and safely. 
 
-# Dependency
-AuthMe
+# Works with:
+AuthMe, LockLogin
 
--> This plugin needs AuthMe to work, type "bungeecord: true" into authme's config and spigot config.
+-> This plugin needs AuthMe or LockLogin to work.
+
+If you use AUTHME, type "bungeecord: true" into authme's config and spigot config.
 
 -> Please remove PremiumLock, it can affect our protection systems.
 PremiumLogin will automatically block premium users who typed /premium for enable the function.
