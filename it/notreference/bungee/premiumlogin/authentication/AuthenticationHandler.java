@@ -1,4 +1,4 @@
-package it.notreference.bungee.premiumlogin.utils;
+package it.notreference.bungee.premiumlogin.authentication;
 
 
 
@@ -6,13 +6,17 @@ import io.github.karmaconfigs.Bungee.API.PlayerAPI;
 import it.notreference.bungee.premiumlogin.PremiumLoginEventManager;
 import it.notreference.bungee.premiumlogin.PremiumLoginMain;
 import it.notreference.bungee.premiumlogin.api.events.PremiumAutologinEvent;
+import it.notreference.bungee.premiumlogin.utils.ConfigUtils;
+import it.notreference.bungee.premiumlogin.utils.Messages;
+import it.notreference.bungee.premiumlogin.utils.PlaceholderConf;
+import it.notreference.bungee.premiumlogin.utils.UUIDUtils;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 
 /**
- * PremiumLogin 1.2 by NotReference
+ * PremiumLogin 1.5 by NotReference
  *
  * @description Autologin premium players easily and safely.
  * @dependency AuthMe 5.5.0
@@ -93,19 +97,18 @@ public class AuthenticationHandler  {
 			Messages.sendParseColors(p, ConfigUtils.getConfStr("auto-login-premium"));
 			Messages.logConsole("[[premium:forcelogin] donelogin_user: " + p.getName());
 			 Messages.logConsole(p.getName() + " has been forcelogged (premium mode)."); 
-        	 Messages.sendParseColors(p, PremiumLoginMain.i().getConfig().getString("auto-login-premium"));
         	 Messages.logStaff(ConfigUtils.getConfStr("user-forcelogged"), new PlaceholderConf(p.getName(), p.getUniqueId(), p.getAddress().getHostName()));
 			PremiumLoginEventManager.fire(new PremiumAutologinEvent(p, p.getName(), p.getPendingConnection(), p.getUniqueId(), key));
 			return 1;
 			} catch(Exception exc) {
 				Messages.sendParseColors(p, PremiumLoginMain.i().getConfig().getString("unable"));
-				Messages.logConsole("Unable to premium login " + p.getName());
+				Messages.logConsole("Unable to premium login " + p.getName() + " with LockLogin API Support.");
 				exc.printStackTrace();
 				return 6;
 			}
 		}
 		//Forcelogghiamo.
-		
+		Messages.logConsole("[check] no locklogin found. Using AuthMe API..");
 		
 		
 		Messages.logConsole("[action] forcelogging (user= " + p.getName() + ")");

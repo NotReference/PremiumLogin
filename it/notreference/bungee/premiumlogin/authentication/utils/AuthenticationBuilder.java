@@ -1,4 +1,8 @@
-package it.notreference.bungee.premiumlogin.utils;
+package it.notreference.premiumlogin.authentication.utils;
+
+import it.notreference.bungee.premiumlogin.authentication.AuthType;
+import it.notreference.bungee.premiumlogin.authentication.AuthenticationKey;
+import it.notreference.bungee.premiumlogin.authentication.TipoConnessione;
 
 import java.util.UUID;
 
@@ -6,7 +10,7 @@ import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 /**
- * PremiumLogin 1.4 by NotReference
+ * PremiumLogin 1.5 by NotReference
  *
  * @description Autologin premium players easily and safely.
  * @dependency AuthMe 5.5.0

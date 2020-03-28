@@ -28,7 +28,7 @@ import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 
 /**
- * PremiumLogin 1.4 by NotReference
+ * PremiumLogin 1.5 by NotReference
  *
  * @class Main class
  * @description Autologin premium players easily and safely.
@@ -43,10 +43,14 @@ public class PremiumLoginMain extends Plugin{
 	private Configuration players;
 	private boolean locklogin = false;
 	private LockLoginBungee locklog;
-	
+	private static String ver = "1.5";
 	
 	public LockLoginBungee getLockLogin() {
 		return locklog;
+	}
+	
+	public String currentVersion() {
+		return ver;
 	}
 	
 	public PlayerAPI makeLockLoginAPI(ProxiedPlayer name) {
@@ -58,9 +62,8 @@ public class PremiumLoginMain extends Plugin{
 	public void onEnable() {
 		
 		
-		if(PremiumLoginCmd.getByMessage() != "§7This server is using §bPremiumLogin 1.4 §7by §eNotReference§7.") {
-			getLogger().info("MERDONE - Brutto skidder di merda fottiti, ora non mi abiliterò.");
-			getLogger().info("TASSINELLO - You are a fucking skidder, fuck you; now i will not enable.");
+		if(PremiumLoginCmd.getByMessage() != "§7This server is using §bPremiumLogin " + ver + " §7by §eNotReference§7.") {
+			getLogger().info("*_* Error while enabling PremiumLogin " + ver + ". Please contact me on SpigotMC.");
 			return;
 		} 
 		
@@ -77,7 +80,7 @@ public class PremiumLoginMain extends Plugin{
             try (InputStream in = getResourceAsStream("config.yml")) {
                 Files.copy(in, file.toPath());
             } catch (IOException e) {
-           	 getLogger().info("ERR - Cannot create the configuration.");
+           	 getLogger().info("ERR - Unable to create the configuration.");
                 e.printStackTrace();
             }
         }
@@ -85,7 +88,7 @@ public class PremiumLoginMain extends Plugin{
             try (InputStream in = getResourceAsStream("players.yml")) {
                 Files.copy(in, file2.toPath());
             } catch (IOException e) {
-           	 getLogger().info("ERR - Cannot create the players file.");
+           	 getLogger().info("ERR - Unable to create the players file.");
                 e.printStackTrace();
             }
         }
@@ -96,7 +99,7 @@ public class PremiumLoginMain extends Plugin{
 		} catch(Exception exc) {
 			exc.printStackTrace();
 			getLogger().info(exc.getMessage());
-			getLogger().info("ERR - Cannot load configuration.. Try to delete it.. Disabling..");
+			getLogger().info("ERR - Unable to load configuration.. Try to delete it.. Disabling..");
 			return;
 		}
 		
@@ -105,13 +108,13 @@ public class PremiumLoginMain extends Plugin{
 		} catch(Exception exc) {
 			exc.printStackTrace();
 			getLogger().info(exc.getMessage());
-			getLogger().info("ERR - Cannot load players.. Try to delete the file.. Disabling..");
+			getLogger().info("ERR - Unable to load players.. Try to delete the file.. Disabling..");
 			return;
 		}
 		
 		if(getProxy().getConfig().isOnlineMode()) {
 			//if(!configuration.getBoolean("allow-online")) {
-			getLogger().info("WARNING - For use PremiumLogin you need to remove online-mode, or all players can autologin. If you want continue set allow-online: to true");
+			getLogger().info("WARNING - For use PremiumLogin you need to remove online-mode, or all players can autologin.");
 			return;
 			//}
 		}
@@ -125,7 +128,7 @@ public class PremiumLoginMain extends Plugin{
 		saveConfig();
 		reloadConfig();
 		} catch(Exception exc) {
-			logConsole("ERR - Cannot initialize configuration.. Some operation can be bugged.");
+			logConsole("ERR - Unable to initialize configuration.. Some operation can result bugged.");
 		}
 		
 		//logConsole("CONFIG - Reading and loading configuration..");
@@ -139,6 +142,7 @@ public class PremiumLoginMain extends Plugin{
 		getProxy().getPluginManager().registerCommand(this, new PremiumRemoveCmd());
 		
 		setInstance(this);
+		
 		//Registriamo il canale bungeecord compatibile anche con 1.13+
 		getProxy().registerChannel("BungeeCord");
 		
@@ -160,7 +164,7 @@ public class PremiumLoginMain extends Plugin{
 			locklog = (LockLoginBungee) getProxy().getPluginManager().getPlugin("LockLogin");
 		}
 		
-		getLogger().info("SUCCESS - PremiumLogin 1.3 By NotReference Enabled.");
+		getLogger().info("SUCCESS - PremiumLogin 1.5 By NotReference Enabled.");
 		
 	}
 	
@@ -177,7 +181,7 @@ public class PremiumLoginMain extends Plugin{
 	
 	public void onDisable() {
 		//AuthUtils.clearLoggedIn();
-		getLogger().info("INFO - PremiumLogin 1.3 By NotReference Disabled.. Byeee");
+		getLogger().info("INFO - PremiumLogin 1.5 By NotReference Disabled.. Byeee");
 	}
 	
 	protected void setInstance(PremiumLoginMain diocane) {
@@ -205,7 +209,7 @@ public class PremiumLoginMain extends Plugin{
 			players = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(getDataFolder(), "players.yml"));
 		} catch (IOException e) {
 			e.printStackTrace();
-			getLogger().info("ERR - Cannot reload players configuration..");
+			getLogger().info("ERR - Unable to reload players configuration..");
 		}
 	}
 	
@@ -214,7 +218,7 @@ public class PremiumLoginMain extends Plugin{
 			ConfigurationProvider.getProvider(YamlConfiguration.class).save(players, new File(getDataFolder(), "players.yml"));
 		} catch (IOException e) {
 			e.printStackTrace();
-			getLogger().info("ERR - Cannot save players configuration..");
+			getLogger().info("ERR - Unable to save players configuration..");
 		}
 	}
 	
@@ -227,7 +231,7 @@ public class PremiumLoginMain extends Plugin{
 			configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(getDataFolder(), "config.yml"));
 			} catch(Exception exc) {
 				exc.printStackTrace();
-				getLogger().info("ERR - Cannot reload configuration..");
+				getLogger().info("ERR - Unable to reload configuration..");
 			}
 
 	}
@@ -237,7 +241,7 @@ public class PremiumLoginMain extends Plugin{
 			ConfigurationProvider.getProvider(YamlConfiguration.class).save(configuration, new File(getDataFolder(), "config.yml"));
 		} catch (IOException e) {
 			e.printStackTrace();
-			getLogger().info("ERR - Cannot save configuration..");
+			getLogger().info("ERR - Unable to save configuration..");
 		}
 	}
 	

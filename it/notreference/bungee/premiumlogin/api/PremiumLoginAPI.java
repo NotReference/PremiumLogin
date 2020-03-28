@@ -1,16 +1,16 @@
 package it.notreference.bungee.premiumlogin.api;
 
-import it.notreference.bungee.premiumlogin.utils.AuthType;
-import it.notreference.bungee.premiumlogin.utils.AuthenticationBuilder;
-import it.notreference.bungee.premiumlogin.utils.AuthenticationHandler;
-import it.notreference.bungee.premiumlogin.utils.AuthenticationKey;
+import it.notreference.bungee.premiumlogin.authentication.AuthType;
+import it.notreference.bungee.premiumlogin.authentication.AuthenticationHandler;
+import it.notreference.bungee.premiumlogin.authentication.AuthenticationKey;
+import it.notreference.bungee.premiumlogin.authentication.TipoConnessione;
 import it.notreference.bungee.premiumlogin.utils.ConfigUtils;
-import it.notreference.bungee.premiumlogin.utils.TipoConnessione;
+import it.notreference.premiumlogin.authentication.utils.AuthenticationBuilder;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 /**
- * PremiumLogin 1.4 by NotReference
+ * PremiumLogin 1.5 by NotReference
  *
  * @class API
  * @description Autologin premium players easily and safely.
@@ -30,7 +30,7 @@ public class PremiumLoginAPI implements LoginHandler{
 	//7 - User logged in legacy mode && non consentito nel config.
 	
 	public PremiumLoginAPI()  {
-		//0
+		//-
 	}
 
 	@Override

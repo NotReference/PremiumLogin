@@ -1,4 +1,4 @@
-# PremiumLogin 1.4 by NotReference
+# PremiumLogin 1.5 by NotReference
 # AutoLogin Premium Players Easily. AuthMeBungee Support. Require AuthMe with BungeeCord Hook enabled to Work.
 
 # - Utils -
@@ -23,9 +23,6 @@ log-staff: true
 
 # /premiumlogin Informations.
 disable-informations: false
-
-# Allow to use PremiumLogin if the server is online mode. [BETA] This can be bugged. I recommend you to put this false.
-# Now set automatically false.
 
 # Permission for do /premium. Type nessuno for no permission.
 premium-permission: nessuno

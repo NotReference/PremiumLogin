@@ -7,17 +7,18 @@ import java.util.UUID;
 
 import it.notreference.bungee.premiumlogin.PremiumLoginEventManager;
 import it.notreference.bungee.premiumlogin.PremiumLoginMain;
+import it.notreference.bungee.premiumlogin.api.Updater;
 import it.notreference.bungee.premiumlogin.api.events.PremiumJoinEvent;
 import it.notreference.bungee.premiumlogin.api.events.PremiumQuitEvent;
-import it.notreference.bungee.premiumlogin.utils.AuthenticationKey;
-import it.notreference.bungee.premiumlogin.utils.AuthType;
-import it.notreference.bungee.premiumlogin.utils.AuthenticationHandler;
-import it.notreference.bungee.premiumlogin.utils.AuthenticationBuilder;
+import it.notreference.bungee.premiumlogin.authentication.AuthType;
+import it.notreference.bungee.premiumlogin.authentication.AuthenticationHandler;
+import it.notreference.bungee.premiumlogin.authentication.AuthenticationKey;
+import it.notreference.bungee.premiumlogin.authentication.TipoConnessione;
 import it.notreference.bungee.premiumlogin.utils.ConfigUtils;
 import it.notreference.bungee.premiumlogin.utils.Messages;
 import it.notreference.bungee.premiumlogin.utils.PlaceholderConf;
-import it.notreference.bungee.premiumlogin.utils.TipoConnessione;
 import it.notreference.bungee.premiumlogin.utils.UUIDUtils;
+import it.notreference.premiumlogin.authentication.utils.AuthenticationBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.PendingConnection;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -31,7 +32,7 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
 /**
- * PremiumLogin 1.4 by NotReference
+ * PremiumLogin 1.5 by NotReference
  *
  * @description Autologin premium players easily and safely.
  * @dependency AuthMe 5.5.0
@@ -168,8 +169,28 @@ public class Eventi implements Listener{
 			
 		});
 		
+		//1.5 - Updater 
+		PremiumLoginMain.i().getProxy().getScheduler().runAsync(PremiumLoginMain.i(), new Runnable() {
+			
+			@Override
+			public void run() {
+			
+		Updater updater = new Updater(PremiumLoginMain.i());
+		if(updater.isAvaliable()) {
+		if(event.getPlayer().hasPermission("premiumlogin.staff")) {
+		 event.getPlayer().sendMessage(new TextComponent
+				 ("§6§l[PremiumLogin] §6A new plugin version is avaliable: " 
+		         + updater.next() 
+	             + ". "
+				 + "Download it now §ehttps://www.spigotmc.org/resources/premiumlogin.76336/§6."
+				 ));
+		}
+		}
+		}
 		
-			}
+		
+		});
+	}
 	
 	
 	@EventHandler
@@ -328,13 +349,11 @@ if(AuthenticationHandler.login(p, key) != 1) {
 	
 	@EventHandler
 	public void uscita(PlayerDisconnectEvent event) {
-		//ProxiedPlayer p = event.getPlayer();
-		//if(AuthUtils.isPremiumLogged(p)) {
-			//AuthUtils.getLogged().remove(p);
-		//} 
-		if(UUIDUtils.isPremium(event.getPlayer()) && UUIDUtils.isPremiumConnection(event.getPlayer()) || (ConfigUtils.allowLegacy() && UUIDUtils.isPremiumConnectionLegacy(event.getPlayer())))
+		
+		//1.4.1 - Fixed the event fire bug.
+		
+		if(ConfigUtils.hasPremiumAutoLogin(event.getPlayer().getName()))
 		PremiumLoginEventManager.fire(new PremiumQuitEvent(event.getPlayer()));
-
 	}
 	
 	
