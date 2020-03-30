@@ -9,11 +9,21 @@ import java.util.UUID;
 import net.md_5.bungee.api.connection.PendingConnection;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
+
 /**
- * PremiumLogin 1.5 by NotReference
+ * 
+ * PremiumLogin 1.6 By NotReference
+ * 
+ * @author NotReference
+ * @version 1.6
+ * @destination BungeeCord
  *
- * @description Autologin premium players easily and safely.
- * @dependency AuthMe 5.5.0
+ */
+
+/**
+ * 
+ * @since 1.0
+ *
  */
 
 public class UUIDUtils {
@@ -49,10 +59,7 @@ public class UUIDUtils {
 	}
 	
 	public static boolean isPremium(ProxiedPlayer p) {
-		if(!p.isConnected()) {
-			throw new RuntimeException("This player is not online.");
-		}
-		if(getPremiumUUID(p.getName()) == "NO_PREMIUM") {
+		if(getPremiumUUID(p.getName()) == "UNABLE_O_NON_PREMIUM") {
 			return false;
 		} else {
 			return true;
@@ -60,7 +67,7 @@ public class UUIDUtils {
 	}
 	
 	public static boolean isPremium(String name) {
-		if(getPremiumUUID(name) == "NO_PREMIUM") {
+		if(getPremiumUUID(name) == "UNABLE_O_NON_PREMIUM") {
 			return false;
 		} else {
 			return true;
@@ -79,7 +86,7 @@ public class UUIDUtils {
 			scanner.close();
 			return line.split("\"")[3];
 		} catch (Exception ex) {
-			return "NO_PREMIUM";
+			return "UNABLE_O_NON_PREMIUM";
 		}
 	}
 	

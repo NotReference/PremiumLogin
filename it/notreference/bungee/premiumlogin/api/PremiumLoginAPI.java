@@ -4,33 +4,31 @@ import it.notreference.bungee.premiumlogin.authentication.AuthType;
 import it.notreference.bungee.premiumlogin.authentication.AuthenticationHandler;
 import it.notreference.bungee.premiumlogin.authentication.AuthenticationKey;
 import it.notreference.bungee.premiumlogin.authentication.TipoConnessione;
+import it.notreference.bungee.premiumlogin.authentication.utils.AuthenticationBuilder;
 import it.notreference.bungee.premiumlogin.utils.ConfigUtils;
-import it.notreference.premiumlogin.authentication.utils.AuthenticationBuilder;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 /**
- * PremiumLogin 1.5 by NotReference
+ * 
+ * PremiumLogin 1.6 By NotReference
+ * 
+ * @author NotReference
+ * @version 1.6
+ * @destination BungeeCord
  *
- * @class API
- * @description Autologin premium players easily and safely.
- * @dependency AuthMe 5.5.0
  */
 
+/**
+ * 
+ * @since 1.1.2
+ * 
+ */
 public class PremiumLoginAPI implements LoginHandler{
 
-	//Codes:
-	//0 - UUID Error (Not showed anymore)
-	//1 - Success
-	//2 - No Premium
-	//3 - Not Online
-	//4 - No Premium Connection but is premium.
-	//5 - Arleady logged in. (Not showed anymore)
-	//6 - Other error..
-	//7 - User logged in legacy mode && non consentito nel config.
+
 	
 	public PremiumLoginAPI()  {
-		//-
 	}
 
 	@Override

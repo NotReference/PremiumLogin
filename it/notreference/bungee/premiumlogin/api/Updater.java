@@ -2,8 +2,23 @@ package it.notreference.bungee.premiumlogin.api;
 
 import it.notreference.bungee.premiumlogin.PremiumLoginMain;
 
-//1.5
+/**
+ * 
+ * PremiumLogin 1.6 By NotReference
+ * 
+ * @author NotReference
+ * @version 1.6
+ * @destination BungeeCord
+ *
+ */
+
+/**
+ * @since 1.5
+ * 
+ */
+
 public class Updater {
+
 
 	private String version;
 	private String UPDATE_URL = "https://plugins.blackgriefing.com/?updatePl=PremiumLogin&t=b";
@@ -18,9 +33,9 @@ public class Updater {
 			return false;
 		}
 		if(HTTPClient.getValue(UPDATE_URL, "ver").equalsIgnoreCase(version)) {
-			return true;
-		} else {
 			return false;
+		} else {
+			return true;
 		}
 	}
 	

@@ -8,11 +8,21 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
+
 /**
- * PremiumLogin 1.5 by NotReference
+ * 
+ * PremiumLogin 1.6 By NotReference
+ * 
+ * @author NotReference
+ * @version 1.6
+ * @destination BungeeCord
  *
- * @description Autologin premium players easily and safely.
- * @dependency AuthMe 5.5.0
+ */
+
+/**
+ * 
+ * @since 1.0
+ *
  */
 
 public class PremiumLookUpCmd extends Command{

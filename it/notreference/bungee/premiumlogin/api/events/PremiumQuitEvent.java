@@ -5,13 +5,20 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Event;
 
 /**
- * PremiumLogin 1.5 by NotReference
+ * 
+ * PremiumLogin 1.6 By NotReference
+ * 
+ * @author NotReference
+ * @version 1.6
+ * @destination BungeeCord
  *
- * @eventfiredesc This event will be fired if a premium player quit the network.
- * @description Autologin premium players easily and safely.
- * @dependency AuthMe 5.5.0
  */
 
+/**
+ * 
+ * @since 1.1.3
+ * 
+ */
 public class PremiumQuitEvent extends Event //implements PremiumLoginEvent
 {
 	

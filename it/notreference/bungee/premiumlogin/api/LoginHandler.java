@@ -7,20 +7,26 @@ import it.notreference.bungee.premiumlogin.authentication.AuthenticationKey;
 import it.notreference.bungee.premiumlogin.authentication.TipoConnessione;
 
 /**
- * PremiumLogin 1.5 by NotReference
+ * 
+ * PremiumLogin 1.6 By NotReference
+ * 
+ * @author NotReference
+ * @version 1.6
+ * @destination BungeeCord
  *
- * @interface LoginHandler
- * @description Autologin premium players easily and safely.
- * @dependency AuthMe 5.5.0
  */
 
+/**
+ * 
+ * @since 1.1
+ *
+ */
 public interface LoginHandler {
 
     /**
      * Login premium players.
      *
-     * @param do forcelogin.
-     * @return 
+     * @return a login response.
      */
 	LoginResponse simpleLogin(ProxiedPlayer p, AuthenticationKey k);
 	

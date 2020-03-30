@@ -1,4 +1,4 @@
-# PremiumLogin 1.5 by NotReference
+# PremiumLogin 1.6 by NotReference
 # AutoLogin Premium Players Easily. AuthMeBungee Support. Require AuthMe with BungeeCord Hook enabled to Work.
 
 # - Utils -
@@ -11,12 +11,6 @@ all-servers-are-server-auth: false
 
 # Minecraft in the 1.6 implemented a new Authentication service. If you type this true, players with 1.5 ecc.. can login with premium too..
 allow-premium-legacy-connections: false
-
-# List of players with premium auto login enabled.
-# Moved on players.yml
-
-# If a registered premium player, not join with the official premium minecraft launcher, will be kicked.
-# Obligatory or plugin will not work.
 
 # Log all actions to online staffs with permission premiumlogin.staff
 log-staff: true

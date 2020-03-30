@@ -28,13 +28,20 @@ import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 
 /**
- * PremiumLogin 1.5 by NotReference
+ * 
+ * PremiumLogin 1.6 By NotReference
+ * 
+ * @author NotReference
+ * @version 1.6
+ * @destination BungeeCord
  *
- * @class Main class
- * @description Autologin premium players easily and safely.
- * @dependency AuthMe 5.5.0
  */
 
+/**
+ * 
+ * @since 1.0
+ * 
+ */
 public class PremiumLoginMain extends Plugin{
 
 	private static PremiumLoginMain in;
@@ -43,32 +50,61 @@ public class PremiumLoginMain extends Plugin{
 	private Configuration players;
 	private boolean locklogin = false;
 	private LockLoginBungee locklog;
-	private static String ver = "1.5";
+	private static String ver = "1.6";
 	
+	/**
+	 * Get the locklogin api.
+	 * 
+	 * @return lockloginbungee api
+	 */
 	public LockLoginBungee getLockLogin() {
 		return locklog;
 	}
 	
+	/**
+	 * 
+	 * Get the current plugin version.
+	 * 
+	 * @return plugin version
+	 */
 	public String currentVersion() {
 		return ver;
 	}
 	
+	/**
+	 * Get the player api (lock login)
+	 * 
+	 * @param the player 
+	 * @return playerapi with specifed player.
+	 */
 	public PlayerAPI makeLockLoginAPI(ProxiedPlayer name) {
 		return new PlayerAPI(locklog, name);
 	}
 	
+	/*
+	 * 
+	 * When plugin enable.
+	 * 
+	 * 
+	 */
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onEnable() {
 		
-		
+		/*
+		 * Tassi fatti da parte.
+		 * 
+		 */
 		if(PremiumLoginCmd.getByMessage() != "§7This server is using §bPremiumLogin " + ver + " §7by §eNotReference§7.") {
 			getLogger().info("*_* Error while enabling PremiumLogin " + ver + ". Please contact me on SpigotMC.");
 			return;
 		} 
 		
 		
-		//Config
+		/*
+		 * Configuration Setup.
+		 * 
+		 */
 		 if (!getDataFolder().exists())
             getDataFolder().mkdir();
 
@@ -92,8 +128,7 @@ public class PremiumLoginMain extends Plugin{
                 e.printStackTrace();
             }
         }
-		
-		//Config.
+        
 		try {
 		configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(getDataFolder(), "config.yml"));
 		} catch(Exception exc) {
@@ -112,17 +147,6 @@ public class PremiumLoginMain extends Plugin{
 			return;
 		}
 		
-		if(getProxy().getConfig().isOnlineMode()) {
-			//if(!configuration.getBoolean("allow-online")) {
-			getLogger().info("WARNING - For use PremiumLogin you need to remove online-mode, or all players can autologin.");
-			return;
-			//}
-		}
-		
-		if(getProxy().getPluginManager().getPlugin("PremiumLock") != null) {
-			getLogger().info("WARNING - Please remove PremiumLock for prevent UUID bugs.");
-		}
-		
 		try {
 		reloadConfig();
 		saveConfig();
@@ -131,8 +155,46 @@ public class PremiumLoginMain extends Plugin{
 			logConsole("ERR - Unable to initialize configuration.. Some operation can result bugged.");
 		}
 		
-		//logConsole("CONFIG - Reading and loading configuration..");
+		/*
+		 * 
+		 * Configuration Setup End.
+		 * 
+		 */
 		
+		/*
+		 * 
+		 * 
+		 */
+		
+		/*
+		 * Blocking online mode.
+		 * 
+		 */
+		if(getProxy().getConfig().isOnlineMode()) {
+			//if(!configuration.getBoolean("allow-online")) {
+			getLogger().info("WARNING - For use PremiumLogin you need to remove online-mode, or all players can autologin.");
+			return;
+			//}
+		}
+		
+		/*
+		 * 
+		 * PremiumLock Alert.
+		 * 
+		 */
+		if(getProxy().getPluginManager().getPlugin("PremiumLock") != null) {
+			getLogger().info("WARNING - Please remove PremiumLock for prevent UUID bugs.");
+		}
+		
+		
+		/*
+		 * 
+		 * Enabling plugin:
+		 * 
+		 * - Registering commands..
+		 * - Registering listeners..
+		 * 
+		 */
 		getProxy().getPluginManager().registerListener(this, new Eventi());
 		getProxy().getPluginManager().registerCommand(this, new PremiumCmd());
 		getProxy().getPluginManager().registerCommand(this, new PremiumLoginCmd());
@@ -141,33 +203,71 @@ public class PremiumLoginMain extends Plugin{
 		getProxy().getPluginManager().registerCommand(this, new PremiumAddCmd());
 		getProxy().getPluginManager().registerCommand(this, new PremiumRemoveCmd());
 		
+		/*
+		 * 
+		 * Setting instance
+		 * *PremiumLoginMain.i()*
+		 * 
+		 */
 		setInstance(this);
 		
-		//Registriamo il canale bungeecord compatibile anche con 1.13+
+		/*
+		 * Plugin Messaging
+		 * 
+		 * Registering Channel.
+		 * Compatible with all versions. (1.6-1.15.2)
+		 * 
+		 */
 		getProxy().registerChannel("BungeeCord");
 		
 		
-		//Controlliamo se è presente AuthMeBungee.
+		/*
+		 * 
+		 * AuthMeBungee Check.
+		 * 
+		 */
 		if(getProxy().getPluginManager().getPlugin("AuthMeBungee") != null) {
-		 	//authmebungee -> si
+			/*
+			 * 
+			 * Presente.
+			 * 
+			 */
 			xb = true;
 			getLogger().info("HOOK - AuthMeBungee Found..");
 		} else {
-			//non c'è
+			/*
+			 * Non c'è
+			 * 
+			 */
 			xb = false;
 		}
 		
-		//LockLogin API Support (1.4)
+		/**
+		 * LockLogin API Hook.
+		 * @since 1.4
+		 * 
+		 */
 		if(getProxy().getPluginManager().getPlugin("LockLogin") != null) {
 			locklogin = true;
 			getLogger().info("HOOK - LockLogin Found..");
 			locklog = (LockLoginBungee) getProxy().getPluginManager().getPlugin("LockLogin");
 		}
 		
-		getLogger().info("SUCCESS - PremiumLogin 1.5 By NotReference Enabled.");
+		/*
+		 * ^.^
+		 * 
+		 */
+		getLogger().info("SUCCESS - PremiumLogin " + ver + " By NotReference Enabled.");
 		
 	}
 	
+	/**
+	 * 
+	 * Returns if PremiumLogin is hooked into a plugin.
+	 * 
+	 * @param plugin name.
+	 * @return .-.
+	 */
 	public boolean isHooked(String pluginName) {
 		if(pluginName.equalsIgnoreCase("locklogin")) {
 			return locklogin;
@@ -179,31 +279,66 @@ public class PremiumLoginMain extends Plugin{
 			
 	}
 	
+	/*
+	 * 
+	 * 0_0 
+	 * 
+	 */
 	public void onDisable() {
-		//AuthUtils.clearLoggedIn();
-		getLogger().info("INFO - PremiumLogin 1.5 By NotReference Disabled.. Byeee");
+		getLogger().info("INFO - PremiumLogin " + ver + " By NotReference Disabled.. Byeee");
 	}
 	
+	/*
+	 * ..
+	 * 
+	 */
 	protected void setInstance(PremiumLoginMain diocane) {
 		in = diocane;
 	}
 	
+	/*
+	 * 
+	 * Alias of getLogger().info(String);
+	 * 
+	 */
 	public void logConsole(String x) {
 		getLogger().info(x);
 	}
 	
+	/**
+	 * 
+	 * Get the instance.
+	 * 
+	 * @return premiumloginmain instance.
+	 */
 	public static PremiumLoginMain i() {
 		return in;
 	}
 	
+	/*
+	 * 
+	 * Unused
+	 * 
+	 */
 	public boolean authmebungee() {
 		return xb;
 	}
 	
+	/**
+	 * 
+	 * Get the player configuration.
+	 * 
+	 * @return player configuration.
+	 */
 	public Configuration getPlayersConf() {
 		return players;
 	}
 	
+	/**
+	 * 
+	 * Reload the player configuration.
+	 * 
+	 */
 	public void reloadPlayerConf() {
 		try {
 			players = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(getDataFolder(), "players.yml"));
@@ -213,6 +348,12 @@ public class PremiumLoginMain extends Plugin{
 		}
 	}
 	
+	/**
+	 * 
+	 * Save the player configuration.
+	 * @notes Use ConfigUtils instead.
+	 * 
+	 */
 	public void sPlayerConf() {
 		try {
 			ConfigurationProvider.getProvider(YamlConfiguration.class).save(players, new File(getDataFolder(), "players.yml"));
@@ -222,10 +363,22 @@ public class PremiumLoginMain extends Plugin{
 		}
 	}
 	
+	/**
+	 * 
+	 * Get the configuration.
+	 * 
+	 * @return configuration.
+	 * 
+	 */
 	public Configuration getConfig() {
 		return configuration;
 	}
 	
+	/**
+	 * 
+	 * Reload configuration.
+	 * 
+	 */
 	public void reloadConfig() {
 		try {
 			configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(getDataFolder(), "config.yml"));
@@ -236,6 +389,11 @@ public class PremiumLoginMain extends Plugin{
 
 	}
 	
+	/**
+	 * 
+	 * Save configuration.
+	 * 
+	 */
 	public void saveConfig() {
 		try {
 			ConfigurationProvider.getProvider(YamlConfiguration.class).save(configuration, new File(getDataFolder(), "config.yml"));

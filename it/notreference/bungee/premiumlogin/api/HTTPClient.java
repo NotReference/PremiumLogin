@@ -10,9 +10,31 @@ import java.net.URL;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-//1.5
+/**
+ * 
+ * PremiumLogin 1.6 By NotReference
+ * 
+ * @author NotReference
+ * @version 1.6
+ * @destination BungeeCord
+ *
+ */
+
+/**
+ * 
+ * @since 1.5
+ * 
+ */
 public class HTTPClient {
 
+	/**
+	 * 
+	 * Read all contents of an url.
+	 * 
+	 * @param urlString
+	 * @return The content of an url.
+	 * @throws Exception
+	 */
 	private static String readUrl(String urlString) throws Exception {
 	    BufferedReader reader = null;
 	    try {
@@ -39,6 +61,14 @@ public class HTTPClient {
 	    }
 	}
 
+	/**
+	 * 
+	 * Returns a JSON Value.
+	 * 
+	 * @param valueName
+	 * @param targetUrl
+	 * @return
+	 */
 	public static String getValue(String val, String url) {
 	try {
 		JsonObject j = new Gson().fromJson(readUrl(url), JsonObject.class);

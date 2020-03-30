@@ -5,7 +5,7 @@ package it.notreference.bungee.premiumlogin.listeners;
 import java.lang.reflect.Field;
 import java.util.UUID;
 
-import it.notreference.bungee.premiumlogin.PremiumLoginEventManager;
+import it.notreference.bungee.premiumlogin.EventManager;
 import it.notreference.bungee.premiumlogin.PremiumLoginMain;
 import it.notreference.bungee.premiumlogin.api.Updater;
 import it.notreference.bungee.premiumlogin.api.events.PremiumJoinEvent;
@@ -14,11 +14,11 @@ import it.notreference.bungee.premiumlogin.authentication.AuthType;
 import it.notreference.bungee.premiumlogin.authentication.AuthenticationHandler;
 import it.notreference.bungee.premiumlogin.authentication.AuthenticationKey;
 import it.notreference.bungee.premiumlogin.authentication.TipoConnessione;
+import it.notreference.bungee.premiumlogin.authentication.utils.AuthenticationBuilder;
 import it.notreference.bungee.premiumlogin.utils.ConfigUtils;
 import it.notreference.bungee.premiumlogin.utils.Messages;
 import it.notreference.bungee.premiumlogin.utils.PlaceholderConf;
 import it.notreference.bungee.premiumlogin.utils.UUIDUtils;
-import it.notreference.premiumlogin.authentication.utils.AuthenticationBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.PendingConnection;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -31,11 +31,21 @@ import net.md_5.bungee.api.event.ServerConnectedEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
+
 /**
- * PremiumLogin 1.5 by NotReference
+ * 
+ * PremiumLogin 1.6 By NotReference
+ * 
+ * @author NotReference
+ * @version 1.6
+ * @destination BungeeCord
  *
- * @description Autologin premium players easily and safely.
- * @dependency AuthMe 5.5.0
+ */
+
+/**
+ * 
+ * @since 1.0
+ *
  */
 
 public class Eventi implements Listener{
@@ -100,7 +110,7 @@ public class Eventi implements Listener{
 								return;
 							} else if(!UUIDUtils.isPremiumConnectionLegacy(p) && UUIDUtils.isPremiumConnection(p)) {
 								//1
-								PremiumLoginEventManager.fire(new PremiumJoinEvent(p, p.getName(), p.getUniqueId(), p.getAddress(), TipoConnessione.NOTLEGACY));
+								EventManager.fire(new PremiumJoinEvent(p, p.getName(), p.getUniqueId(), p.getAddress(), TipoConnessione.NOTLEGACY));
 								AuthenticationKey key = new AuthenticationBuilder()
 								                     .setName(p.getName())
 								                 .setConnectionType(TipoConnessione.NOTLEGACY)
@@ -114,7 +124,7 @@ public class Eventi implements Listener{
 								} 
 							} else if(UUIDUtils.isPremiumConnectionLegacy(p) && !UUIDUtils.isPremiumConnection(p)) {
 								//1
-								PremiumLoginEventManager.fire(new PremiumJoinEvent(p, p.getName(), p.getUniqueId(), p.getAddress(), TipoConnessione.LEGACY));
+								EventManager.fire(new PremiumJoinEvent(p, p.getName(), p.getUniqueId(), p.getAddress(), TipoConnessione.LEGACY));
 								AuthenticationKey key = new AuthenticationBuilder()
 			                    .setName(p.getName())
 			                .setConnectionType(TipoConnessione.LEGACY)
@@ -140,7 +150,7 @@ public class Eventi implements Listener{
 									return;
 								} else if(UUIDUtils.isPremiumConnection(p) && !p.getPendingConnection().isLegacy()) {
 									//1
-									PremiumLoginEventManager.fire(new PremiumJoinEvent(p, p.getName(), p.getUniqueId(), p.getAddress(), TipoConnessione.NOTLEGACY));
+									EventManager.fire(new PremiumJoinEvent(p, p.getName(), p.getUniqueId(), p.getAddress(), TipoConnessione.NOTLEGACY));
 									AuthenticationKey key = new AuthenticationBuilder()
 				                     .setName(p.getName())
 				                 .setConnectionType(TipoConnessione.NOTLEGACY)
@@ -182,7 +192,7 @@ public class Eventi implements Listener{
 				 ("§6§l[PremiumLogin] §6A new plugin version is avaliable: " 
 		         + updater.next() 
 	             + ". "
-				 + "Download it now §ehttps://www.spigotmc.org/resources/premiumlogin.76336/§6."
+				 + "§eDownload it now §ehttps://www.spigotmc.org/resources/premiumlogin.76336/§6."
 				 ));
 		}
 		}
@@ -196,10 +206,6 @@ public class Eventi implements Listener{
 	@EventHandler
 	public void switchEvent(ServerConnectedEvent event) {
 		ProxiedPlayer p = event.getPlayer();
-		//if(AuthUtils.isPremiumLogged(p) //&& !event.getServer().getInfo().getName().equalsIgnoreCase(ConfigUtils.getConfStr("auth-server"))
-			//	) {
-			//AuthUtils.getLogged().remove(p);
-		//}
 		
 		
 		if(!ConfigUtils.hasPremiumAutoLogin(p)) {
@@ -350,10 +356,10 @@ if(AuthenticationHandler.login(p, key) != 1) {
 	@EventHandler
 	public void uscita(PlayerDisconnectEvent event) {
 		
-		//1.4.1 - Fixed the event fire bug.
+		//1.5 - Fixed the event fire bug.
 		
 		if(ConfigUtils.hasPremiumAutoLogin(event.getPlayer().getName()))
-		PremiumLoginEventManager.fire(new PremiumQuitEvent(event.getPlayer()));
+		EventManager.fire(new PremiumQuitEvent(event.getPlayer()));
 	}
 	
 	

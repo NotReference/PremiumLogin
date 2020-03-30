@@ -5,17 +5,27 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
+
 /**
- * PremiumLogin 1.5 by NotReference
+ * 
+ * PremiumLogin 1.6 By NotReference
+ * 
+ * @author NotReference
+ * @version 1.6
+ * @destination BungeeCord
  *
- * @description Autologin premium players easily and safely.
- * @dependency AuthMe 5.5.0
+ */
+
+/**
+ * 
+ * @since 1.0
+ *
  */
 
 public class Messages {
 
 	
-	//Da ora send e sendParseColors sono uguali.
+	//Da ora (1.1) send e sendParseColors sono uguali.
 	public static void send(ProxiedPlayer p, String m) {
 		String nuovoMessaggio = m.replace("&", "§");
 		p.sendMessage(new TextComponent(nuovoMessaggio));
