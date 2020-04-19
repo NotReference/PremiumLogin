@@ -3,20 +3,13 @@ package it.notreference.bungee.premiumlogin.utils;
 import java.net.InetSocketAddress;
 import java.util.UUID;
 
-
 /**
  *
- * PremiumLogin 1.6.1 By NotReference
+ * PremiumLogin 1.6.2 By NotReference
  *
  * @author NotReference
- * @version 1.6.1
+ * @version 1.6.2
  * @destination BungeeCord
- *
- */
-
-/**
- * 
- * @since 1.0
  *
  */
 

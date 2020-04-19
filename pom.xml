@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>it.notreference.premiumlogin</groupId>
-    <artifactId>PremiumLoginFixed</artifactId>
-    <version>1.6.1-BETA</version>
+    <groupId>it.notreference.bungee.premiumlogin</groupId>
+    <artifactId>PremiumLoginFixedOfficial</artifactId>
+    <version>1.7-BETA</version>
     <build>
         <plugins>
             <plugin>

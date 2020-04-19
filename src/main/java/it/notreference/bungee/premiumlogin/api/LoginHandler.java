@@ -2,33 +2,28 @@ package it.notreference.bungee.premiumlogin.api;
 
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import it.notreference.bungee.premiumlogin.authentication.AuthType;
-import it.notreference.bungee.premiumlogin.authentication.AuthenticationKey;
-import it.notreference.bungee.premiumlogin.authentication.TipoConnessione;
+import it.notreference.bungee.premiumlogin.utils.authentication.AuthenticationKey;
+import it.notreference.bungee.premiumlogin.utils.authentication.AuthType;
+import it.notreference.bungee.premiumlogin.utils.TipoConnessione;
 
 /**
  *
- * PremiumLogin 1.6.1 By NotReference
+ * PremiumLogin 1.6.2 By NotReference
  *
  * @author NotReference
- * @version 1.6.1
+ * @version 1.6.2
  * @destination BungeeCord
  *
  */
 
-/**
- * 
- * @since 1.1
- *
- */
 public interface LoginHandler {
 
     /**
      * Login premium players.
      *
-     * @return a login response.
+     * @return 
      */
-	LoginResponse doLogin(ProxiedPlayer p, AuthenticationKey k);
+	LoginResponse simpleLogin(ProxiedPlayer p, AuthenticationKey k);
 	
     /**
      * Build a simple authentication key.

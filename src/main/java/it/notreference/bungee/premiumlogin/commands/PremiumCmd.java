@@ -1,140 +1,67 @@
 package it.notreference.bungee.premiumlogin.commands;
 
-//import it.notreference.bungee.premiumlogin.utils.AuthKey;
-//import it.notreference.bungee.premiumlogin.utils.AuthType;
-//import it.notreference.bungee.premiumlogin.utils.AuthUtils;
-//import it.notreference.bungee.premiumlogin.utils.AuthenticationBuilder;
 import it.notreference.bungee.premiumlogin.utils.ConfigUtils;
 import it.notreference.bungee.premiumlogin.utils.PluginUtils;
-//import it.notreference.bungee.premiumlogin.utils.TipoConnessione;
 import it.notreference.bungee.premiumlogin.utils.UUIDUtils;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
-
 /**
  *
- * PremiumLogin 1.6.1 By NotReference
+ * PremiumLogin 1.6.2 By NotReference
  *
  * @author NotReference
- * @version 1.6.1
+ * @version 1.6.2
  * @destination BungeeCord
  *
  */
 
-/**
- * 
- * @since 1.0
- *
- */
-
-public class PremiumCmd extends Command{
+public class PremiumCmd extends Command {
 
 	public PremiumCmd() {
 		super("premium");
 	}
-	
+
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		
-		if(!(sender instanceof ProxiedPlayer)) {
+
+		if (!(sender instanceof ProxiedPlayer)) {
 			sender.sendMessage(new TextComponent("§cERROR - You must be a player."));
 			return;
 		}
-		
+
 		ProxiedPlayer p = (ProxiedPlayer) sender;
-		if(ConfigUtils.permessoSettato()) {
-			if(!p.hasPermission(ConfigUtils.getPremiumPerm())) {
+		if (ConfigUtils.permessoSettato()) {
+			if (!p.hasPermission(ConfigUtils.getPremiumPerm())) {
 				PluginUtils.sendParseColors(p, ConfigUtils.getConfStr("no-perms"));
 				return;
-			} 
+			}
 		}
-		
-		if(!UUIDUtils.isPremium(p)) {
+
+		if (!UUIDUtils.isPremium(p.getName())) {
 			PluginUtils.send(p, ConfigUtils.getConfStr("no-premium"));
 			return;
 		}
-		
-		if(ConfigUtils.hasPremiumAutoLogin(p)) {
+
+		if (ConfigUtils.hasPremiumAutoLogin(p.getName())) {
 			try {
-			ConfigUtils.disablePremium(p);
-			ConfigUtils.player_save();
-			} catch(Exception exc) {
-				 p.sendMessage(new TextComponent(PluginUtils.parse(ConfigUtils.getConfStr("error-generic"))));
+				ConfigUtils.disablePremium(p.getName());
+				ConfigUtils.player_save();
+			} catch (Exception exc) {
+				p.sendMessage(new TextComponent(PluginUtils.parse(ConfigUtils.getConfStr("error-generic"))));
 				return;
 			}
 			PluginUtils.send(p, ConfigUtils.getConfStr("disable-autologin"));
 			PluginUtils.send(p, ConfigUtils.getConfStr("default-login-system-switch-to-authme"));
 			p.disconnect(new TextComponent(PluginUtils.parse(ConfigUtils.getConfStr("disable-autologin"))));
-			return;
-		}
-		
-			ConfigUtils.enablePremium(p);
+		} else {
+			ConfigUtils.enablePremium(p.getName());
 			ConfigUtils.player_save();
 			ConfigUtils.player_reload();
 			p.disconnect(new TextComponent(PluginUtils.parse(ConfigUtils.getConfStr("enabled-autologin"))));
-			return;
-			
-			//Codice morto:
-			
-			
-			
-			//vai tranquillo
-			//if(ConfigUtils.allowLegacy()) {
-				//if(!AuthUtils.isPremiumLogged(p) && !ConfigUtils.hasPremiumAutoLogin(p)) {
-					//ConfigUtils.enablePremium(p);
-					//ConfigUtils.salva();
-					//Messages.send(p, ConfigUtils.getConfStr("enabled-autologin"));
-					//Messages.send(p, ConfigUtils.getConfStr("default-login-system-switch-to-premiumlogin"));
-					//if(UUIDVerify.isPremiumConnection(p)) {
-					//AuthKey k = new AuthenticationBuilder()
-					  //             .setName(p.getName())
-//					               .setAuthType(AuthType.COMMAND)
-	//				               .setConnectionType(TipoConnessione.NOTLEGACY)
-		//			               .setServer(p.getServer().getInfo())
-			//		               .setUUID(p.getUniqueId())
-			//		               .setPlayer(p)
-			//	               .build();
-				//	AuthUtils.login(p, k);
-					//} else if(UUIDVerify.isPremiumConnectionLegacy(p)){
-						//AuthKey k = new AuthenticationBuilder()
-			              // .setName(p.getName())
-			               //.setAuthType(AuthType.COMMAND)
-			               //.setConnectionType(TipoConnessione.LEGACY)
-			               //.setServer(p.getServer().getInfo())
-			               //.setUUID(p.getUniqueId())
-			               //.setPlayer(p)
-			               //.build();
-			           //AuthUtils.login(p, k);
-					//}
-					//return;
-				//}
-				//} else {
-					//if(p.getPendingConnection().isLegacy()) {
-						//Messages.send(p, ConfigUtils.getConfStr("no-legacy"));
-						//return;
-					//}
-					//if(!AuthUtils.isPremiumLogged(p) && !ConfigUtils.hasPremiumAutoLogin(p)) {
-						//ConfigUtils.enablePremium(p);
-						//Messages.send(p, ConfigUtils.getConfStr("enabled-autologin"));
-						//Messages.send(p, ConfigUtils.getConfStr("default-login-system-switch-to-premiumlogin"));
-						//AuthKey k = new AuthenticationBuilder()
-			              // .setName(p.getName())
-			               // .setAuthType(AuthType.COMMAND)
-			               // .setConnectionType(TipoConnessione.LEGACY)
-			               // .setServer(p.getServer().getInfo())
-			               // .setUUID(p.getUniqueId())
-			               // .setPlayer(p)
-			               // .build();
-			           //AuthUtils.login(p, k);
-					//return;
-			//	}
-			//	}
-		
-	
-
-}
+		}
+	}
 }
 

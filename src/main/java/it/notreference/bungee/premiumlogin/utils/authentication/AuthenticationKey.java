@@ -1,23 +1,18 @@
-package it.notreference.bungee.premiumlogin.authentication;
+package it.notreference.bungee.premiumlogin.utils.authentication;
 
 import java.util.UUID;
 
+import it.notreference.bungee.premiumlogin.utils.TipoConnessione;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 /**
  *
- * PremiumLogin 1.6.1 By NotReference
+ * PremiumLogin 1.6.2 By NotReference
  *
  * @author NotReference
- * @version 1.6.1
+ * @version 1.6.2
  * @destination BungeeCord
- *
- */
-
-/**
- * 
- * @since 1.0
  *
  */
 

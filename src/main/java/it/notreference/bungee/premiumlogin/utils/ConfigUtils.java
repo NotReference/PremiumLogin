@@ -3,34 +3,30 @@ package it.notreference.bungee.premiumlogin.utils;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import it.notreference.bungee.premiumlogin.PremiumLoginMain;
 
-
 /**
  *
- * PremiumLogin 1.6.1 By NotReference
+ * PremiumLogin 1.6.2 By NotReference
  *
  * @author NotReference
- * @version 1.6.1
+ * @version 1.6.2
  * @destination BungeeCord
- *
- */
-
-/**
- * 
- * @since 1.0
  *
  */
 
 public class ConfigUtils {
 
 	public static String getConfStr(String id) {
+
 		return PremiumLoginMain.i().getConfig().getString(id).replace("&", "§");
 	}
 	
 	public static boolean getConfBool(String xd) {
+
 		return PremiumLoginMain.i().getConfig().getBoolean(xd);
 	}
 	
 	public static void set(String id, String val) {
+
 		PremiumLoginMain.i().getConfig().set(id, val);
 	}
 	
@@ -43,27 +39,33 @@ public class ConfigUtils {
 	}
 	
 	public static String getPremiumPerm() {
+
 		return getConfStr("premium-permission");
 	}
 	
 	public static void reload() {
+
 		PremiumLoginMain.i().reloadConfig();
 	}
 	
-	public static void salva() {
+	public static void salva()
+	{
 		PremiumLoginMain.i().saveConfig();
 	}
 	
 	public static void player_reload() {
+
 		PremiumLoginMain.i().reloadPlayerConf();
 	}
 	
 	public static void player_save() {
+
 		PremiumLoginMain.i().sPlayerConf();
 	}
 	
 	public static boolean allowLegacy() {
-	  return getConfBool("allow-premium-legacy-connections");
+
+		return getConfBool("allow-premium-legacy-connections");
 	}
 	
 	public static boolean hasPremiumAutoLogin(ProxiedPlayer p) {

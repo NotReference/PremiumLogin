@@ -6,19 +6,14 @@ import net.md_5.bungee.api.plugin.Event;
 
 /**
  *
- * PremiumLogin 1.6.1 By NotReference
+ * PremiumLogin 1.6.2 By NotReference
  *
  * @author NotReference
- * @version 1.6.1
+ * @version 1.6.2
  * @destination BungeeCord
  *
  */
 
-/**
- * 
- * @since 1.1.3
- * 
- */
 public class PremiumQuitEvent extends Event //implements PremiumLoginEvent
 {
 	

@@ -1,6 +1,5 @@
 package it.notreference.bungee.premiumlogin.commands;
 
-import it.notreference.bungee.premiumlogin.PremiumLoginMain;
 import it.notreference.bungee.premiumlogin.utils.ConfigUtils;
 import it.notreference.bungee.premiumlogin.utils.PluginUtils;
 import it.notreference.bungee.premiumlogin.utils.UUIDUtils;
@@ -9,33 +8,24 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
-
 /**
  *
- * PremiumLogin 1.6.1 By NotReference
+ * PremiumLogin 1.6.2 By NotReference
  *
  * @author NotReference
- * @version 1.6.1
+ * @version 1.6.2
  * @destination BungeeCord
  *
  */
 
-/**
- * 
- * @since 1.0
- *
- */
 public class PremiumLoginCmd extends Command{
 
 	public PremiumLoginCmd() {
 		super("premiumlogin");
 	}
 
-	private static String by = "§7This server is using §bPremiumLogin " + PremiumLoginMain.i().currentVersion() + " §7by §eNotReference§7.";
-	
-	public static String getByMessage() {
-		return by;
-	}
+	private static String by = "§7This server is using §bPremiumLogin 1.6.2 §7by §eNotReference§7.";
+
 	
 	@Override
 	public void execute(CommandSender sender, String[] args) {

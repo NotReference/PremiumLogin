@@ -5,27 +5,24 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
-
 /**
  *
- * PremiumLogin 1.6.1 By NotReference
+ * PremiumLogin 1.6.2 By NotReference
  *
  * @author NotReference
- * @version 1.6.1
+ * @version 1.6.2
  * @destination BungeeCord
- *
- */
-
-/**
- * 
- * @since 1.0
  *
  */
 
 public class PluginUtils {
 
-	
-	//Da ora (1.1) send e sendParseColors sono uguali.
+
+	/*
+
+	Alias of sendParseColors.
+
+	 */
 	public static void send(ProxiedPlayer p, String m) {
 		String nuovoMessaggio = m.replace("&", "§");
 		p.sendMessage(new TextComponent(nuovoMessaggio));

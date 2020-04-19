@@ -8,20 +8,13 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
 
-
 /**
  *
- * PremiumLogin 1.6.1 By NotReference
+ * PremiumLogin 1.6.2 By NotReference
  *
  * @author NotReference
- * @version 1.6.1
+ * @version 1.6.2
  * @destination BungeeCord
- *
- */
-
-/**
- * 
- * @since 1.0
  *
  */
 
@@ -34,14 +27,14 @@ public class PremiumReloadCmd extends Command {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		
+
 		if(!(sender instanceof ProxiedPlayer)) {
 			ConfigUtils.reload();
 			ConfigUtils.player_reload();
 			PluginUtils.send(sender, "§aConfiguration successfully reloaded.");
 			return;
 		}
-		
+
 		ProxiedPlayer p = (ProxiedPlayer) sender;
 		if(p.hasPermission("premiumlogin.reload")) {
 			ConfigUtils.reload();
@@ -52,5 +45,6 @@ public class PremiumReloadCmd extends Command {
 			PluginUtils.send(p, ConfigUtils.getConfStr("no-perms"));
 		}
 	}
+
 
 }

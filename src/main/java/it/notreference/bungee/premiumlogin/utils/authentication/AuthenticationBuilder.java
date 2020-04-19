@@ -1,28 +1,18 @@
-package it.notreference.bungee.premiumlogin.authentication.utils;
-
-import it.notreference.bungee.premiumlogin.authentication.AuthType;
-import it.notreference.bungee.premiumlogin.authentication.AuthenticationKey;
-import it.notreference.bungee.premiumlogin.authentication.TipoConnessione;
+package it.notreference.bungee.premiumlogin.utils.authentication;
 
 import java.util.UUID;
 
+import it.notreference.bungee.premiumlogin.utils.TipoConnessione;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
-
 /**
  *
- * PremiumLogin 1.6.1 By NotReference
+ * PremiumLogin 1.6.2 By NotReference
  *
  * @author NotReference
- * @version 1.6.1
+ * @version 1.6.2
  * @destination BungeeCord
- *
- */
-
-/**
- * 
- * @since 1.1.2
  *
  */
 
@@ -33,7 +23,7 @@ public class AuthenticationBuilder {
 	private String name;
 	private TipoConnessione cont;
 	private UUID unique;
-	private ServerInfo madonna;
+	private ServerInfo info;
 	
 	
 	public AuthenticationBuilder setName(String n) {
@@ -56,18 +46,18 @@ public class AuthenticationBuilder {
 		return this;
 	}
 
-	public AuthenticationBuilder setUUID(UUID merda) {
-		unique = merda;
+	public AuthenticationBuilder setUUID(UUID plUuid) {
+		unique = plUuid;
 		return this;
 	}
 	
 	public AuthenticationBuilder setServer(ServerInfo serv) {
-		madonna = serv;
+		info = serv;
 		return this;
 	}
 	
 	public AuthenticationKey build() {
-		return new AuthenticationKey(unique, p, madonna, name, cont, type);
+		return new AuthenticationKey(unique, p, info, name, cont, type);
 	}
 	
 	

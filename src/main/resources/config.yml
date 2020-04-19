@@ -1,10 +1,13 @@
-# PremiumLogin 1.6.1 by NotReference
+# PremiumLogin 1.6.2 by NotReference
 # AutoLogin Premium Players Easily. AuthMeBungee Support. Require AuthMe with BungeeCord Hook enabled to Work.
 
 # - Utils -
 
 # Select the authentication server.
 auth-server: 'Auth'
+
+# If you have problems with LuckPerms or other permission plugin problem, switch this to false.
+setup-uuid: true
 
 # Automatically send to lobby server after premium login?
 send-to-lobby: false
@@ -22,7 +25,7 @@ log-staff: true
 # /premiumlogin Informations.
 disable-informations: false
 
-# Permission for do /premium. Type nessuno for no permission required.
+# Permission for do /premium. Type nessuno for no permission.
 premium-permission: 'nessuno'
 
 # - Messages -
@@ -43,7 +46,7 @@ no-perms: '&cYou do not have permissions.'
 staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.'
 
 
-# - Staff Log Messages -
+# - Log Messages -
 #[utente] for user name.
 #[uuid] for uuid.
 #[ip] for IP.

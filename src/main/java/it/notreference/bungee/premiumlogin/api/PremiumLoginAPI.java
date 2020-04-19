@@ -1,38 +1,29 @@
 package it.notreference.bungee.premiumlogin.api;
 
-import it.notreference.bungee.premiumlogin.authentication.AuthType;
-import it.notreference.bungee.premiumlogin.authentication.AuthenticationHandler;
-import it.notreference.bungee.premiumlogin.authentication.AuthenticationKey;
-import it.notreference.bungee.premiumlogin.authentication.TipoConnessione;
-import it.notreference.bungee.premiumlogin.authentication.utils.AuthenticationBuilder;
+import it.notreference.bungee.premiumlogin.utils.authentication.AuthType;
+import it.notreference.bungee.premiumlogin.utils.authentication.AuthenticationBuilder;
+import it.notreference.bungee.premiumlogin.utils.authentication.AuthenticationHandler;
+import it.notreference.bungee.premiumlogin.utils.authentication.AuthenticationKey;
 import it.notreference.bungee.premiumlogin.utils.ConfigUtils;
+import it.notreference.bungee.premiumlogin.utils.TipoConnessione;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 /**
- * 
- * PremiumLogin 1.6 By NotReference
- * 
+ *
+ * PremiumLogin 1.6.2 By NotReference
+ *
  * @author NotReference
- * @version 1.6
+ * @version 1.6.2
  * @destination BungeeCord
  *
  */
 
-/**
- * 
- * @since 1.1.2
- * 
- */
 public class PremiumLoginAPI implements LoginHandler{
 
 
-	
-	public PremiumLoginAPI()  {
-	}
-
 	@Override
-	public LoginResponse doLogin(ProxiedPlayer p, AuthenticationKey k) {
+	public LoginResponse simpleLogin(ProxiedPlayer p, AuthenticationKey k) {
 		
 		if(AuthenticationHandler.login(p, k) == 1) {
 			return LoginResponse.SUCCESS;

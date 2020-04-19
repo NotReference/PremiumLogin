@@ -1,6 +1,6 @@
 package it.notreference.bungee.premiumlogin.api.events;
 
-import it.notreference.bungee.premiumlogin.authentication.TipoConnessione;
+import it.notreference.bungee.premiumlogin.utils.TipoConnessione;
 
 import java.net.InetSocketAddress;
 import java.util.UUID;
@@ -11,20 +11,15 @@ import net.md_5.bungee.api.plugin.Event;
 
 /**
  *
- * PremiumLogin 1.6.1 By NotReference
+ * PremiumLogin 1.6.2 By NotReference
  *
  * @author NotReference
- * @version 1.6.1
+ * @version 1.6.2
  * @destination BungeeCord
  *
  */
 
 
-/**
- * 
- * @since 1.1.3
- *
- */
 public class PremiumJoinEvent extends Event //implements PremiumLoginEvent
 {
 	

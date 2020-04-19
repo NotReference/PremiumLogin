@@ -9,24 +9,23 @@ import java.util.UUID;
 import net.md_5.bungee.api.connection.PendingConnection;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
-
 /**
  *
- * PremiumLogin 1.6.1 By NotReference
+ * PremiumLogin 1.6.2 By NotReference
  *
  * @author NotReference
- * @version 1.6.1
+ * @version 1.6.2
  * @destination BungeeCord
  *
  */
 
-/**
- * 
- * @since 1.0
- *
- */
-
 public class UUIDUtils {
+
+	/*
+
+     Fixed isPremium(UUID) bug that returns always true.
+
+	 */
 
 	public static boolean isPremium(UUID ud) {
 		ProxiedPlayer prox = PremiumLoginMain.i().getProxy().getPlayer(ud);
@@ -42,7 +41,7 @@ public class UUIDUtils {
 	
 	public static boolean isPremiumConnectionLegacy(ProxiedPlayer p) {
 		PendingConnection con = p.getPendingConnection();
-		if(con.isOnlineMode() && con.isLegacy()) { //isLegacy() -> Verifichiamo se si sta utilizzando il sistema di autenticazione più vecchio.
+		if(con.isOnlineMode() && con.isLegacy()) {
 			return true;
 		} else {
 			return false;
@@ -59,15 +58,11 @@ public class UUIDUtils {
 	}
 	
 	public static boolean isPremium(ProxiedPlayer p) {
-		if(getPremiumUUID(p.getName()) == "UNABLE_O_NON_PREMIUM") {
-			return false;
-		} else {
-			return true;
-		}
+		return !getPremiumUUID(p.getName()).equals("UNABLE_O_NO_PREMIUM");
 	}
 	
 	public static boolean isPremium(String name) {
-		if(getPremiumUUID(name) == "UNABLE_O_NON_PREMIUM") {
+		if(getPremiumUUID(name) == "UNABLE_O_NO_PREMIUM") {
 			return false;
 		} else {
 			return true;
@@ -86,7 +81,7 @@ public class UUIDUtils {
 			scanner.close();
 			return line.split("\"")[3];
 		} catch (Exception ex) {
-			return "UNABLE_O_NON_PREMIUM";
+			return "UNABLE_O_NO_PREMIUM";
 		}
 	}
 	
