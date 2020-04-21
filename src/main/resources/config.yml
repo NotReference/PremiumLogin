@@ -1,13 +1,22 @@
-# PremiumLogin 1.6.2 by NotReference
-# AutoLogin Premium Players Easily. AuthMeBungee Support. Require AuthMe with BungeeCord Hook enabled to Work.
-
+# PremiumLogin 1.6.3 by NotReference
+# Configuration file:
 # - Utils -
+
+# Notes: This config will be copied in a temp file. Do not delete it on plugin load or the plugin will not work.
 
 # Select the authentication server.
 auth-server: 'Auth'
 
 # If you have problems with LuckPerms or other permission plugin problem, switch this to false.
 setup-uuid: true
+
+# Setup uuids only if that player activated /premium? This can help for fix permissions bugs.
+setup-only-if-active: false
+
+# The method for setup uuids, example, parse to a premium uuid or parse to a sp uuid.
+# premium for Premium Parse
+# sp for SP Parse
+setup-method: 'sp'
 
 # Automatically send to lobby server after premium login?
 send-to-lobby: false
@@ -30,13 +39,25 @@ premium-permission: 'nessuno'
 
 # - Messages -
 
+# Set automatically messages into the specifed language on plugin load?
+# Supported Languages:
+# it - Italiano
+# es - Espanol
+# en - English
+# If you provide an invaild language, messages language will be replaced with following messages's language: (see #2)
+# Auto Language is in BETA.
+auto-language: false
+language: 'it'
+
+#2:
 lock-login: '&aSuccessfully logged in with LockLogin API Support.'
 join-with-premium: '&cUnable to connect. Your session is not vaild.'
 auto-login-premium: '&aPremium account found. You are now logged in.'
 error-generic: '&cAn error has occurred.'
 unable: '&cUnable to login.'
+unable-lobby: '&cUnable to send you to the lobby server.'
 default-login-system-switch-to-premiumlogin: '&aYour default login system has been switched to PremiumLogin.'
-default-login-system-switch-to-authme: '&aYour default login system has been switched to AuthMe.'
+default-login-system-switch-to-authme: '&aYour disabled autologin.'
 enabled-autologin: '&aYou can now autologin with premium account.'
 disable-autologin: '&aYou disabled autologin with premium account.'
 no-premium: '&cYou are not premium.'
@@ -44,7 +65,6 @@ no-legacy: '&cUnable to join. Legacy is not allowed.'
 not-used-premium-launcher: '&cFor enable this function, you need to be logged from the official &cMinecraft Premium Launcher.'
 no-perms: '&cYou do not have permissions.'
 staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.'
-
 
 # - Log Messages -
 #[utente] for user name.

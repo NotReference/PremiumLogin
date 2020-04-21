@@ -1,10 +1,7 @@
 package it.notreference.bungee.premiumlogin.utils.authentication;
 
-
-
 import io.github.karmaconfigs.Bungee.API.PlayerAPI;
 import io.github.karmaconfigs.Bungee.LockLoginBungee;
-import io.github.karmaconfigs.Version.GetLatestVersion2;
 import it.notreference.bungee.premiumlogin.PremiumLoginEventManager;
 import it.notreference.bungee.premiumlogin.PremiumLoginMain;
 import it.notreference.bungee.premiumlogin.api.events.PremiumAutologinEvent;
@@ -17,10 +14,10 @@ import com.google.common.io.ByteStreams;
 
 /**
  *
- * PremiumLogin 1.6.2 By NotReference
+ * PremiumLogin 1.6.3 By NotReference
  *
  * @author NotReference
- * @version 1.6.2
+ * @version 1.6.3
  * @destination BungeeCord
  *
  */
@@ -80,7 +77,14 @@ public class AuthenticationHandler {
 			PluginUtils.logConsole("[action] forcelogging (user= " + p.getName() + ")");
 			try {
 				String version = lockLogin.getDescription().getVersion().replaceAll("[aA-zZ]", "").replace(".", "");
-				if (Integer.parseInt(version) >= 215) {
+				/*
+
+				LockLogin 2.1.8 implemented new API.
+				The minimum required version is 2.1.8 (218)
+				(In 1.6.2 was 215)
+
+				 */
+				if (Integer.parseInt(version) >= 218) {
 					PlayerAPI api = new PlayerAPI(p);
 					api.setLogged(true, ConfigUtils.getConfStr("lock-login"));
 				} else {
@@ -104,7 +108,7 @@ public class AuthenticationHandler {
 					} catch(Exception exc) {
 
 						PluginUtils.logConsole("Unable to send user " + p.getName() + " to the lobby server. (Invaild name? Offline?)");
-
+                        PluginUtils.send(p, ConfigUtils.getConfStr("unable-lobby"));
 					}
 
 				}
@@ -129,7 +133,7 @@ public class AuthenticationHandler {
 				p.getServer().sendData("BungeeCord", out.toByteArray());
 			} catch(Exception exc) {
 
-				PluginUtils.logConsole("The specifed auth server is invaild.");
+				PluginUtils.logConsole("The player server is invaild.");
 
 
 			}
@@ -154,7 +158,7 @@ public class AuthenticationHandler {
 					} catch(Exception exc) {
 
 						PluginUtils.logConsole("Unable to send user " + p.getName() + " to the lobby server. (Invaild name? Offline?)");
-
+						PluginUtils.send(p, ConfigUtils.getConfStr("unable-lobby"));
 					}
 
 				}

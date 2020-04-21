@@ -11,10 +11,10 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 /**
  *
- * PremiumLogin 1.6.2 By NotReference
+ * PremiumLogin 1.6.3 By NotReference
  *
  * @author NotReference
- * @version 1.6.2
+ * @version 1.6.3
  * @destination BungeeCord
  *
  */
@@ -48,10 +48,10 @@ public class PremiumLoginAPI implements LoginHandler{
 	}
 
 	@Override
-	public AuthenticationKey buildSimpleKey(ProxiedPlayer p, ServerInfo info,TipoConnessione con, AuthType type) {
+	public AuthenticationKey buildSimpleKey(ProxiedPlayer p, ServerInfo info, TipoConnessione con) {
 	
 		return new AuthenticationBuilder()
-		              .setAuthType(type)
+		              .setAuthType(AuthType.AUTO)
 		              .setConnectionType(con)
 		              .setPlayer(p)
 		              .setUUID(p.getUniqueId())

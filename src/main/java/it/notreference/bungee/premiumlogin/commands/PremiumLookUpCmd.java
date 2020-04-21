@@ -10,10 +10,10 @@ import net.md_5.bungee.api.plugin.Command;
 
 /**
  *
- * PremiumLogin 1.6.2 By NotReference
+ * PremiumLogin 1.6.3 By NotReference
  *
  * @author NotReference
- * @version 1.6.2
+ * @version 1.6.3
  * @destination BungeeCord
  *
  */
@@ -40,17 +40,17 @@ public class PremiumLookUpCmd extends Command{
 							if(!ConfigUtils.hasPremiumAutoLogin(target)) {
 								PluginUtils.send(p, "§7Default Login System:§b AuthMe");
 							} else {
-								PluginUtils.send(p, "§c§l(!) §7Default Login System:§b PremiumLogin");
+								PluginUtils.send(p, "§7Default Login System:§b PremiumLogin");
 							}
 							if(UUIDUtils.isPremium(target)) {
 								PluginUtils.send(p, "§7Premium:§a Yes");
 							} else {
 								PluginUtils.send(p, "§7Premium: §cNo");
 							}
-							if(!UUIDUtils.isPremium(target)) {
-								PluginUtils.send(p, "§7Recommended Login System:§e AuthMe");
+							if(UUIDUtils.isPremium(target)) {
+								PluginUtils.send(p, "§7Recommended Login System:§e PremiumLogin");
 							} else {
-								PluginUtils.send(p, "§7Recommended Login System: §ePremiumLogin");
+								PluginUtils.send(p, "§7Recommended Login System: §eAuthMe");
 							}
 							if(UUIDUtils.isPremium(target)) {
 								PluginUtils.send(p, "§7UUID:§f " + UUIDUtils.getPremiumUUID(target.getName()));
@@ -66,20 +66,20 @@ public class PremiumLookUpCmd extends Command{
 							} else {
 								PluginUtils.send(p, "§7Logged in with:§b AuthMe");
 							}
-							if(!ConfigUtils.hasPremiumAutoLogin(target)) {
-								PluginUtils.send(p, "§7Default Login System:§b AuthMe");
-							} else {
+							if(ConfigUtils.hasPremiumAutoLogin(target)) {
 								PluginUtils.send(p, "§7Default Login System:§b PremiumLogin");
+							} else {
+								PluginUtils.send(p, "§7Default Login System:§b AuthMe");
 							}
 							if(UUIDUtils.isPremium(target)) {
 								PluginUtils.send(p, "§7Premium:§a Yes");
 							} else {
 								PluginUtils.send(p, "§7Premium: §cNo");
 							}
-							if(!UUIDUtils.isPremium(target)) {
-								PluginUtils.send(p, "§7Recommended Login System:§e AuthMe");
+							if(UUIDUtils.isPremium(target)) {
+								PluginUtils.send(p, "§7Recommended Login System:§e PremiumLogin");
 							} else {
-								PluginUtils.send(p, "§7Recommended Login System: §ePremiumLogin");
+								PluginUtils.send(p, "§7Recommended Login System: §eAuthMe");
 							}
 							if(UUIDUtils.isPremium(target)) {
 								PluginUtils.send(p, "§7UUID:§f " + UUIDUtils.getPremiumUUID(target.getName()));
@@ -114,10 +114,10 @@ public class PremiumLookUpCmd extends Command{
 							} else {
 								PluginUtils.send(p, "§7Premium: §cNo");
 							}
-							if(!UUIDUtils.isPremium(target)) {
-								PluginUtils.send(p, "§7Recommended Login System:§e AuthMe");
+							if(UUIDUtils.isPremium(target)) {
+								PluginUtils.send(p, "§7Recommended Login System:§e PremiumLogin");
 							} else {
-								PluginUtils.send(p, "§7Recommended Login System: §ePremiumLogin");
+								PluginUtils.send(p, "§7Recommended Login System: §eAuthMe");
 							}
 							if(UUIDUtils.isPremium(target)) {
 								PluginUtils.send(p, "§7UUID:§f " + UUIDUtils.getPremiumUUID(target.getName()));

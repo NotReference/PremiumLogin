@@ -5,6 +5,8 @@ package it.notreference.bungee.premiumlogin.listeners;
 import java.lang.reflect.Field;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import it.notreference.bungee.premiumlogin.PremiumLoginEventManager;
 import it.notreference.bungee.premiumlogin.PremiumLoginMain;
@@ -33,15 +35,16 @@ import net.md_5.bungee.event.EventHandler;
 
 /**
  *
- * PremiumLogin 1.6.2 By NotReference
+ * PremiumLogin 1.6.3 By NotReference
  *
  * @author NotReference
- * @version 1.6.2
+ * @version 1.6.3
  * @destination BungeeCord
  *
  */
 
 public class Eventi implements Listener {
+
 
 	@EventHandler(priority = 7)
 	public void connectionsetup(PreLoginEvent event) {
@@ -53,6 +56,16 @@ public class Eventi implements Listener {
 		}
 	}
 
+	private final Pattern PT = Pattern.compile("^([A-Fa-f0-9]{8})([A-Fa-f0-9]{4})([A-Fa-f0-9]{4})([A-Fa-f0-9]{4})([A-Fa-f0-9]{12})$");
+
+	public String fullUUID(String uuid) {
+		uuid = uuid.replace("-", "");
+		Matcher matcher = PT.matcher(uuid);
+		if (!matcher.matches()) {
+			return null;
+		}
+		return matcher.replaceAll("$1-$2-$3-$4-$5");
+	}
 
 	@EventHandler
 	public void entratauuidsetup(LoginEvent event) {
@@ -61,9 +74,33 @@ public class Eventi implements Listener {
 			return;
 		}
 
+		/*
+
+		(Optional in ? config)
+		1.6.3: Now the uuid will be changed only if you have premium login activated.
+		(Optional)
+
+		 */
+
+		if(ConfigUtils.getConfBool("setup-only-if-active")) {
+			if(!ConfigUtils.hasPremiumAutoLogin(event.getConnection().getName())) {
+				return;
+			}
+		}
+
+		String metodo = ConfigUtils.getConfStr("setup-method");
+
 		PendingConnection connection = event.getConnection();
 		try {
-			String spud = UUIDUtils.getCrackedUUID(connection.getName());
+
+			String spud = null;
+
+			if(metodo.equalsIgnoreCase("Sp")) { spud = UUIDUtils.getCrackedUUID(connection.getName()); }
+			if(metodo.equalsIgnoreCase("Premium")) { spud = fullUUID(UUIDUtils.getPremiumUUID(connection.getName())); }
+			if(spud == null) {
+				PremiumLoginMain.i().logConsole("UUID Parser: You set an invaild setup method into the configuration. So, the uuid will be parsed with default method (legacy)");
+				spud = UUIDUtils.getCrackedUUID(connection.getName());
+			}
 			UUID nuovoUUID = UUID.fromString(spud);
 			Class<?> initialHandlerClass = connection.getClass();
 			Field uniqueIdField = initialHandlerClass.getDeclaredField("uniqueId");

@@ -8,10 +8,10 @@ import it.notreference.bungee.premiumlogin.utils.TipoConnessione;
 
 /**
  *
- * PremiumLogin 1.6.2 By NotReference
+ * PremiumLogin 1.6.3 By NotReference
  *
  * @author NotReference
- * @version 1.6.2
+ * @version 1.6.3
  * @destination BungeeCord
  *
  */
@@ -30,7 +30,7 @@ public interface LoginHandler {
      *
      * @return authenticationkey easy builder.
      */
-	AuthenticationKey buildSimpleKey(ProxiedPlayer p, ServerInfo info, TipoConnessione con, AuthType type);
+	AuthenticationKey buildSimpleKey(ProxiedPlayer p, ServerInfo info, TipoConnessione con);
 	
     /**
      * Get the no-legacy config value.

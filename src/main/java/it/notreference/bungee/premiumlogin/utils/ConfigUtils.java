@@ -5,10 +5,10 @@ import it.notreference.bungee.premiumlogin.PremiumLoginMain;
 
 /**
  *
- * PremiumLogin 1.6.2 By NotReference
+ * PremiumLogin 1.6.3 By NotReference
  *
  * @author NotReference
- * @version 1.6.2
+ * @version 1.6.3
  * @destination BungeeCord
  *
  */
@@ -46,6 +46,7 @@ public class ConfigUtils {
 	public static void reload() {
 
 		PremiumLoginMain.i().reloadConfig();
+		PremiumLoginMain.i().setupAutoLanguage();
 	}
 	
 	public static void salva()
