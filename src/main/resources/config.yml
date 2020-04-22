@@ -1,4 +1,4 @@
-# PremiumLogin 1.6.3 by NotReference
+# PremiumLogin 1.6.4 by NotReference
 # Configuration file:
 # - Utils -
 
@@ -10,7 +10,7 @@ auth-server: 'Auth'
 # If you have problems with LuckPerms or other permission plugin problem, switch this to false.
 setup-uuid: true
 
-# Setup uuids only if that player activated /premium? This can help for fix permissions bugs.
+# Setup uuids only if that player activated /premium? This can help for fix permissions bugs or whitelist bugs.
 setup-only-if-active: false
 
 # The method for setup uuids, example, parse to a premium uuid or parse to a sp uuid.

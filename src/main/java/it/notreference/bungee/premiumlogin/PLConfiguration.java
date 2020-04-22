@@ -7,12 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 /**
  *
- * PremiumLogin 1.6.3 By NotReference
+ * PremiumLogin 1.6.4 By NotReference
  *
  * @author NotReference
- * @version 1.6.3
+ * @version 1.6.4
  * @destination BungeeCord
  *
  */
@@ -89,32 +90,43 @@ public class PLConfiguration {
      *
      * @return status code
      */
+
+    /*
+
+    1.6.4: Little issue fix.
+
+     */
     public boolean deleteAllTempFiles() {
-        File dir = main.getDataFolder();
+        try {
+            File dir = main.getDataFolder();
 
-        //Prevent from deleting files if dir doesn't contains PremiumLogin
-        if(!dir.getAbsolutePath().toLowerCase().contains("PremiumLogin".toLowerCase())) {
-            return false;
-        }
-
-        List<Boolean> v = new ArrayList<Boolean>();
-        for (File file : dir.listFiles()) {
-            try {
-                if (file.getName().equalsIgnoreCase("config.yml") || file.getName().equalsIgnoreCase("players.yml")) {
-                    //non eliminiamo
-                } else {
-                    v.add(file.delete());
-                }
-            } catch (Exception exc) {
-               v.add(false);
-            }
-        }
-        for(int e = 0; e < v.size() -1; e++) {
-            if(!v.get(e)) {
+            //Prevent from deleting files if dir doesn't contains PremiumLogin
+            if (!dir.getAbsolutePath().toLowerCase().contains("PremiumLogin".toLowerCase())) {
                 return false;
             }
+
+            List<Boolean> v = new ArrayList<Boolean>();
+            for (File file : dir.listFiles()) {
+                try {
+                    if (file.getName().equalsIgnoreCase("config.yml") || file.getName().equalsIgnoreCase("players.yml")) {
+                        //non eliminiamo
+                    } else {
+                        v.add(file.delete());
+                    }
+                } catch (Exception exc) {
+                    v.add(false);
+                }
+            }
+            for (int e = 0; e < v.size() - 1; e++) {
+                if (!v.get(e)) {
+                    return false;
+                }
+            }
+            return true;
+        } catch(Exception exc) {
+            main.getLogger().severe("ERROR - Unable to delete all temp files. (If you are using linux, start the server using sudo) Please delete them manually.");
+            return false;
         }
-        return true;
     }
 
     /**

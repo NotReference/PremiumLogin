@@ -1,4 +1,4 @@
-package it.notreference.bungee.premiumlogin.utils;
+package it.notreference.bungee.premiumlogin.api;
 
 /**
  *
@@ -9,6 +9,9 @@ package it.notreference.bungee.premiumlogin.utils;
  * @destination BungeeCord
  *
  */
-public enum TipoConnessione {
- LEGACY, NOTLEGACY
+
+public enum SetupMethod {
+
+    SP, PREMIUM;
+
 }

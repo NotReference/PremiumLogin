@@ -36,10 +36,10 @@ import net.md_5.bungee.config.YamlConfiguration;
 
 /**
  *
- * PremiumLogin 1.6.3 By NotReference
+ * PremiumLogin 1.6.4 By NotReference
  *
  * @author NotReference
- * @version 1.6.3
+ * @version 1.6.4
  * @destination BungeeCord
  *
  */
@@ -53,8 +53,8 @@ public class PremiumLoginMain extends Plugin {
 	private boolean locklogin = false;
 	private boolean setupconfigfix = false;
 	private File tempFile;
-	private String ver = "1.6.3";
-	private String apiVersion = "16-3";
+	private String ver = "1.6.4";
+	private String apiVersion = "16-4";
 	private PLConfiguration configManager;
 	private String currentConfigPath = "";
 	private String SPIGOT_MC = "https://www.spigotmc.org/resources/premiumlogin.76336/";
@@ -536,7 +536,7 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
                 in.close();
             } catch (IOException e) {
             	e.printStackTrace();
-           	    getLogger().severe("ERR - Unable to create the configuration.");
+           	    getLogger().severe("ERR - Unable to create the configuration; if you are using Linux, try to start the server using sudo.");
             }
         }
 
@@ -583,7 +583,7 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
                 in.close();
             } catch (IOException e) {
 				e.printStackTrace();
-           	 getLogger().severe("ERR - Unable to create the players file.");
+           	 getLogger().severe("ERR - Unable to create the players file; if you are using Linux, try to start the server using sudo.");
 
             }
         }
@@ -601,7 +601,7 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 				// new File(getDataFolder(), "config.yml"));
 		} catch(Exception exc) {
 			exc.printStackTrace();
-			getLogger().severe("ERR - Unable to load the configuration.. Try to delete it.. Disabling..");
+			getLogger().severe("ERR - Unable to load the configuration.. Try to delete it.. Disabling.. If you are using Linux, try to start the server using sudo.");
 			return;
 		}
 		
@@ -732,6 +732,13 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 
 		getLogger().info("SUCCESS - PremiumLogin " + ver + " By NotReference Enabled.");
 		if(!setupconfigfix) {
+
+			/*
+
+			Da rimuovere nella 1.6.5 // 1.7
+
+			 */
+
 			getLogger().info("NOTE - PremiumLogin 1.6.3 includes configuration fix, if you don't deleted configuration, please delete now and restart.");
 		}
 	}
@@ -763,7 +770,7 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 		if(configManager.deleteAllTempFiles()) {
 			getLogger().info("INFO - All temp files have been deleted.");
 		}
-		getLogger().info("INFO - PremiumLogin 1.6.3 By NotReference Disabled. Goodbye.");
+		getLogger().info("INFO - PremiumLogin " + ver + " By NotReference Disabled. Goodbye.");
 	}
 	
 	protected void setInstance(PremiumLoginMain main) {

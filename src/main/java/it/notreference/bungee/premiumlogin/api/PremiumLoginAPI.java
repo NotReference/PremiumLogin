@@ -11,10 +11,10 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 /**
  *
- * PremiumLogin 1.6.3 By NotReference
+ * PremiumLogin 1.6.4 By NotReference
  *
  * @author NotReference
- * @version 1.6.3
+ * @version 1.6.4
  * @destination BungeeCord
  *
  */
@@ -80,11 +80,13 @@ public class PremiumLoginAPI implements LoginHandler{
 	public boolean allAreAuthServers() {
 		return ConfigUtils.getConfBool("all-servers-are-server-auth");
 	}
-	
+
+	@Deprecated
 	public void enablePremium(String name) {
 		ConfigUtils.enablePremium(name);
 	}
-	
+
+	@Deprecated
 	public void disablePremium(String name) {
 		ConfigUtils.disablePremium(name);
 	}

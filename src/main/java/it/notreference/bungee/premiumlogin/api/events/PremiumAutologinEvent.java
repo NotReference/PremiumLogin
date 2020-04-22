@@ -13,10 +13,10 @@ import net.md_5.bungee.api.plugin.Event;
 
 /**
  *
- * PremiumLogin 1.6.3 By NotReference
+ * PremiumLogin 1.6.4 By NotReference
  *
  * @author NotReference
- * @version 1.6.3
+ * @version 1.6.4
  * @destination BungeeCord
  *
  */

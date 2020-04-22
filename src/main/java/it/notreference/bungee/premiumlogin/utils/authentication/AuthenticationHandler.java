@@ -12,12 +12,13 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 
+
 /**
  *
- * PremiumLogin 1.6.3 By NotReference
+ * PremiumLogin 1.6.4 By NotReference
  *
  * @author NotReference
- * @version 1.6.3
+ * @version 1.6.4
  * @destination BungeeCord
  *
  */

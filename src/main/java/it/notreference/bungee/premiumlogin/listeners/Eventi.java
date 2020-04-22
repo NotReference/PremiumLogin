@@ -10,8 +10,10 @@ import java.util.regex.Pattern;
 
 import it.notreference.bungee.premiumlogin.PremiumLoginEventManager;
 import it.notreference.bungee.premiumlogin.PremiumLoginMain;
+import it.notreference.bungee.premiumlogin.api.SetupMethod;
 import it.notreference.bungee.premiumlogin.api.events.PremiumJoinEvent;
 import it.notreference.bungee.premiumlogin.api.events.PremiumQuitEvent;
+import it.notreference.bungee.premiumlogin.api.events.UUIDSetupEvent;
 import it.notreference.bungee.premiumlogin.utils.authentication.AuthenticationKey;
 import it.notreference.bungee.premiumlogin.utils.authentication.AuthType;
 import it.notreference.bungee.premiumlogin.utils.authentication.AuthenticationHandler;
@@ -35,10 +37,10 @@ import net.md_5.bungee.event.EventHandler;
 
 /**
  *
- * PremiumLogin 1.6.3 By NotReference
+ * PremiumLogin 1.6.4 By NotReference
  *
  * @author NotReference
- * @version 1.6.3
+ * @version 1.6.4
  * @destination BungeeCord
  *
  */
@@ -59,12 +61,16 @@ public class Eventi implements Listener {
 	private final Pattern PT = Pattern.compile("^([A-Fa-f0-9]{8})([A-Fa-f0-9]{4})([A-Fa-f0-9]{4})([A-Fa-f0-9]{4})([A-Fa-f0-9]{12})$");
 
 	public String fullUUID(String uuid) {
-		uuid = uuid.replace("-", "");
-		Matcher matcher = PT.matcher(uuid);
-		if (!matcher.matches()) {
+		try {
+			uuid = uuid.replace("-", "");
+			Matcher matcher = PT.matcher(uuid);
+			if (!matcher.matches()) {
+				return null;
+			}
+			return matcher.replaceAll("$1-$2-$3-$4-$5");
+		} catch(Exception exc) {
 			return null;
 		}
-		return matcher.replaceAll("$1-$2-$3-$4-$5");
 	}
 
 	@EventHandler
@@ -101,12 +107,18 @@ public class Eventi implements Listener {
 				PremiumLoginMain.i().logConsole("UUID Parser: You set an invaild setup method into the configuration. So, the uuid will be parsed with default method (legacy)");
 				spud = UUIDUtils.getCrackedUUID(connection.getName());
 			}
+			String oldUUID = event.getConnection().getUniqueId().toString();
 			UUID nuovoUUID = UUID.fromString(spud);
 			Class<?> initialHandlerClass = connection.getClass();
 			Field uniqueIdField = initialHandlerClass.getDeclaredField("uniqueId");
 			uniqueIdField.setAccessible(true);
 			uniqueIdField.set(connection, nuovoUUID);
 			PremiumLoginMain.i().logConsole("Successfully set " + connection.getName() + "'s UUID.");
+			try {
+				PremiumLoginEventManager.fire(new UUIDSetupEvent(SetupMethod.SP, event.getConnection(), nuovoUUID.toString(), oldUUID, 1));
+			} catch(Exception exc) {
+				PremiumLoginMain.i().logConsole("WARNING - Unable to fire the UUIDSetupEvent for API Plugins.");
+			}
 		} catch (Exception exc) {
 			PremiumLoginMain.i().logConsole("Unable to setup " + connection.getName() + "'s UUID.");
 			exc.printStackTrace();
