@@ -181,6 +181,7 @@ public class PLConfiguration {
             File file = new File(main.getDataFolder(), randomName + ".yml");
             Files.copy(fileStream, file.toPath());
             fileStream.close();
+            last = file;
             return new File(main.getDataFolder(), randomName + ".yml");
 
         } catch(Exception exc) {
