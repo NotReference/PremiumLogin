@@ -1,0 +1,21 @@
+# PremiumLogin by NotReference.
+# Messages Codes:
+
+
+# NOTES:
+
+
+# For the Spanish N (ene or in italian egne) with the curved '-' you need to put '.N.' into the message, like this:
+# login-abc: 'Tu idioma es ahora espa.N.ol';
+# The output is like this: Tu idioma es ahora espanol. (The n will be replaced with the spanish ñ)
+# Other chars:
+# .e1. = è
+# .e2. = é
+# .a1. = à
+# .a2. = á
+# .i1. = ì
+# .i2. = í
+# .o1. = ò
+# .o2. = ó
+# .u1. = ú
+# .u2. = ú

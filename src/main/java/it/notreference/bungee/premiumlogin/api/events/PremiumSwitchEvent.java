@@ -1,0 +1,56 @@
+package it.notreference.bungee.premiumlogin.api.events;
+
+
+import it.notreference.bungee.premiumlogin.api.SwitchType;
+import net.md_5.bungee.api.config.ServerInfo;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.plugin.Cancellable;
+import net.md_5.bungee.api.plugin.Event;
+
+
+
+/**
+ *
+ * PremiumLogin 1.6.5 By NotReference
+ *
+ * @author NotReference
+ * @version 1.6.5
+ * @destination BungeeCord
+ *
+ */
+
+public class PremiumSwitchEvent extends Event implements Cancellable {
+
+    private ProxiedPlayer player;
+    private ServerInfo info;
+    private SwitchType type;
+    private boolean cancel = false;
+
+    public PremiumSwitchEvent(ProxiedPlayer player, ServerInfo playerServer, SwitchType type) {
+        this.player = player;
+        this.info = playerServer;
+        this.type = type;
+    }
+
+    public ProxiedPlayer getPlayer() {
+        return player;
+    }
+
+    public SwitchType getType() {
+        return type;
+    }
+
+    public ServerInfo getPlayerServer() {
+        return info;
+    }
+
+    @Override
+    public boolean isCancelled() {
+        return cancel;
+    }
+
+    @Override
+    public void setCancelled(boolean b) {
+     cancel = b;
+    }
+}

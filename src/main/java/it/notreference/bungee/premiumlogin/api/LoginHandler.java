@@ -6,12 +6,13 @@ import it.notreference.bungee.premiumlogin.utils.authentication.AuthenticationKe
 import it.notreference.bungee.premiumlogin.utils.authentication.AuthType;
 import it.notreference.bungee.premiumlogin.utils.TipoConnessione;
 
+
 /**
  *
- * PremiumLogin 1.6.4 By NotReference
+ * PremiumLogin 1.6.5 By NotReference
  *
  * @author NotReference
- * @version 1.6.4
+ * @version 1.6.5
  * @destination BungeeCord
  *
  */
@@ -43,7 +44,9 @@ public interface LoginHandler {
      * Get the allow-online config value.
      *
      * @return if the online mod is allowed.
+     * @deprecated always false
      */
+    @Deprecated
 	boolean isOnlineModeAllowed();
 	
     /**

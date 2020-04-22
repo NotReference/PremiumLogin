@@ -8,12 +8,13 @@ import java.util.List;
 
 
 
+
 /**
  *
- * PremiumLogin 1.6.4 By NotReference
+ * PremiumLogin 1.6.5 By NotReference
  *
  * @author NotReference
- * @version 1.6.4
+ * @version 1.6.5
  * @destination BungeeCord
  *
  */
@@ -25,7 +26,7 @@ public class PLConfiguration {
 
     /**
      *
-     * PLConfiguration b1.0 by NotReference
+     * PLConfiguration 1.1.2 by NotReference
      *
      * @author NotReference
      * @for PremiumLogin
@@ -37,7 +38,7 @@ public class PLConfiguration {
 
     /**
      *
-     * Deletes a file
+     * Deletes the temp file.
      *
      * @return status
      */
@@ -108,7 +109,7 @@ public class PLConfiguration {
             List<Boolean> v = new ArrayList<Boolean>();
             for (File file : dir.listFiles()) {
                 try {
-                    if (file.getName().equalsIgnoreCase("config.yml") || file.getName().equalsIgnoreCase("players.yml")) {
+                    if (file.getName().equalsIgnoreCase("config.yml") || file.getName().equalsIgnoreCase("players.yml") || file.getName().equalsIgnoreCase("codes.yml")) {
                         //non eliminiamo
                     } else {
                         v.add(file.delete());
@@ -170,7 +171,7 @@ public class PLConfiguration {
      *
      * Copies the config.yml to another temp file.
      *
-     * @why I use this for prevent that the file config.yml lose comments ( # )
+     * @why I use this for prevent that the file config.yml loses comments ( # )
      * @return the new temp file
      */
     public File copyConfiguration() {

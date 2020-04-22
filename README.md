@@ -8,11 +8,8 @@ AuthMe, LockLogin
 
 If you use AUTHME, type "bungeecord: true" into authme's config and spigot config.
 
--> Please remove PremiumLock, it can affect our protection systems.
-PremiumLogin will automatically block premium users who typed /premium for enable the function.
-
 # Note
-Download new versions always for bug fixes and more..
+Download new versions always for bug fixes and new features..
 
 # Config
 Messages are fully customizables.
@@ -41,6 +38,8 @@ You can choose the AuthServer for do the autologin only into the specifed server
 - Automatic UUID setup.
 - Developer API
 - Custom Events
+- Send to lobby after Login. (Optional)
+- Custom Updater (Fetch every 7 minutes) to stay always up-to-date.
 
 # Bugs
 For report bugs please open a ticket in Issues. Thanks.

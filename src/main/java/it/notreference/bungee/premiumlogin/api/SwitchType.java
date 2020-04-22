@@ -1,4 +1,4 @@
-package it.notreference.bungee.premiumlogin.utils;
+package it.notreference.bungee.premiumlogin.api;
 
 
 /**
@@ -11,6 +11,8 @@ package it.notreference.bungee.premiumlogin.utils;
  *
  */
 
-public enum TipoConnessione {
- LEGACY, NOTLEGACY
+public enum SwitchType {
+
+    PREMIUMLOGINENABLED, PREMIUMLOGINDISABLED
+
 }

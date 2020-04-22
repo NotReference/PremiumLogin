@@ -4,12 +4,13 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 //import it.notreference.bungee.premiumlogin.api.PremiumLoginEvent;
 import net.md_5.bungee.api.plugin.Event;
 
+
 /**
  *
- * PremiumLogin 1.6.4 By NotReference
+ * PremiumLogin 1.6.5 By NotReference
  *
  * @author NotReference
- * @version 1.6.4
+ * @version 1.6.5
  * @destination BungeeCord
  *
  */

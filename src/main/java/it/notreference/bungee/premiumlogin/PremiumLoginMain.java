@@ -36,10 +36,10 @@ import net.md_5.bungee.config.YamlConfiguration;
 
 /**
  *
- * PremiumLogin 1.6.4 By NotReference
+ * PremiumLogin 1.6.5 By NotReference
  *
  * @author NotReference
- * @version 1.6.4
+ * @version 1.6.5
  * @destination BungeeCord
  *
  */
@@ -53,8 +53,8 @@ public class PremiumLoginMain extends Plugin {
 	private boolean locklogin = false;
 	private boolean setupconfigfix = false;
 	private File tempFile;
-	private String ver = "1.6.4";
-	private String apiVersion = "16-4";
+	private String ver = "1.6.5";
+	private String apiVersion = "16-5";
 	private PLConfiguration configManager;
 	private String currentConfigPath = "";
 	private String SPIGOT_MC = "https://www.spigotmc.org/resources/premiumlogin.76336/";
@@ -218,19 +218,19 @@ public class PremiumLoginMain extends Plugin {
 
 			String response = content.toString();
 			con.disconnect();
-			if(response.contains("-5")) {
+			if(response.contains("-5ERR")) {
 
 				return new PremiumLoginUpdate(true, "-5_DEPRECATED");
 
 			}
 
-			if(response.contains("-2")) {
+			if(response.contains("-2ERR")) {
 
 				return new PremiumLoginUpdate(true, "-2_INVAILD");
 
 			}
 
-			if(response.contains("-4")) {
+			if(response.contains("-4ERR")) {
 
 				JsonObject apiResponse = new Gson().fromJson(response, JsonObject.class);
 				String result = apiResponse.get("version").getAsString();
@@ -249,7 +249,6 @@ public class PremiumLoginMain extends Plugin {
     				logConsole("[API-Request] -> 401 -> Auth_Basic() [error: unauthorized [[401]]] Failed to authenticate. The authorization key is invaild or an error has occurred. Please retry later. (Maybe this plugin version is outdated?)");
     				return null;
     			} else {
-    				exc.printStackTrace();
     				logConsole("[API-Request] -> -1 -> An unexpected error while contacting our server has occurred. Please retry later.");
     				return null;
 				}
@@ -259,56 +258,6 @@ public class PremiumLoginMain extends Plugin {
 			}
 		}
 	}
-
-	/**
-	 *
-	 * Converts an input stream to a file.
-	 *
-	 * @param stream the stream
-	 * @return the file name.
-	 */
-	/*
-
-	public String convertInputStreamToFile(InputStream stream) throws IOException {
-
-		OutputStream ostream = null;
-		try
-		{
-			String nomeRandom = randomString(7);
-			String newFileName = "temp-PL" + nomeRandom + ".yml";
-			File file = new File(getDataFolder(), newFileName);
-			if(!file.exists()) {
-				file.createNewFile();
-			}
-			ostream = new FileOutputStream(file);
-
-			int read = 0;
-			byte[] bytes = new byte[1024];
-			while ((read = stream.read(bytes)) != -1) {
-				ostream.write(bytes, 0, read);
-			}
-
-			return newFileName;
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return null;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		} finally
-		{
-			if(ostream != null)
-			{
-				ostream.close();
-			}
-		}
-
-	}
-
-
-
-	 */
 
 	/**
 	 *
@@ -355,13 +304,12 @@ public class PremiumLoginMain extends Plugin {
 					    return;
 					}
 				} catch(Exception exc) {
-					exc.printStackTrace();
 					getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cAn error has occurred. (& exception throw)");
 					getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cUnable to check for updates.");
 				}
 
 
-			}, 1,60, TimeUnit.SECONDS);
+			}, 1,420, TimeUnit.SECONDS);
 
 			return true;
 		} catch(Exception exc) {
@@ -426,9 +374,9 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 			if(lcode.equalsIgnoreCase("it")) {
 
 				set("lock-login", "&cAutenticazione effettuata utilizzando la API di LockLogin.");
-				set("join-with-premium", "&cLa tua sessione non e'' valida. Entra con il tuo account Premium.");
+				set("join-with-premium", "&cLa tua sessione non .e1. valida. Entra con il tuo account Premium.");
 				set("auto-login-premium", "&aAccount Premium Rilevato. Autenticazione automatica.");
-				set("error-generic", "&cSi e'' verificato un errore.");
+				set("error-generic", "&cSi .e1. verificato un errore.");
 				set("unable", "&cE'' stato impossibile effettuare l''autenticazione automatica.");
 				set("unable-lobby", "&cE'' stato impossibile inviarti al server principale. &c(Offline? Non esiste?)");
 				set("default-login-system-switch-to-premiumlogin", "&aOra puoi autologgarti.");
@@ -523,6 +471,7 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 
         File file = new File(getDataFolder(), "config.yml");
         File file2 = new File(getDataFolder(), "players.yml");
+        File file3 = new File(getDataFolder(), "codes.yml");
 
    /*
 
@@ -583,10 +532,19 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
                 in.close();
             } catch (IOException e) {
 				e.printStackTrace();
-           	 getLogger().severe("ERR - Unable to create the players file; if you are using Linux, try to start the server using sudo.");
+           	    getLogger().severe("ERR - Unable to create the players file; if you are using Linux, try to start the server using sudo.");
 
             }
         }
+
+
+		if (!file3.exists()) {
+			try (InputStream in = getResourceAsStream("codes.yml")) {
+				Files.copy(in, file3.toPath());
+				in.close();
+			} catch (IOException e) {
+			}
+		}
 		
 		/*
 
@@ -625,7 +583,7 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 
 		 */
 		if(getProxy().getPluginManager().getPlugin("PremiumLock") != null) {
-			getLogger().warning("WARNING - Please remove PremiumLock for prevent UUID bugs.");
+			getLogger().warning("WARNING - You are using PremiumLock: This can be cause several issues.");
 		}
 		
 		try {
@@ -650,12 +608,19 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 			if (updatePacket == null) {
 				getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cAn error has occurred.");
 				getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cUnable to check for updates.");
-				return;
+				if(ConfigUtils.getConfBool("ignore-updater-error")) {
+					getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §eError ignored as set in configuration.");
+				} else {
+					return;
+				}
 			}
 			if(updatePacket.getVersion().contains("-5_D")) {
 				getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cThis plugin version is deprecated.");
 				getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cDisabling..");
 				getLogger().log(Level.WARNING, "§ePremiumLogin §8»  §7Download the newest version ( ? ) from : " + SPIGOT_MC);
+				if(ConfigUtils.getConfBool("ignore-updater-error")) {
+					getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §eThis error can't be ignored.");
+				}
 				getProxy().broadcast(new TextComponent("§7PremiumLogin is going to disable because this version is too outdated. Please update it now on SpigotMC."));
 				getProxy().getScheduler().cancel(this);
 				getProxy().getPluginManager().unregisterCommands(this);
@@ -665,6 +630,9 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 			if (updatePacket.getVersion().startsWith("-")) {
 				getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cAn error has occurred. (& exception throw)");
 				getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cUnable to check for updates.");
+				if(ConfigUtils.getConfBool("ignore-updater-error")) {
+					getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §eError ignored as set in configuration.");
+				}
 			}
 
 			if (updatePacket.isAvaliable()) {
@@ -678,6 +646,9 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 			exc.printStackTrace();
 			getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cAn error has occurred. (& exception throw)");
 			getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cUnable to check for updates.");
+			if(ConfigUtils.getConfBool("ignore-updater-error")) {
+				getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §eError ignored as set in configuration.");
+			}
 		}
 
       if(scheduleUpdater()) {
@@ -735,11 +706,11 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 
 			/*
 
-			Da rimuovere nella 1.6.5 // 1.7
+			Da rimuovere nella 1.6.6 // 1.7
 
 			 */
 
-			getLogger().info("NOTE - PremiumLogin 1.6.3 includes configuration fix, if you don't deleted configuration, please delete now and restart.");
+			getLogger().info("NOTE - PremiumLogin 1.6.5 includes configuration fix & some improvements, if you don't deleted configuration, please delete now and restart.");
 		}
 	}
 

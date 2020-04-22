@@ -4,7 +4,10 @@ package it.notreference.bungee.premiumlogin.commands;
 //import it.notreference.bungee.premiumlogin.utils.authentication.AuthType;
 //import it.notreference.bungee.premiumlogin.utils.AuthUtils;
 //import it.notreference.bungee.premiumlogin.utils.authentication.AuthenticationBuilder;
+import it.notreference.bungee.premiumlogin.PremiumLoginEventManager;
 import it.notreference.bungee.premiumlogin.PremiumLoginMain;
+import it.notreference.bungee.premiumlogin.api.SwitchType;
+import it.notreference.bungee.premiumlogin.api.events.PremiumStaffSwitchEvent;
 import it.notreference.bungee.premiumlogin.utils.ConfigUtils;
 import it.notreference.bungee.premiumlogin.utils.PluginUtils;
 //import it.notreference.bungee.premiumlogin.utils.TipoConnessione;
@@ -13,12 +16,13 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
+
 /**
  *
- * PremiumLogin 1.6.4 By NotReference
+ * PremiumLogin 1.6.5 By NotReference
  *
  * @author NotReference
- * @version 1.6.4
+ * @version 1.6.5
  * @destination BungeeCord
  *
  */
@@ -43,6 +47,11 @@ public class PremiumRemoveCmd extends Command{
 				PluginUtils.send(p, "§cThis player is not in premium list.");
 			} else {
 
+				PremiumStaffSwitchEvent event = (PremiumStaffSwitchEvent) PremiumLoginEventManager.fire(new PremiumStaffSwitchEvent(args[0], SwitchType.PREMIUMLOGINDISABLED));
+				if(event.isCancelled()) {
+					PluginUtils.send(p, "&cSorry. this action has been blocked (cancelled) from another plugin.");
+					return;
+				}
 				ConfigUtils.disablePremium(args[0]);
 				ConfigUtils.player_save();
 				ConfigUtils.player_reload();
@@ -81,6 +90,11 @@ public class PremiumRemoveCmd extends Command{
 			PluginUtils.send(p, "§cThis player is not in premium list.");
 		} else {
 
+			PremiumStaffSwitchEvent event = (PremiumStaffSwitchEvent) PremiumLoginEventManager.fire(new PremiumStaffSwitchEvent(args[0], SwitchType.PREMIUMLOGINDISABLED));
+			if(event.isCancelled()) {
+				PluginUtils.send(p, "&cSorry. this action has been blocked (cancelled) from another plugin.");
+				return;
+			}
 			ConfigUtils.disablePremium(args[0]);
 			ConfigUtils.player_save();
 			ConfigUtils.player_reload();

@@ -6,12 +6,13 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Cancellable;
 import net.md_5.bungee.api.plugin.Event;
 
+
 /**
  *
- * PremiumLogin 1.6.4 By NotReference
+ * PremiumLogin 1.6.5 By NotReference
  *
  * @author NotReference
- * @version 1.6.4
+ * @version 1.6.5
  * @destination BungeeCord
  *
  */
@@ -33,7 +34,7 @@ public class UUIDSetupEvent extends Event implements Cancellable {
     this.giocatore_con = playercon;
     }
 
-    public PendingConnection etPlayerConnection() {
+    public PendingConnection getPlayerConnection() {
         return giocatore_con;
     }
 
@@ -75,6 +76,15 @@ public class UUIDSetupEvent extends Event implements Cancellable {
       cancel = b;
     }
 
+
+    /**
+     *
+     * Deprecated: Always returns SP.
+     *
+     * @return
+     */
+
+    @Deprecated
     public SetupMethod getMethod() {
         return metodo;
     }

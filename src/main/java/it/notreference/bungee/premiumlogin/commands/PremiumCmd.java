@@ -1,5 +1,8 @@
 package it.notreference.bungee.premiumlogin.commands;
 
+import it.notreference.bungee.premiumlogin.PremiumLoginEventManager;
+import it.notreference.bungee.premiumlogin.api.SwitchType;
+import it.notreference.bungee.premiumlogin.api.events.PremiumSwitchEvent;
 import it.notreference.bungee.premiumlogin.utils.ConfigUtils;
 import it.notreference.bungee.premiumlogin.utils.PluginUtils;
 import it.notreference.bungee.premiumlogin.utils.UUIDUtils;
@@ -8,12 +11,13 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
+
 /**
  *
- * PremiumLogin 1.6.4 By NotReference
+ * PremiumLogin 1.6.5 By NotReference
  *
  * @author NotReference
- * @version 1.6.4
+ * @version 1.6.5
  * @destination BungeeCord
  *
  */
@@ -46,6 +50,11 @@ public class PremiumCmd extends Command {
 		}
 
 		if (ConfigUtils.hasPremiumAutoLogin(p.getName())) {
+
+			PremiumSwitchEvent event = (PremiumSwitchEvent) PremiumLoginEventManager.fire(new PremiumSwitchEvent(p, p.getServer().getInfo(), SwitchType.PREMIUMLOGINDISABLED));
+			if(event.isCancelled()) {
+				return;
+			}
 			try {
 				ConfigUtils.disablePremium(p.getName());
 				ConfigUtils.player_save();
@@ -57,6 +66,10 @@ public class PremiumCmd extends Command {
 			PluginUtils.send(p, ConfigUtils.getConfStr("default-login-system-switch-to-authme"));
 			p.disconnect(new TextComponent(PluginUtils.parse(ConfigUtils.getConfStr("disable-autologin"))));
 		} else {
+			PremiumSwitchEvent event = (PremiumSwitchEvent) PremiumLoginEventManager.fire(new PremiumSwitchEvent(p, p.getServer().getInfo(), SwitchType.PREMIUMLOGINENABLED));
+			if(event.isCancelled()) {
+				return;
+			}
 			ConfigUtils.enablePremium(p.getName());
 			ConfigUtils.player_save();
 			ConfigUtils.player_reload();

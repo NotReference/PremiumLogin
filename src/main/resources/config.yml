@@ -1,4 +1,4 @@
-# PremiumLogin 1.6.4 by NotReference
+# PremiumLogin 1.6.5 by NotReference
 # Configuration file:
 # - Utils -
 
@@ -14,13 +14,15 @@ setup-uuid: true
 setup-only-if-active: false
 
 # The method for setup uuids, example, parse to a premium uuid or parse to a sp uuid.
-# premium for Premium Parse
-# sp for SP Parse
+# From 1.6.5 is always SP.
 setup-method: 'sp'
 
 # Automatically send to lobby server after premium login?
 send-to-lobby: false
 lobby-server: 'Lobby'
+
+# Do you wanna ignore errors and continue the plugin load without blocking?
+ignore-update-errors: false
 
 # If you have AuthMe in all servers, change this true.
 all-servers-are-server-auth: false
@@ -50,6 +52,10 @@ auto-language: false
 language: 'it'
 
 #2:
+
+# NOTE:
+# Read the codes.yml for more info about special chars like the spanish N and how place them in messages.
+
 lock-login: '&aSuccessfully logged in with LockLogin API Support.'
 join-with-premium: '&cUnable to connect. Your session is not vaild.'
 auto-login-premium: '&aPremium account found. You are now logged in.'

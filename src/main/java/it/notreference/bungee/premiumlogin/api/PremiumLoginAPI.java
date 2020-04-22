@@ -1,20 +1,23 @@
 package it.notreference.bungee.premiumlogin.api;
 
+import it.notreference.bungee.premiumlogin.api.events.UUIDSetupEvent;
 import it.notreference.bungee.premiumlogin.utils.authentication.AuthType;
 import it.notreference.bungee.premiumlogin.utils.authentication.AuthenticationBuilder;
 import it.notreference.bungee.premiumlogin.utils.authentication.AuthenticationHandler;
 import it.notreference.bungee.premiumlogin.utils.authentication.AuthenticationKey;
 import it.notreference.bungee.premiumlogin.utils.ConfigUtils;
 import it.notreference.bungee.premiumlogin.utils.TipoConnessione;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
+
 /**
  *
- * PremiumLogin 1.6.4 By NotReference
+ * PremiumLogin 1.6.5 By NotReference
  *
  * @author NotReference
- * @version 1.6.4
+ * @version 1.6.5
  * @destination BungeeCord
  *
  */
@@ -47,6 +50,23 @@ public class PremiumLoginAPI implements LoginHandler{
 		
 	}
 
+	/**
+	 *
+	 * Returns the player of the UUIDSetupEvent
+	 *
+	 * @param event
+	 * @return null if fail or the player if success
+	 */
+	public ProxiedPlayer getPlayerFrom(UUIDSetupEvent event) {
+		try {
+
+			return ProxyServer.getInstance().getPlayer(event.getPlayerConnection().getName());
+
+		} catch(Exception exc) {
+			return null;
+		}
+	}
+
 	@Override
 	public AuthenticationKey buildSimpleKey(ProxiedPlayer p, ServerInfo info, TipoConnessione con) {
 	
@@ -66,9 +86,10 @@ public class PremiumLoginAPI implements LoginHandler{
 	}
 
 	@Override
+	@Deprecated
 	public boolean isOnlineModeAllowed() {
 	
-		return ConfigUtils.getConfBool("allow-online");
+		return false;
 	}
 
 	@Override

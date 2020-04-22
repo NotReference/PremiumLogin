@@ -34,13 +34,15 @@ import net.md_5.bungee.api.event.PreLoginEvent;
 import net.md_5.bungee.api.event.ServerConnectedEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
+import net.md_5.bungee.event.EventPriority;
+
 
 /**
  *
- * PremiumLogin 1.6.4 By NotReference
+ * PremiumLogin 1.6.5 By NotReference
  *
  * @author NotReference
- * @version 1.6.4
+ * @version 1.6.5
  * @destination BungeeCord
  *
  */
@@ -48,32 +50,23 @@ import net.md_5.bungee.event.EventHandler;
 public class Eventi implements Listener {
 
 
-	@EventHandler(priority = 7)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void connectionsetup(PreLoginEvent event) {
 		PendingConnection connection = event.getConnection();
 
 		if (ConfigUtils.hasPremiumAutoLogin(connection.getName())) {
-			connection.setOnlineMode(true);
-			PremiumLoginMain.i().logConsole("Successfully set " + connection.getName() + "'s connection to Premium.");
-		}
-	}
-
-	private final Pattern PT = Pattern.compile("^([A-Fa-f0-9]{8})([A-Fa-f0-9]{4})([A-Fa-f0-9]{4})([A-Fa-f0-9]{4})([A-Fa-f0-9]{12})$");
-
-	public String fullUUID(String uuid) {
-		try {
-			uuid = uuid.replace("-", "");
-			Matcher matcher = PT.matcher(uuid);
-			if (!matcher.matches()) {
-				return null;
+			try {
+				connection.setOnlineMode(true);
+				PremiumLoginMain.i().logConsole("Successfully set " + connection.getName() + "'s connection to Premium.");
+			} catch(Exception exc) {
+				connection.disconnect("§cUnable to join. Session server returned an invaild response. Please retry.");
+				PremiumLoginMain.i().getLogger().severe("ERROR - Unable to set " + connection.getName() + " to Premium. (Maybe sessions server offline?)");
 			}
-			return matcher.replaceAll("$1-$2-$3-$4-$5");
-		} catch(Exception exc) {
-			return null;
 		}
 	}
 
-	@EventHandler
+
+	@EventHandler (priority = EventPriority.HIGH)
 	public void entratauuidsetup(LoginEvent event) {
 
 		if(!ConfigUtils.getConfBool("setup-uuid")) {
@@ -102,32 +95,35 @@ public class Eventi implements Listener {
 			String spud = null;
 
 			if(metodo.equalsIgnoreCase("Sp")) { spud = UUIDUtils.getCrackedUUID(connection.getName()); }
-			if(metodo.equalsIgnoreCase("Premium")) { spud = fullUUID(UUIDUtils.getPremiumUUID(connection.getName())); }
 			if(spud == null) {
-				PremiumLoginMain.i().logConsole("UUID Parser: You set an invaild setup method into the configuration. So, the uuid will be parsed with default method (legacy)");
+				PremiumLoginMain.i().logConsole("UUID Parser: You set an invaild setup method into the configuration. So, the uuid will be parsed with default method.");
 				spud = UUIDUtils.getCrackedUUID(connection.getName());
 			}
 			String oldUUID = event.getConnection().getUniqueId().toString();
 			UUID nuovoUUID = UUID.fromString(spud);
+			try {
+				UUIDSetupEvent uuidEvent = PremiumLoginMain.i().getProxy().getPluginManager().callEvent(new UUIDSetupEvent(SetupMethod.SP, connection, nuovoUUID.toString(), oldUUID, 1));
+			    if(uuidEvent.isCancelled()) {
+					PremiumLoginMain.i().logConsole("WARNING - Another plugin cancelled the UUIDSetupEvent, the uuid setup has not not performed to this player.");
+					return;
+				}
+			} catch(Exception exc) {
+				PremiumLoginMain.i().logConsole("WARNING - Unable to fire the UUIDSetupEvent for API Plugins.");
+			}
 			Class<?> initialHandlerClass = connection.getClass();
 			Field uniqueIdField = initialHandlerClass.getDeclaredField("uniqueId");
 			uniqueIdField.setAccessible(true);
 			uniqueIdField.set(connection, nuovoUUID);
 			PremiumLoginMain.i().logConsole("Successfully set " + connection.getName() + "'s UUID.");
-			try {
-				PremiumLoginEventManager.fire(new UUIDSetupEvent(SetupMethod.SP, event.getConnection(), nuovoUUID.toString(), oldUUID, 1));
-			} catch(Exception exc) {
-				PremiumLoginMain.i().logConsole("WARNING - Unable to fire the UUIDSetupEvent for API Plugins.");
-			}
 		} catch (Exception exc) {
-			PremiumLoginMain.i().logConsole("Unable to setup " + connection.getName() + "'s UUID.");
 			exc.printStackTrace();
+			PremiumLoginMain.i().logConsole("Unable to setup " + connection.getName() + "'s UUID.");
 			connection.disconnect(new TextComponent("§cUnable to setup your account's UUID. Please retry."));
 			return;
 		}
 	}
 
-	@EventHandler
+	@EventHandler (priority = EventPriority.HIGH)
 	public void entrata(PostLoginEvent event) {
 		final ProxiedPlayer p = event.getPlayer();
 
