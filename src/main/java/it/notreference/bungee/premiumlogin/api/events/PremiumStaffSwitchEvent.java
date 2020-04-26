@@ -8,12 +8,13 @@ import net.md_5.bungee.api.plugin.Cancellable;
 import net.md_5.bungee.api.plugin.Event;
 
 
+
 /**
  *
- * PremiumLogin 1.6.5 By NotReference
+ * PremiumLogin 1.7 By NotReference
  *
  * @author NotReference
- * @version 1.6.5
+ * @version 1.7
  * @destination BungeeCord
  *
  */

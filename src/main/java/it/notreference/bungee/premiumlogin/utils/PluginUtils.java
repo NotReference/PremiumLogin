@@ -6,12 +6,13 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 
+
 /**
  *
- * PremiumLogin 1.6.5 By NotReference
+ * PremiumLogin 1.7 By NotReference
  *
  * @author NotReference
- * @version 1.6.5
+ * @version 1.7
  * @destination BungeeCord
  *
  */
@@ -70,19 +71,19 @@ public class PluginUtils {
 		}
 
 		if(nuovoMessaggio.contains(".o1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".i1.", "ò");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".o1.", "ò");
 		}
 
 		if(nuovoMessaggio.contains(".o2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".i2.", "ó");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".o2.", "ó");
 		}
 
 		if(nuovoMessaggio.contains(".u1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".i1.", "ù");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".u1.", "ù");
 		}
 
 		if(nuovoMessaggio.contains(".u2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".i2.", "ú");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".u2.", "ú");
 		}
 
 		p.sendMessage(new TextComponent(nuovoMessaggio));
@@ -119,19 +120,19 @@ public class PluginUtils {
 		}
 
 		if(nuovoMessaggio.contains(".o1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".i1.", "ò");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".o1.", "ò");
 		}
 
 		if(nuovoMessaggio.contains(".o2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".i2.", "ó");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".o2.", "ó");
 		}
 
 		if(nuovoMessaggio.contains(".u1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".i1.", "ù");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".u1.", "ù");
 		}
 
 		if(nuovoMessaggio.contains(".u2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".i2.", "ú");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".u2.", "ú");
 		}
 
 		c.sendMessage(new TextComponent(nuovoMessaggio));
@@ -179,19 +180,19 @@ public class PluginUtils {
 		}
 
 		if(nuovoMessaggio.contains(".o1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".i1.", "ò");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".o1.", "ò");
 		}
 
 		if(nuovoMessaggio.contains(".o2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".i2.", "ó");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".o2.", "ó");
 		}
 
 		if(nuovoMessaggio.contains(".u1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".i1.", "ù");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".u1.", "ù");
 		}
 
 		if(nuovoMessaggio.contains(".u2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".i2.", "ú");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".u2.", "ú");
 		}
 
 		return nuovoMessaggio;
@@ -228,19 +229,19 @@ public class PluginUtils {
 		}
 
 		if(nuovoMessaggio.contains(".o1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".i1.", "ò");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".o1.", "ò");
 		}
 
 		if(nuovoMessaggio.contains(".o2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".i2.", "ó");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".o2.", "ó");
 		}
 
 		if(nuovoMessaggio.contains(".u1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".i1.", "ù");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".u1.", "ù");
 		}
 
 		if(nuovoMessaggio.contains(".u2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".i2.", "ú");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".u2.", "ú");
 		}
 
 		p.sendMessage(new TextComponent(nuovoMessaggio));

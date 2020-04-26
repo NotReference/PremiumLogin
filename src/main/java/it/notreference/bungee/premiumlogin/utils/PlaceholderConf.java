@@ -4,12 +4,13 @@ import java.net.InetSocketAddress;
 import java.util.UUID;
 
 
+
 /**
  *
- * PremiumLogin 1.6.5 By NotReference
+ * PremiumLogin 1.7 By NotReference
  *
  * @author NotReference
- * @version 1.6.5
+ * @version 1.7
  * @destination BungeeCord
  *
  */

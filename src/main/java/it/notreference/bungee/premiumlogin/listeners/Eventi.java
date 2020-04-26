@@ -4,25 +4,23 @@ package it.notreference.bungee.premiumlogin.listeners;
 //import java.nio.charset.Charset;
 import java.lang.reflect.Field;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import it.notreference.bungee.premiumlogin.PremiumLoginEventManager;
 import it.notreference.bungee.premiumlogin.PremiumLoginMain;
+import it.notreference.bungee.premiumlogin.api.PremiumOnlineConnection;
 import it.notreference.bungee.premiumlogin.api.SetupMethod;
 import it.notreference.bungee.premiumlogin.api.events.PremiumJoinEvent;
 import it.notreference.bungee.premiumlogin.api.events.PremiumQuitEvent;
 import it.notreference.bungee.premiumlogin.api.events.UUIDSetupEvent;
+import it.notreference.bungee.premiumlogin.utils.*;
 import it.notreference.bungee.premiumlogin.utils.authentication.AuthenticationKey;
 import it.notreference.bungee.premiumlogin.utils.authentication.AuthType;
 import it.notreference.bungee.premiumlogin.utils.authentication.AuthenticationHandler;
 import it.notreference.bungee.premiumlogin.utils.authentication.AuthenticationBuilder;
-import it.notreference.bungee.premiumlogin.utils.ConfigUtils;
-import it.notreference.bungee.premiumlogin.utils.PluginUtils;
-import it.notreference.bungee.premiumlogin.utils.PlaceholderConf;
-import it.notreference.bungee.premiumlogin.utils.TipoConnessione;
-import it.notreference.bungee.premiumlogin.utils.UUIDUtils;
+import it.notreference.bungee.premiumlogin.utils.data.DataProvider;
+import it.notreference.bungee.premiumlogin.utils.data.PlayerData;
+import it.notreference.bungee.premiumlogin.utils.data.PlayerDataHandler;
+import it.notreference.bungee.premiumlogin.utils.data.PlayerDataManager;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.PendingConnection;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -30,19 +28,19 @@ import net.md_5.bungee.api.event.LoginEvent;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.event.PreLoginEvent;
-//import net.md_5.bungee.api.event.ServerConnectEvent;
 import net.md_5.bungee.api.event.ServerConnectedEvent;
 import net.md_5.bungee.api.plugin.Listener;
+import net.md_5.bungee.connection.InitialHandler;
 import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.event.EventPriority;
 
 
 /**
  *
- * PremiumLogin 1.6.5 By NotReference
+ * PremiumLogin 1.7 By NotReference
  *
  * @author NotReference
- * @version 1.6.5
+ * @version 1.7
  * @destination BungeeCord
  *
  */
@@ -50,24 +48,43 @@ import net.md_5.bungee.event.EventPriority;
 public class Eventi implements Listener {
 
 
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void connectionsetup(PreLoginEvent event) {
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void connectionSetup(PreLoginEvent event) {
+		if(event.isCancelled()) {
+			return;
+		}
 		PendingConnection connection = event.getConnection();
 
+		for(ProxiedPlayer player : PremiumLoginMain.i().getProxy().getPlayers()) {
+			if(!player.getName().equals(connection.getName()) && player.getAddress().equals(connection.getAddress())) {
+				connection.disconnect(new TextComponent(PluginUtils.parse(ConfigUtils.getConfStr("multiple-ips".replace("{user}", player.getName())))));
+				return;
+			}
+		}
+
 		if (ConfigUtils.hasPremiumAutoLogin(connection.getName())) {
+			if(!UUIDUtils.isPremium(connection.getName())) {
+				ConfigUtils.disablePremium(connection.getName());
+				connection.disconnect(new TextComponent("&cYou are not a Premium Player. Please rejoin. Your profile data has been refreshed."));
+				return;
+			}
 			try {
 				connection.setOnlineMode(true);
 				PremiumLoginMain.i().logConsole("Successfully set " + connection.getName() + "'s connection to Premium.");
 			} catch(Exception exc) {
-				connection.disconnect("§cUnable to join. Session server returned an invaild response. Please retry.");
+				connection.disconnect(new TextComponent("§cUnable to join. Session server returned an invaild response. Please retry."));
 				PremiumLoginMain.i().getLogger().severe("ERROR - Unable to set " + connection.getName() + " to Premium. (Maybe sessions server offline?)");
 			}
 		}
 	}
 
 
-	@EventHandler (priority = EventPriority.HIGH)
-	public void entratauuidsetup(LoginEvent event) {
+	@EventHandler (priority = EventPriority.HIGHEST)
+	public void uuidSetup(LoginEvent event) {
+
+		if(event.isCancelled()) {
+			return;
+		}
 
 		if(!ConfigUtils.getConfBool("setup-uuid")) {
 			return;
@@ -75,26 +92,33 @@ public class Eventi implements Listener {
 
 		/*
 
-		(Optional in ? config)
-		1.6.3: Now the uuid will be changed only if you have premium login activated.
-		(Optional)
+		1.7: Now the uuid will be changed only if you have premium login activated.
+
 
 		 */
 
-		if(ConfigUtils.getConfBool("setup-only-if-active")) {
+		PendingConnection connection = event.getConnection();
+
 			if(!ConfigUtils.hasPremiumAutoLogin(event.getConnection().getName())) {
 				return;
 			}
-		}
+
+			if(!connection.isOnlineMode()) {
+				return;
+			}
+
 
 		String metodo = ConfigUtils.getConfStr("setup-method");
+		if(!metodo.equalsIgnoreCase("sp"))
+		{
+			PremiumLoginMain.i().logConsole("Successfully set " + event.getConnection().getName() + "'s UUID to PREMIUM.");
+			return;
+		}
 
-		PendingConnection connection = event.getConnection();
 		try {
 
 			String spud = null;
-
-			if(metodo.equalsIgnoreCase("Sp")) { spud = UUIDUtils.getCrackedUUID(connection.getName()); }
+            spud = UUIDUtils.getCrackedUUID(connection.getName());
 			if(spud == null) {
 				PremiumLoginMain.i().logConsole("UUID Parser: You set an invaild setup method into the configuration. So, the uuid will be parsed with default method.");
 				spud = UUIDUtils.getCrackedUUID(connection.getName());
@@ -110,11 +134,13 @@ public class Eventi implements Listener {
 			} catch(Exception exc) {
 				PremiumLoginMain.i().logConsole("WARNING - Unable to fire the UUIDSetupEvent for API Plugins.");
 			}
-			Class<?> initialHandlerClass = connection.getClass();
+
+			InitialHandler handler = (InitialHandler) connection;
+			Class<?> initialHandlerClass =  handler.getClass(); //connection.getClass();
 			Field uniqueIdField = initialHandlerClass.getDeclaredField("uniqueId");
 			uniqueIdField.setAccessible(true);
 			uniqueIdField.set(connection, nuovoUUID);
-			PremiumLoginMain.i().logConsole("Successfully set " + connection.getName() + "'s UUID.");
+			PremiumLoginMain.i().logConsole("Successfully set " + connection.getName() + "'s UUID to SP.");
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			PremiumLoginMain.i().logConsole("Unable to setup " + connection.getName() + "'s UUID.");
@@ -123,17 +149,67 @@ public class Eventi implements Listener {
 		}
 	}
 
-	@EventHandler (priority = EventPriority.HIGH)
-	public void entrata(PostLoginEvent event) {
+	@EventHandler (priority = EventPriority.NORMAL)
+	public void onJoin(PostLoginEvent event) {
 		final ProxiedPlayer p = event.getPlayer();
+
+		/*
+
+		Coming Soon!
+
+		 */
+		/*
+		boolean continueCode1 = false;
+
+		PlayerDataHandler handler = DataProvider.get(PlayerDataManager.class);
+
+		if(!handler.init()) {
+
+			if(!ConfigUtils.getConfBool("ignore-data-errors")) {
+
+				p.disconnect(new TextComponent(PluginUtils.parse(ConfigUtils.getConfStr("unable-data-init"))));
+				return;
+
+			} else {
+
+				continueCode1 = true;
+
+			}
+
+		}
+
+		if(!continueCode1) {
+			if (handler.exists(p.getName())) {
+
+				if(!handler.scanData(p.getName())) {
+					//data corrupt
+					return;
+				} else {
+
+					PlayerData playerData = handler.loadData(p.getName());
+					if (playerData == null) {
+						//kick null error data
+					}
+				}
+			} else {
+
+				//Creiamo la data.
+
+			}
+		}
+		 */
+
 
 
 		//1.2 - Now event is async.
 		//1.2 - Fixed console spam.
+
 		PremiumLoginMain.i().getProxy().getScheduler().runAsync(PremiumLoginMain.i(), new Runnable() {
 
 			@Override
 			public void run() {
+
+
 				try {
 					if (!ConfigUtils.hasPremiumAutoLogin(p)) {
 						return;
@@ -151,10 +227,10 @@ public class Eventi implements Listener {
 								PluginUtils.logStaff(ConfigUtils.getConfStr("try-join-nopremium"), c);
 								p.disconnect(new TextComponent(PluginUtils.parse(ConfigUtils.getConfStr("join-with-premium"))));
 							} else if (!UUIDUtils.isPremiumConnectionLegacy(p) && UUIDUtils.isPremiumConnection(p)) {
-								PremiumLoginEventManager.fire(new PremiumJoinEvent(p, p.getName(), p.getUniqueId(), p.getAddress(), TipoConnessione.NOTLEGACY));
+								PremiumLoginEventManager.fire(new PremiumJoinEvent(p, p.getName(), p.getUniqueId(), p.getAddress(), ConnectionType.NOTLEGACY));
 								AuthenticationKey key = new AuthenticationBuilder()
 										.setName(p.getName())
-										.setConnectionType(TipoConnessione.NOTLEGACY)
+										.setConnectionType(ConnectionType.NOTLEGACY)
 										.setPlayer(p)
 										.setUUID(p.getUniqueId())
 										.setServer(p.getServer().getInfo())
@@ -164,10 +240,10 @@ public class Eventi implements Listener {
 									PluginUtils.send(p, ConfigUtils.getConfStr("unable"));
 								}
 							} else if (UUIDUtils.isPremiumConnectionLegacy(p) && !UUIDUtils.isPremiumConnection(p)) {
-								PremiumLoginEventManager.fire(new PremiumJoinEvent(p, p.getName(), p.getUniqueId(), p.getAddress(), TipoConnessione.LEGACY));
+								PremiumLoginEventManager.fire(new PremiumJoinEvent(p, p.getName(), p.getUniqueId(), p.getAddress(), ConnectionType.LEGACY));
 								AuthenticationKey key = new AuthenticationBuilder()
 										.setName(p.getName())
-										.setConnectionType(TipoConnessione.LEGACY)
+										.setConnectionType(ConnectionType.LEGACY)
 										.setPlayer(p)
 										.setUUID(p.getUniqueId())
 										.setServer(p.getServer().getInfo())
@@ -187,10 +263,10 @@ public class Eventi implements Listener {
 								PluginUtils.logStaff(ConfigUtils.getConfStr("try-join-nopremium"), c);
 								p.disconnect(new TextComponent(ConfigUtils.getConfStr("join-with-premium")));
 							} else if (UUIDUtils.isPremiumConnection(p) && !p.getPendingConnection().isLegacy()) {
-								PremiumLoginEventManager.fire(new PremiumJoinEvent(p, p.getName(), p.getUniqueId(), p.getAddress(), TipoConnessione.NOTLEGACY));
+								PremiumLoginEventManager.fire(new PremiumJoinEvent(p, p.getName(), p.getUniqueId(), p.getAddress(), ConnectionType.NOTLEGACY));
 								AuthenticationKey key = new AuthenticationBuilder()
 										.setName(p.getName())
-										.setConnectionType(TipoConnessione.NOTLEGACY)
+										.setConnectionType(ConnectionType.NOTLEGACY)
 										.setPlayer(p)
 										.setUUID(p.getUniqueId())
 										.setServer(p.getServer().getInfo())
@@ -232,9 +308,17 @@ public class Eventi implements Listener {
 						return;
 					} else if (!UUIDUtils.isPremiumConnectionLegacy(p) && UUIDUtils.isPremiumConnection(p)) {
 						//1
+
+						if(PremiumLoginMain.i().isPremiumConnected(p.getName())) {
+
+                       p.disconnect(new TextComponent(PluginUtils.parse(ConfigUtils.getConfStr("2-sessions-kick"))));
+                       return;
+
+						}
+
 						AuthenticationKey key = new AuthenticationBuilder()
 								.setName(p.getName())
-								.setConnectionType(TipoConnessione.LEGACY)
+								.setConnectionType(ConnectionType.LEGACY)
 								.setPlayer(p)
 								.setUUID(p.getUniqueId())
 								.setServer(event.getServer().getInfo())
@@ -245,9 +329,17 @@ public class Eventi implements Listener {
 						}
 					} else if (UUIDUtils.isPremiumConnectionLegacy(p) && !UUIDUtils.isPremiumConnection(p)) {
 						//1
+
+						if(PremiumLoginMain.i().isPremiumConnected(p.getName())) {
+
+							p.disconnect(new TextComponent(PluginUtils.parse(ConfigUtils.getConfStr("2-sessions-kick"))));
+							return;
+
+						}
+
 						AuthenticationKey key = new AuthenticationBuilder()
 								.setName(p.getName())
-								.setConnectionType(TipoConnessione.LEGACY)
+								.setConnectionType(ConnectionType.LEGACY)
 								.setPlayer(p)
 								.setUUID(p.getUniqueId())
 								.setServer(event.getServer().getInfo())
@@ -270,9 +362,17 @@ public class Eventi implements Listener {
 						return;
 					} else if (UUIDUtils.isPremiumConnection(p) && !p.getPendingConnection().isLegacy()) {
 						//1
+
+						if(PremiumLoginMain.i().isPremiumConnected(p.getName())) {
+
+							p.disconnect(new TextComponent(PluginUtils.parse(ConfigUtils.getConfStr("2-sessions-kick"))));
+							return;
+
+						}
+
 						AuthenticationKey key = new AuthenticationBuilder()
 								.setName(p.getName())
-								.setConnectionType(TipoConnessione.NOTLEGACY)
+								.setConnectionType(ConnectionType.NOTLEGACY)
 								.setPlayer(p)
 								.setUUID(p.getUniqueId())
 								.setServer(event.getServer().getInfo())
@@ -303,9 +403,16 @@ public class Eventi implements Listener {
 						return;
 					} else if (!UUIDUtils.isPremiumConnectionLegacy(p) && UUIDUtils.isPremiumConnection(p)) {
 						//1
+						if(PremiumLoginMain.i().isPremiumConnected(p.getName())) {
+
+							p.disconnect(new TextComponent(PluginUtils.parse(ConfigUtils.getConfStr("2-sessions-kick"))));
+							return;
+
+						}
+
 						AuthenticationKey key = new AuthenticationBuilder()
 								.setName(p.getName())
-								.setConnectionType(TipoConnessione.LEGACY)
+								.setConnectionType(ConnectionType.LEGACY)
 								.setPlayer(p)
 								.setUUID(p.getUniqueId())
 								.setServer(event.getServer().getInfo())
@@ -316,9 +423,17 @@ public class Eventi implements Listener {
 						}
 					} else if (UUIDUtils.isPremiumConnectionLegacy(p) && !UUIDUtils.isPremiumConnection(p)) {
 						//1
+
+						if(PremiumLoginMain.i().isPremiumConnected(p.getName())) {
+
+							p.disconnect(new TextComponent(PluginUtils.parse(ConfigUtils.getConfStr("2-sessions-kick"))));
+							return;
+
+						}
+
 						AuthenticationKey key = new AuthenticationBuilder()
 								.setName(p.getName())
-								.setConnectionType(TipoConnessione.LEGACY)
+								.setConnectionType(ConnectionType.LEGACY)
 								.setPlayer(p)
 								.setUUID(p.getUniqueId())
 								.setServer(event.getServer().getInfo())
@@ -339,9 +454,17 @@ public class Eventi implements Listener {
 						p.disconnect(new TextComponent(ConfigUtils.getConfStr("join-with-premium")));
 					} else if (UUIDUtils.isPremiumConnection(p) && !p.getPendingConnection().isLegacy()) {
 						//1
+
+						if(PremiumLoginMain.i().isPremiumConnected(p.getName())) {
+
+							p.disconnect(new TextComponent(PluginUtils.parse(ConfigUtils.getConfStr("2-sessions-kick"))));
+							return;
+
+						}
+
 						AuthenticationKey key = new AuthenticationBuilder()
 								.setName(p.getName())
-								.setConnectionType(TipoConnessione.NOTLEGACY)
+								.setConnectionType(ConnectionType.NOTLEGACY)
 								.setPlayer(p)
 								.setUUID(p.getUniqueId())
 								.setServer(event.getServer().getInfo())
@@ -360,8 +483,15 @@ public class Eventi implements Listener {
 
 	@EventHandler
 	public void uscita(PlayerDisconnectEvent event) {
-		if (ConfigUtils.hasPremiumAutoLogin(event.getPlayer().getName()))
+		if (ConfigUtils.hasPremiumAutoLogin(event.getPlayer().getName())) {
+			PremiumLoginMain.i().getProxy().getScheduler().runAsync(PremiumLoginMain.i(), () -> {
+				for (PremiumOnlineConnection con : PremiumLoginMain.i().getPremiumConnections()) {
+					if (con.getPlayerName().equals(event.getPlayer().getName()))
+						PremiumLoginMain.i().removeConnection(con);
+				}
+			});
 			PremiumLoginEventManager.fire(new PremiumQuitEvent(event.getPlayer()));
+		}
 	}
 
 

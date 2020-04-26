@@ -1,4 +1,4 @@
-# PremiumLogin 1.6.5 by NotReference
+# PremiumLogin 1.7 by NotReference
 # Configuration file:
 # - Utils -
 
@@ -11,11 +11,12 @@ auth-server: 'Auth'
 setup-uuid: true
 
 # Setup uuids only if that player activated /premium? This can help for fix permissions bugs or whitelist bugs.
-setup-only-if-active: false
+# From (1.7) always true
 
 # The method for setup uuids, example, parse to a premium uuid or parse to a sp uuid.
-# From 1.6.5 is always SP.
-setup-method: 'sp'
+# SP or PREMUM.
+# If you wanna to keep data use SP (LuckPerms can be bugged) or if you don't have LuckPerms you can switch this to SP.
+setup-method: 'premium'
 
 # Automatically send to lobby server after premium login?
 send-to-lobby: false
@@ -23,6 +24,13 @@ lobby-server: 'Lobby'
 
 # Do you wanna ignore errors and continue the plugin load without blocking?
 ignore-update-errors: false
+
+# Should we kick premium players with 2 sessions?
+kick-on-2-sessions: true
+
+# Ignore PlayerData errors and allow player to join without loaded data?
+# Coming Soon.
+# ignore-data-errors: false
 
 # If you have AuthMe in all servers, change this true.
 all-servers-are-server-auth: false
@@ -56,12 +64,15 @@ language: 'it'
 # NOTE:
 # Read the codes.yml for more info about special chars like the spanish N and how place them in messages.
 
-lock-login: '&aSuccessfully logged in with LockLogin API Support.'
 join-with-premium: '&cUnable to connect. Your session is not vaild.'
 auto-login-premium: '&aPremium account found. You are now logged in.'
+auto-register: '&aPremium account found. You have been automatically registered with password: {passw}'
+change-auto-register: '&eChange now the password with /changepassword {passw} {passw}!'
 error-generic: '&cAn error has occurred.'
+2-sessions-kick: '&cUnable to join. You have already started a local session.'
 unable: '&cUnable to login.'
 unable-lobby: '&cUnable to send you to the lobby server.'
+unable-data-init: '&cUnable to initialize the data handler for get your data. Please rejoin.'
 default-login-system-switch-to-premiumlogin: '&aYour default login system has been switched to PremiumLogin.'
 default-login-system-switch-to-authme: '&aYour disabled autologin.'
 enabled-autologin: '&aYou can now autologin with premium account.'
@@ -71,6 +82,11 @@ no-legacy: '&cUnable to join. Legacy is not allowed.'
 not-used-premium-launcher: '&cFor enable this function, you need to be logged from the official &cMinecraft Premium Launcher.'
 no-perms: '&cYou do not have permissions.'
 staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.'
+multiple-ips: '&cYou are already logged in as {user}. You cannot join with same IPs.'
+minecraft-net-fail: '&cUnable to authenticate with Minecraft.net. Please retry.'
+# data-error: '&cUnable to load your data. Please rejoin or contact a staffer.'
+# data-broken: '&cUnable to load your data: Your data seems to be corrupted.'
+# data-refresh: '&eYour data has been refreshed. Please rejoin.'
 
 # - Log Messages -
 #[utente] for user name.

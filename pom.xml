@@ -6,7 +6,7 @@
 
     <groupId>it.notreference.bungee.premiumlogin</groupId>
     <artifactId>PremiumLoginFixedOfficial</artifactId>
-    <version>1.7-BETA4</version>
+    <version>PRE1.7</version>
     <build>
         <plugins>
             <plugin>
@@ -19,6 +19,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>

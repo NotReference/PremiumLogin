@@ -6,25 +6,39 @@ import it.notreference.bungee.premiumlogin.PremiumLoginEventManager;
 import it.notreference.bungee.premiumlogin.PremiumLoginMain;
 import it.notreference.bungee.premiumlogin.api.events.PremiumAutologinEvent;
 import it.notreference.bungee.premiumlogin.utils.*;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.config.ListenerInfo;
 import net.md_5.bungee.api.config.ServerInfo;
+import net.md_5.bungee.api.connection.PendingConnection;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 
+import java.net.InetSocketAddress;
+import java.util.UUID;
 
 
 /**
  *
- * PremiumLogin 1.6.5 By NotReference
+ * PremiumLogin 1.7 By NotReference
  *
  * @author NotReference
- * @version 1.6.5
+ * @version 1.7
  * @destination BungeeCord
  *
  */
 
 public class AuthenticationHandler {
+
+
+	protected static void error(String msg) {
+		PremiumLoginMain.i().getLogger().severe("( AuthenticationHandler ) - ERROR - " + msg);
+	}
+
+	protected static void info(String infoMsg) {
+		PremiumLoginMain.i().getLogger().info("( AuthenticationHandler ) - INFO - " + infoMsg);
+	}
 
 	/**
 	 *
@@ -41,24 +55,24 @@ public class AuthenticationHandler {
 		}
 
 		if (!UUIDUtils.isPremium(p)) {
-			PluginUtils.logConsole("[err] nopremium_user: " + p.getName());
+			error("Unable to perform premium login to: " + p.getName() + ", this player isn't premium.");
 			return 2;
 		}
 
-		if (key.getConType() == TipoConnessione.LEGACY) {
+		if (key.getConType() == ConnectionType.LEGACY) {
 
 			if (!ConfigUtils.allowLegacy()) {
-				PluginUtils.logConsole("[err=>[nolegacy]] connectionblock_user: " + p.getName());
+			    error("Legacy not allowed. I have blocked PremiumLogin for " + p.getName());
 				return 7;
 			}
 			if (!UUIDUtils.isPremiumConnectionLegacy(p) && !UUIDUtils.isPremiumConnection(p)) {
-				PluginUtils.logConsole("[err] no_launcher_user: " + p.getName());
+				error("No Online Mode: " + p.getName() + ". Login not performed.");
 				return 4;
 			}
 		} else {
 
 			if (!UUIDUtils.isPremiumConnection(p)) {
-				PluginUtils.logConsole("[err] no_launcher_user: " + p.getName());
+				error("No Online Mode: " + p.getName() + ". Login not performed.");
 				return 4;
 			}
 		}
@@ -72,11 +86,11 @@ public class AuthenticationHandler {
 		1.4: Checking LockLogin Hook.
 
 		 */
-		PluginUtils.logConsole("[check] checking locklogin..");
+	    info("Checking LockLogin Status..");
 		if (PremiumLoginMain.i().isHooked("LockLogin")) {
 			LockLoginBungee lockLogin = (LockLoginBungee) PremiumLoginMain.i().getProxy().getPluginManager().getPlugin("LockLogin");
-			PluginUtils.logConsole("[locklogin] hooked into locklogin.");
-			PluginUtils.logConsole("[action] forcelogging (user= " + p.getName() + ")");
+			info("Hooked into LockLogin!");
+		    info("Performing auto login to: " + p.getName());
 			try {
 				String version = lockLogin.getDescription().getVersion().replaceAll("[aA-zZ]", "").replace(".", "");
 				/*
@@ -88,18 +102,19 @@ public class AuthenticationHandler {
 				 */
 				if (Integer.parseInt(version) >= 218) {
 					PlayerAPI api = new PlayerAPI(p);
-					api.setLogged(true, ConfigUtils.getConfStr("lock-login"));
+					api.setLogged(true);
 				} else {
 					PlayerAPI api = new PlayerAPI(lockLogin, p);
-					api.setLogged(true, ConfigUtils.getConfStr("lock-login"));
+					api.setLogged(true);
 					PluginUtils.logConsole("[PremiumLogin - LockLogin] WARNING: You are using an old version of LockLogin ( " + lockLogin.getDescription().getVersion() + " )");
 					PluginUtils.logConsole("[PremiumLogin - LockLogin] Download the latest version from https://www.spigotmc.org/resources/gsa-locklogin.75156/");
 				}
 				PluginUtils.sendParseColors(p, ConfigUtils.getConfStr("auto-login-premium"));
-				PluginUtils.logConsole("[[premium:forcelogin] donelogin_user: " + p.getName());
+			   info("Successfully logged in: user = " + p.getName());
 				PluginUtils.logConsole(p.getName() + " has been forcelogged (premium mode).");
 				PluginUtils.logStaff(ConfigUtils.getConfStr("user-forcelogged"), new PlaceholderConf(p.getName(), p.getUniqueId(), p.getAddress().getHostName()));
 				PremiumLoginEventManager.fire(new PremiumAutologinEvent(p, p.getName(), p.getPendingConnection(), p.getUniqueId(), key));
+				PremiumLoginMain.i().handleConnectionAsync(p.getName(), UUIDUtils.isPremiumConnectionLegacy(p), p.getUniqueId().toString(), p.getAddress().getHostString(), true, LoginPlugin.LOCKLOGIN);
 				if(ConfigUtils.getConfBool("send-to-lobby")) {
 
 					try {
@@ -124,7 +139,7 @@ public class AuthenticationHandler {
 		}
 
 
-		PluginUtils.logConsole("[action] forcelogging (user= " + p.getName() + ") using AuthMeAPI.");
+		info("Performing auto login to: " + p.getName());
 		try {
 			ByteArrayDataOutput out = ByteStreams.newDataOutput();
 			out.writeUTF("AuthMe.v2");
@@ -144,12 +159,13 @@ public class AuthenticationHandler {
 			} catch(Exception exc) {
 				PluginUtils.logConsole("The specifed auth server is invaild.");
 			}
-			PluginUtils.logConsole("[[premium:forcelogin] donelogin_user: " + p.getName());
+			info("Successfully logged in: user = " + p.getName());
 			if (key.getAuthType() == AuthType.AUTO) {
 				PluginUtils.logConsole(p.getName() + " has been forcelogged (premium mode).");
 				PluginUtils.sendParseColors(p, PremiumLoginMain.i().getConfig().getString("auto-login-premium"));
 				PluginUtils.logStaff(ConfigUtils.getConfStr("user-forcelogged"), new PlaceholderConf(p.getName(), p.getUniqueId(), p.getAddress().getHostName()));
 				PremiumLoginEventManager.fire(new PremiumAutologinEvent(p, p.getName(), p.getPendingConnection(), p.getUniqueId(), key));
+				PremiumLoginMain.i().handleConnectionAsync(p.getName(), UUIDUtils.isPremiumConnectionLegacy(p), p.getUniqueId().toString(), p.getAddress().getHostString(), true, LoginPlugin.AUTHME);
 				if(ConfigUtils.getConfBool("send-to-lobby")) {
 
 					try {

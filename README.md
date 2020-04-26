@@ -4,7 +4,7 @@ Autologin premium players easily and safely.
 # Works with:
 AuthMe, LockLogin
 
--> This plugin needs AuthMe or LockLogin to work.
+This plugin needs AuthMe or LockLogin to work.
 
 If you use AUTHME, type "bungeecord: true" into authme's config and spigot config.
 
@@ -23,6 +23,7 @@ You can choose the AuthServer for do the autologin only into the specifed server
 - /premiumlookup (player) - Get other player informations. (Requires: premiumlogin.staff)
 - /premiumadd (player) - Add a player to premium players list. (Requires: premiumlogin.staff)
 - /premiumremove (player) - Removes a player to premium players list. (Requires: premiumlogin.staff)
+- /premiumlist - Provide a list with all premium autologged in players. (Requires: premiumlogin.list)
 
 # Features
 - Allow / Block Old legacy premium connections.

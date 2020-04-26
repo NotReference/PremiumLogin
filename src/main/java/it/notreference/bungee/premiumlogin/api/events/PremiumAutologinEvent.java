@@ -2,7 +2,7 @@ package it.notreference.bungee.premiumlogin.api.events;
 
 import it.notreference.bungee.premiumlogin.utils.authentication.AuthType;
 import it.notreference.bungee.premiumlogin.utils.authentication.AuthenticationKey;
-import it.notreference.bungee.premiumlogin.utils.TipoConnessione;
+import it.notreference.bungee.premiumlogin.utils.ConnectionType;
 
 import java.util.UUID;
 
@@ -14,10 +14,10 @@ import net.md_5.bungee.api.plugin.Event;
 
 /**
  *
- * PremiumLogin 1.6.5 By NotReference
+ * PremiumLogin 1.7 By NotReference
  *
  * @author NotReference
- * @version 1.6.5
+ * @version 1.7
  * @destination BungeeCord
  *
  */
@@ -43,7 +43,7 @@ public class PremiumAutologinEvent extends Event //implements PremiumLoginEvent
 		return authkey.getAuthType();
 	}
 	
-	public TipoConnessione getConnectionType() {
+	public ConnectionType getConnectionType() {
 		return authkey.getConType();
 	}
 	

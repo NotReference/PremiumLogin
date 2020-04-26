@@ -4,48 +4,47 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.github.karmaconfigs.Bungee.API.PlayerAPI;
 import it.notreference.bungee.premiumlogin.api.PremiumLoginUpdate;
-import it.notreference.bungee.premiumlogin.commands.PremiumAddCmd;
-import it.notreference.bungee.premiumlogin.commands.PremiumCmd;
-import it.notreference.bungee.premiumlogin.commands.PremiumLoginCmd;
-import it.notreference.bungee.premiumlogin.commands.PremiumLookUpCmd;
-import it.notreference.bungee.premiumlogin.commands.PremiumReloadCmd;
-import it.notreference.bungee.premiumlogin.commands.PremiumRemoveCmd;
+import it.notreference.bungee.premiumlogin.api.PremiumOnlineBuilder;
+import it.notreference.bungee.premiumlogin.api.PremiumOnlineConnection;
+import it.notreference.bungee.premiumlogin.commands.*;
 import it.notreference.bungee.premiumlogin.listeners.Eventi;
 //import it.notreference.bungee.premiumlogin.utils.AuthUtils;
 
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.util.Base64;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 import it.notreference.bungee.premiumlogin.utils.ConfigUtils;
+import it.notreference.bungee.premiumlogin.utils.LoginPlugin;
+import it.notreference.bungee.premiumlogin.utils.data.PlayerDataHandler;
+import it.notreference.bungee.premiumlogin.utils.data.PlayerDataManager;
+import it.notreference.bungee.premiumlogin.utils.files.DataLoader;
+import it.notreference.bungee.premiumlogin.utils.files.PremiumLoginFilesUtils;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.connection.PendingConnection;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
-import net.md_5.bungee.api.scheduler.ScheduledTask;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 
 /**
  *
- * PremiumLogin 1.6.5 By NotReference
+ * PremiumLogin 1.7 By NotReference
  *
  * @author NotReference
- * @version 1.6.5
+ * @version 1.7
  * @destination BungeeCord
  *
  */
 
 public class PremiumLoginMain extends Plugin {
-
 
 	private static PremiumLoginMain in;
 	private Configuration configuration;
@@ -53,11 +52,15 @@ public class PremiumLoginMain extends Plugin {
 	private boolean locklogin = false;
 	private boolean setupconfigfix = false;
 	private File tempFile;
-	private String ver = "1.6.5";
-	private String apiVersion = "16-5";
-	private PLConfiguration configManager;
+	private String ver = "1.7";
+	private String apiVersion = "17";
+	private PremiumLoginFilesUtils configManager;
 	private String currentConfigPath = "";
 	private String SPIGOT_MC = "https://www.spigotmc.org/resources/premiumlogin.76336/";
+	private boolean luckperms = false;
+	private Map<Class<? extends PlayerDataHandler>, PlayerDataHandler> handlers;
+
+	private List<PremiumOnlineConnection> premiumConnections;
 
 	/*
 
@@ -327,6 +330,25 @@ public class PremiumLoginMain extends Plugin {
 		return ver;
 	}
 
+
+	/**
+	 *
+	 * contains but IgnoringCases
+	 *
+	 * @param content
+	 * @param target
+	 * @return true if contains, false if not
+	 */
+	public boolean containsIgnoreCase(String target, String content) {
+		content = content.toLowerCase();
+		target = target.toLowerCase();
+		if(target.contains(content)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	/**
 	 *
 	 * Alias of ConfigUtils.set(..);
@@ -373,7 +395,6 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 			String lcode = ConfigUtils.getConfStr("language");
 			if(lcode.equalsIgnoreCase("it")) {
 
-				set("lock-login", "&cAutenticazione effettuata utilizzando la API di LockLogin.");
 				set("join-with-premium", "&cLa tua sessione non .e1. valida. Entra con il tuo account Premium.");
 				set("auto-login-premium", "&aAccount Premium Rilevato. Autenticazione automatica.");
 				set("error-generic", "&cSi .e1. verificato un errore.");
@@ -395,7 +416,6 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 			}
 			if(lcode.equalsIgnoreCase("en")) {
 
-				set("lock-login", "&aSuccessfully logged in with LockLogin API Support.");
 				set("join-with-premium", "&cUnable to connect. Your session is not vaild.");
 				set("auto-login-premium", "&aPremium account found. You are now logged in.");
 				set("error-generic", "&cAn error has occurred.");
@@ -417,8 +437,7 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 			}
 			if(lcode.equalsIgnoreCase("es")) {
 
-				set("lock-login", "&aAutenticado usando la API de LockLogin.");
-				set("join-with-premium", "&cSu sesión parece no ser válida. Inicie sesión con su cuenta premium.");
+				set("join-with-premium", "&cSu sesión parece no ser válida. Inicia sesión con su cuenta premium.");
 				set("auto-login-premium", "&aCuenta premium detectada. Autenticación automática");
 				set("error-generic", "&cHa ocurrido un error.");
 				set("unable", "&cHa ocurrido un error mientras te estabas autenticando.");
@@ -445,6 +464,104 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 
 	/**
 	 *
+	 *  Builds a new PremiumOnlineConnection.
+	 *
+	 */
+	public void handleConnectionAsync(String playerName, boolean isLegacy, String playerUUID, String playerAddress, boolean isOnline, LoginPlugin loginPlugin) {
+
+		getProxy().getScheduler().runAsync(this, () -> {
+			if (!isOnline) {
+				return;
+			}
+
+			PremiumOnlineConnection conPacket = new PremiumOnlineBuilder()
+					.setLegacy(isLegacy)
+					.setSession(randomSID(playerName, playerUUID, playerAddress, loginPlugin.toString()))
+					.setUser(playerName)
+					.setUUID(playerUUID)
+					.buildConnection();
+
+			for (PremiumOnlineConnection con : premiumConnections) {
+				if (!conPacket.compare(con)) {
+					return;
+				}
+			}
+
+			premiumConnections.add(conPacket);
+
+
+		});
+	}
+
+	/**
+	 *
+	 * Returns all player connections.
+	 *
+	 * @return
+	 */
+	public List<PremiumOnlineConnection> getPremiumConnections() {
+		return new ArrayList<PremiumOnlineConnection>(premiumConnections);
+	}
+
+	/**
+	 * Returns if a player is connected.
+	 *
+	 *
+	 * @param playerName
+	 *
+	 */
+	public boolean isPremiumConnected(String playerName) {
+
+		for(PremiumOnlineConnection con: premiumConnections) {
+   if(con.getPlayerName() == playerName) {
+   	return true;
+   }
+		}
+       return false;
+	}
+
+	/**
+	 *
+	 * Removes a connection.
+	 *
+	 * @param connection
+	 */
+	public void removeConnection(PremiumOnlineConnection connection) {
+		if(!premiumConnections.contains(connection)) {
+			return;
+		}
+		premiumConnections.remove(connection);
+	}
+
+	protected String randomSID(String playerName, String playerUUID, String playerIP, String loginPlugin) {
+		byte[] bytes = new byte[15];
+		Random random = new Random();
+		random.nextBytes(bytes);
+		byte[] random2 = new byte[10];
+		random.nextBytes(random2);
+		String encodedBytes = base64_encode(new String(bytes));
+		String loginPl = base64_encode(loginPlugin.toLowerCase());
+		String sid = loginPl + encodedBytes + base64_encode(playerUUID) + base64_encode("premiumLogin17") + base64_encode(new String(random2)) + base64_encode(playerIP) + base64_encode(playerName);
+		return sid;
+	}
+
+	/**
+	 *
+	 * Returns a new data handler
+	 *
+	 * @param classe
+	 * @param <T>
+	 * @return
+	 */
+	public <T> T newDataHandler(Class<?> classe) {
+
+		return (T) handlers.get(classe);
+
+	}
+
+
+	/**
+	 *
 	 * Converts a string to an input stream.
 	 *
 	 * @param e the string
@@ -457,10 +574,11 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 	@Override
 	public void onEnable() {
 
-		configManager = new PLConfiguration(this);
+		configManager = new PremiumLoginFilesUtils(this);
 		if(configManager.deleteAllTempFiles()) {
 			getLogger().info("INFO - All temp files have been deleted.");
 		}
+		handlers = new HashMap<>();
 		/*
 
 		Dir setup...
@@ -472,6 +590,7 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
         File file = new File(getDataFolder(), "config.yml");
         File file2 = new File(getDataFolder(), "players.yml");
         File file3 = new File(getDataFolder(), "codes.yml");
+        File file4 = new File(getDataFolder(), "playerdata.yml");
 
    /*
 
@@ -538,6 +657,17 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
         }
 
 
+		if (!file4.exists()) {
+			//try (InputStream in = getResourceAsStream("playerdata.yml")) {
+			//	Files.copy(in, file2.toPath());
+				//in.close();
+			//} catch (IOException e) {
+				//e.printStackTrace();
+				//getLogger().severe("ERR - Unable to create the player data file; if you are using Linux, try to start the server using sudo.");
+
+			//}
+		}
+
 		if (!file3.exists()) {
 			try (InputStream in = getResourceAsStream("codes.yml")) {
 				Files.copy(in, file3.toPath());
@@ -601,55 +731,54 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 
 		 */
 		getLogger().log(Level.INFO, "§ePremiumLogin §8» §2Checking for updates..");
+			try {
 
-		try {
-
-			PremiumLoginUpdate updatePacket = checkForUpdates();
-			if (updatePacket == null) {
-				getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cAn error has occurred.");
-				getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cUnable to check for updates.");
-				if(ConfigUtils.getConfBool("ignore-updater-error")) {
-					getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §eError ignored as set in configuration.");
-				} else {
+				PremiumLoginUpdate updatePacket = checkForUpdates();
+				if (updatePacket == null) {
+					getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cAn error has occurred.");
+					getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cUnable to check for updates.");
+					if (ConfigUtils.getConfBool("ignore-updater-error")) {
+						getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §eError ignored as set in configuration.");
+					} else {
+						return;
+					}
+				}
+				if (updatePacket.getVersion().contains("-5_D")) {
+					getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cThis plugin version is deprecated.");
+					getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cDisabling..");
+					getLogger().log(Level.WARNING, "§ePremiumLogin §8»  §7Download the newest version ( ? ) from : " + SPIGOT_MC);
+					if (ConfigUtils.getConfBool("ignore-updater-error")) {
+						getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §eThis error can't be ignored.");
+					}
+					getProxy().broadcast(new TextComponent("§7PremiumLogin is going to disable because this version is too outdated. Please update it now on SpigotMC."));
+					getProxy().getScheduler().cancel(this);
+					getProxy().getPluginManager().unregisterCommands(this);
+					getProxy().getPluginManager().unregisterListeners(this);
 					return;
 				}
-			}
-			if(updatePacket.getVersion().contains("-5_D")) {
-				getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cThis plugin version is deprecated.");
-				getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cDisabling..");
-				getLogger().log(Level.WARNING, "§ePremiumLogin §8»  §7Download the newest version ( ? ) from : " + SPIGOT_MC);
-				if(ConfigUtils.getConfBool("ignore-updater-error")) {
-					getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §eThis error can't be ignored.");
+				if (updatePacket.getVersion().startsWith("-")) {
+					getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cAn error has occurred. (& exception throw)");
+					getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cUnable to check for updates.");
+					if (ConfigUtils.getConfBool("ignore-updater-error")) {
+						getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §eError ignored as set in configuration.");
+					}
 				}
-				getProxy().broadcast(new TextComponent("§7PremiumLogin is going to disable because this version is too outdated. Please update it now on SpigotMC."));
-				getProxy().getScheduler().cancel(this);
-				getProxy().getPluginManager().unregisterCommands(this);
-				getProxy().getPluginManager().unregisterListeners(this);
-				return;
-			}
-			if (updatePacket.getVersion().startsWith("-")) {
+
+				if (updatePacket.isAvaliable()) {
+					getLogger().log(Level.WARNING, "§ePremiumLogin §8» §cYou are running an older version of PremiumLogin ( " + ver + " )");
+					getLogger().log(Level.WARNING, "§ePremiumLogin §8»  §7Download the newest version ( " + updatePacket.getVersion() + " ) from : " + SPIGOT_MC);
+				} else {
+					getLogger().log(Level.INFO, "§ePremiumLogin §8» §2You are running the latest version of PremiumLogin! ^^ ( " + ver + " )");
+				}
+
+			} catch (Exception exc) {
+				exc.printStackTrace();
 				getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cAn error has occurred. (& exception throw)");
 				getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cUnable to check for updates.");
-				if(ConfigUtils.getConfBool("ignore-updater-error")) {
+				if (ConfigUtils.getConfBool("ignore-updater-error")) {
 					getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §eError ignored as set in configuration.");
 				}
 			}
-
-			if (updatePacket.isAvaliable()) {
-				getLogger().log(Level.WARNING, "§ePremiumLogin §8» §cYou are running an older version of PremiumLogin ( " + ver + " )");
-				getLogger().log(Level.WARNING, "§ePremiumLogin §8»  §7Download the newest version ( " + updatePacket.getVersion() + " ) from : " + SPIGOT_MC);
-			} else {
-				getLogger().log(Level.INFO, "§ePremiumLogin §8» §2You are running the latest version of PremiumLogin! ^^ ( " + ver + " )");
-			}
-
-		} catch(Exception exc) {
-			exc.printStackTrace();
-			getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cAn error has occurred. (& exception throw)");
-			getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cUnable to check for updates.");
-			if(ConfigUtils.getConfBool("ignore-updater-error")) {
-				getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §eError ignored as set in configuration.");
-			}
-		}
 
       if(scheduleUpdater()) {
 
@@ -659,6 +788,8 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
       	getLogger().severe("ERROR - Unable to schedule the updater!");
 	  }
 
+       premiumConnections = new ArrayList<PremiumOnlineConnection>();
+
 		try {
 			getProxy().getPluginManager().registerListener(this, new Eventi());
 			getProxy().getPluginManager().registerCommand(this, new PremiumCmd());
@@ -667,6 +798,7 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 			getProxy().getPluginManager().registerCommand(this, new PremiumReloadCmd());
 			getProxy().getPluginManager().registerCommand(this, new PremiumAddCmd());
 			getProxy().getPluginManager().registerCommand(this, new PremiumRemoveCmd());
+			getProxy().getPluginManager().registerCommand(this, new PremiumListCmd());
 		} catch(Exception exc) {
 			getLogger().severe("ERROR - Unable to enable the plugin. Please retry. Disabling...");
 			return;
@@ -681,7 +813,8 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 
 		getProxy().registerChannel("BungeeCord");
 
-		
+		//handlers.put(PlayerDataManager.class, new PlayerDataManager(this, new DataLoader(configManager, new File(getDataFolder(), "playerdata.yml"))));
+
 		//LockLogin API Support (1.4)
 		if(getProxy().getPluginManager().getPlugin("LockLogin") != null) {
 			locklogin = true;
@@ -706,11 +839,11 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 
 			/*
 
-			Da rimuovere nella 1.6.6 // 1.7
+			Da rimuovere nella  1.7.1
 
 			 */
 
-			getLogger().info("NOTE - PremiumLogin 1.6.5 includes configuration fix & some improvements, if you don't deleted configuration, please delete now and restart.");
+			getLogger().info("NOTE - PremiumLogin 1.7 includes configuration fix ,some improvements and new features, if you don't deleted configuration, please delete now and restart.");
 		}
 	}
 
@@ -724,6 +857,9 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 	public boolean isHooked(String pluginName) {
 		if(pluginName.equalsIgnoreCase("locklogin")) {
 			return locklogin;
+		}
+		if(pluginName.equalsIgnoreCase("luckperms")) {
+			return luckperms;
 		}
 		
 		return false;

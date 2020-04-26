@@ -2,17 +2,18 @@ package it.notreference.bungee.premiumlogin.utils.authentication;
 
 import java.util.UUID;
 
-import it.notreference.bungee.premiumlogin.utils.TipoConnessione;
+import it.notreference.bungee.premiumlogin.utils.ConnectionType;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 
+
 /**
  *
- * PremiumLogin 1.6.5 By NotReference
+ * PremiumLogin 1.7 By NotReference
  *
  * @author NotReference
- * @version 1.6.5
+ * @version 1.7
  * @destination BungeeCord
  *
  */
@@ -23,10 +24,10 @@ public class AuthenticationKey {
 	private ProxiedPlayer prp;
 	private ServerInfo cur;
 	private String nome;
-	private TipoConnessione c;
+	private ConnectionType c;
 	private AuthType td;
 	
-	public AuthenticationKey(UUID uuid, ProxiedPlayer p, ServerInfo currentServer, String name, TipoConnessione con, AuthType t) {
+	public AuthenticationKey(UUID uuid, ProxiedPlayer p, ServerInfo currentServer, String name, ConnectionType con, AuthType t) {
 		nome = name;
 		ud = uuid;
 		prp = p;
@@ -43,7 +44,7 @@ public class AuthenticationKey {
 		return nome;
 	}
 	
-	public TipoConnessione getConType() {
+	public ConnectionType getConType() {
 		return c;
 	}
 	

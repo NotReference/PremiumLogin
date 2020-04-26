@@ -1,5 +1,7 @@
 package it.notreference.bungee.premiumlogin.utils;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import it.notreference.bungee.premiumlogin.PremiumLoginMain;
 
 import java.net.URL;
@@ -10,12 +12,13 @@ import net.md_5.bungee.api.connection.PendingConnection;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 
+
 /**
  *
- * PremiumLogin 1.6.5 By NotReference
+ * PremiumLogin 1.7 By NotReference
  *
  * @author NotReference
- * @version 1.6.5
+ * @version 1.7
  * @destination BungeeCord
  *
  */
@@ -80,7 +83,8 @@ public class UUIDUtils {
 			Scanner scanner = new Scanner(url.openStream());
 			String line = scanner.nextLine();
 			scanner.close();
-			return line.split("\"")[3];
+			JsonObject obj = new Gson().fromJson(line, JsonObject.class);
+			return obj.get("id").getAsString();
 		} catch (Exception ex) {
 			return "UNABLE_O_NO_PREMIUM";
 		}

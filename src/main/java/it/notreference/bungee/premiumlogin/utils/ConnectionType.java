@@ -1,4 +1,4 @@
-package it.notreference.bungee.premiumlogin.utils.authentication;
+package it.notreference.bungee.premiumlogin.utils;
 
 
 
@@ -12,9 +12,6 @@ package it.notreference.bungee.premiumlogin.utils.authentication;
  *
  */
 
-@Deprecated
-public enum AuthType {
-
-	AUTO
-	
+public enum ConnectionType {
+ LEGACY, NOTLEGACY
 }

@@ -1,5 +1,4 @@
-package it.notreference.bungee.premiumlogin.utils.authentication;
-
+package it.notreference.bungee.premiumlogin.utils.files;
 
 
 /**
@@ -12,9 +11,8 @@ package it.notreference.bungee.premiumlogin.utils.authentication;
  *
  */
 
-@Deprecated
-public enum AuthType {
+public enum OS {
 
-	AUTO
-	
+    WIN, LINUX, MAC, UNKNOWN
+
 }

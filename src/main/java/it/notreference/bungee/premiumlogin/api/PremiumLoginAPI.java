@@ -6,18 +6,19 @@ import it.notreference.bungee.premiumlogin.utils.authentication.AuthenticationBu
 import it.notreference.bungee.premiumlogin.utils.authentication.AuthenticationHandler;
 import it.notreference.bungee.premiumlogin.utils.authentication.AuthenticationKey;
 import it.notreference.bungee.premiumlogin.utils.ConfigUtils;
-import it.notreference.bungee.premiumlogin.utils.TipoConnessione;
+import it.notreference.bungee.premiumlogin.utils.ConnectionType;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 
+
 /**
  *
- * PremiumLogin 1.6.5 By NotReference
+ * PremiumLogin 1.7 By NotReference
  *
  * @author NotReference
- * @version 1.6.5
+ * @version 1.7
  * @destination BungeeCord
  *
  */
@@ -68,7 +69,7 @@ public class PremiumLoginAPI implements LoginHandler{
 	}
 
 	@Override
-	public AuthenticationKey buildSimpleKey(ProxiedPlayer p, ServerInfo info, TipoConnessione con) {
+	public AuthenticationKey buildSimpleKey(ProxiedPlayer p, ServerInfo info, ConnectionType con) {
 	
 		return new AuthenticationBuilder()
 		              .setAuthType(AuthType.AUTO)
