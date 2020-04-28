@@ -1,0 +1,28 @@
+# PremiumLoginSpigot by NotReference.
+# Spigot configuration.
+#
+# NOTES:
+# Requirements:
+# ProtocolLib - https://www.spigotmc.org/resources/protocollib.1997/
+# MinecraftOnlineAuthenticator - https://www.spigotmc.org/resources/minecraftonlineauthenticator.78008/
+log-staff: true
+misc:
+  setup-uuid: true
+  premium-permission: 'null'
+  force-command-on-login: 'null'
+  auto-register-premium-players: false
+messages:
+  auto-login-premium: '&aPremium account found. You are now logged in.'
+  auto-register: '&aPremium account found. You have been automatically registered with password: {passw}'
+  change-auto-register: '&eChange now the password with /changepassword {passw} {passw}!'
+  error-generic: '&cAn error has occurred.'
+  unable: '&cUnable to login.'
+  enabled-autologin: '&aYou can now autologin with premium account.'
+  disable-autologin: '&aYou disabled autologin with premium account.'
+  no-premium: '&cYou are not premium.'
+  no-perms: '&cYou do not have permissions.'
+  minecraft-net-fail: '&cUnable to authenticate with Minecraft.net. Please retry.'
+staff-log:
+  user-login: '{user} &7is now §apremium auto logged in&7 because is §ePremium&7!'
+  user-fail: '&7Failed to apply online mode to user: &f{user}'
+

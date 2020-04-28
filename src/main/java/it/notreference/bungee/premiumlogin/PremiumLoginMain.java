@@ -36,10 +36,10 @@ import net.md_5.bungee.config.YamlConfiguration;
 
 /**
  *
- * PremiumLogin 1.7 By NotReference
+ * PremiumLogin 1.7.1 By NotReference
  *
  * @author NotReference
- * @version 1.7
+ * @version 1.7.1
  * @destination BungeeCord
  *
  */
@@ -843,7 +843,7 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 
 			 */
 
-			getLogger().info("NOTE - PremiumLogin 1.7 includes configuration fix ,some improvements and new features, if you don't deleted configuration, please delete now and restart.");
+			//getLogger().info("NOTE - PremiumLogin 1.7.1 includes configuration fix ,some improvements and new features, if you don't deleted configuration, please delete now and restart.");
 		}
 	}
 

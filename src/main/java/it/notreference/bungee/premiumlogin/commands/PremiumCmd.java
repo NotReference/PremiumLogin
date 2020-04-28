@@ -53,7 +53,7 @@ public class PremiumCmd extends Command {
 
 			PremiumSwitchEvent event = (PremiumSwitchEvent) PremiumLoginEventManager.fire(new PremiumSwitchEvent(p, p.getServer().getInfo(), SwitchType.PREMIUMLOGINDISABLED));
 			if(event.isCancelled()) {
-				return;
+				//return;
 			}
 			try {
 				ConfigUtils.disablePremium(p.getName());

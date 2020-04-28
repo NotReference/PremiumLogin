@@ -1,0 +1,14 @@
+name: PremiumLoginSpigot
+main: it.notreference.spigot.premiumlogin.PremiumLoginSpigot
+author: NotReference
+softdepend: [MinecraftOnlineAuthenticator, ProtocolLib]
+version: 1.7
+commands:
+  premium:
+    description: Enables or disable the premium login.
+  premiumlogin:
+    description: Shows my nickname.
+  premiumlist:
+    description: Shows all premium logged in players.
+  premiumreload:
+    description: Reloads the configuration and player data.

@@ -84,7 +84,7 @@ public class UUIDUtils {
 			String line = scanner.nextLine();
 			scanner.close();
 			JsonObject obj = new Gson().fromJson(line, JsonObject.class);
-			return obj.get("id").getAsString();
+		    return obj.get("id").getAsString();
 		} catch (Exception ex) {
 			return "UNABLE_O_NO_PREMIUM";
 		}

@@ -43,7 +43,8 @@ public class PremiumLoginCmd extends Command{
 		if(ConfigUtils.getConfBool("disable-informations")) {
 			return;
 		}
-		
+
+		/*
 		PluginUtils.send(p, "§7Your informations:");
 		if(UUIDUtils.isPremium(p)) {
 		PluginUtils.send(p, "§7Premium:§a Yes");
@@ -60,7 +61,8 @@ public class PremiumLoginCmd extends Command{
 		} else {
 			PluginUtils.send(p, "§7Default login system: §eAuthMe");
 		}
-		
+		*/
+
 	}
 	
 }

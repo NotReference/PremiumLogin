@@ -45,11 +45,13 @@ public class PremiumSwitchEvent extends Event implements Cancellable {
     }
 
     @Override
+    @Deprecated
     public boolean isCancelled() {
         return cancel;
     }
 
     @Override
+    @Deprecated
     public void setCancelled(boolean b) {
      cancel = b;
     }
