@@ -3,15 +3,17 @@ package it.notreference.bungee.premiumlogin.utils.data;
 import it.notreference.bungee.premiumlogin.utils.data.PlayerData;
 
 
+
 /**
  *
- * PremiumLogin 1.7 By NotReference
+ * PremiumLogin 1.7.1 By NotReference
  *
  * @author NotReference
- * @version 1.7
+ * @version 1.7.1
  * @destination BungeeCord
  *
  */
+
 
 public  interface PlayerDataHandler {
 

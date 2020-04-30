@@ -7,15 +7,17 @@ import net.md_5.bungee.api.plugin.Cancellable;
 import net.md_5.bungee.api.plugin.Event;
 
 
+
 /**
  *
- * PremiumLogin 1.7 By NotReference
+ * PremiumLogin 1.7.1 By NotReference
  *
  * @author NotReference
- * @version 1.7
+ * @version 1.7.1
  * @destination BungeeCord
  *
  */
+
 
 public class UUIDSetupEvent extends Event implements Cancellable {
 
@@ -67,11 +69,13 @@ public class UUIDSetupEvent extends Event implements Cancellable {
     }
 
     @Override
+    @Deprecated
     public boolean isCancelled() {
         return cancel;
     }
 
     @Override
+    @Deprecated
     public void setCancelled(boolean b) {
       cancel = b;
     }

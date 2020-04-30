@@ -18,15 +18,17 @@ import net.md_5.bungee.api.plugin.Command;
 
 
 
+
 /**
  *
- * PremiumLogin 1.7 By NotReference
+ * PremiumLogin 1.7.1 By NotReference
  *
  * @author NotReference
- * @version 1.7
+ * @version 1.7.1
  * @destination BungeeCord
  *
  */
+
 
 public class PremiumRemoveCmd extends Command{
 
@@ -48,11 +50,6 @@ public class PremiumRemoveCmd extends Command{
 				PluginUtils.send(p, "§cThis player is not in premium list.");
 			} else {
 
-				PremiumStaffSwitchEvent event = (PremiumStaffSwitchEvent) PremiumLoginEventManager.fire(new PremiumStaffSwitchEvent(args[0], SwitchType.PREMIUMLOGINDISABLED));
-				if(event.isCancelled()) {
-					PluginUtils.send(p, "&cSorry. this action has been blocked (cancelled) from another plugin.");
-					return;
-				}
 				ConfigUtils.disablePremium(args[0]);
 				ConfigUtils.player_save();
 				ConfigUtils.player_reload();
@@ -91,11 +88,6 @@ public class PremiumRemoveCmd extends Command{
 			PluginUtils.send(p, "§cThis player is not in premium list.");
 		} else {
 
-			PremiumStaffSwitchEvent event = (PremiumStaffSwitchEvent) PremiumLoginEventManager.fire(new PremiumStaffSwitchEvent(args[0], SwitchType.PREMIUMLOGINDISABLED));
-			if(event.isCancelled()) {
-				PluginUtils.send(p, "&cSorry. this action has been blocked (cancelled) from another plugin.");
-				return;
-			}
 			ConfigUtils.disablePremium(args[0]);
 			ConfigUtils.player_save();
 			ConfigUtils.player_reload();

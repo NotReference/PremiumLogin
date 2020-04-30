@@ -1,11 +1,11 @@
 package it.notreference.spigot.premiumlogin.auth;
 
 import fr.xephi.authme.api.v3.AuthMeApi;
-import io.github.karmaconfigs.Spigot.API.PlayerAPI;
 import it.notreference.minecraftauth.auth.MinecraftEncryptionUtils;
 import it.notreference.spigot.premiumlogin.PremiumLoginSpigot;
 import it.notreference.spigot.premiumlogin.utils.Messages;
 import it.notreference.spigot.premiumlogin.utils.PLSpigotFiles;
+import ml.karmaconfigs.LockLogin.Spigot.API.PlayerAPI;
 import org.bukkit.entity.Player;
 
 import java.security.SecureRandom;

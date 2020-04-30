@@ -10,15 +10,17 @@ import net.md_5.bungee.api.plugin.Command;
 
 
 
+
 /**
  *
- * PremiumLogin 1.7 By NotReference
+ * PremiumLogin 1.7.1 By NotReference
  *
  * @author NotReference
- * @version 1.7
+ * @version 1.7.1
  * @destination BungeeCord
  *
  */
+
 
 public class PremiumLoginCmd extends Command{
 
@@ -26,7 +28,7 @@ public class PremiumLoginCmd extends Command{
 		super("premiumlogin");
 	}
 
-	private static String by = "§7This server is using §bPremiumLogin 1.7 §7by §eNotReference§7.";
+	private static String by = "§7This server is using §bPremiumLogin 1.7.1  §7by §eNotReference§7.";
 
 	
 	@Override

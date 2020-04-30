@@ -19,6 +19,18 @@ import net.md_5.bungee.api.plugin.Event;
  *
  */
 
+/*
+
+This event will be never fired from the 1.7.1
+
+ */
+
+/**
+ *
+ * @deprecated
+ *
+  */
+@Deprecated
 public class PremiumStaffSwitchEvent extends Event implements Cancellable {
 
     private String player;

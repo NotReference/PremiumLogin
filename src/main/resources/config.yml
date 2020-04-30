@@ -1,4 +1,4 @@
-# PremiumLogin 1.7 by NotReference
+# PremiumLogin 1.7.1 by NotReference
 # Configuration file:
 # - Utils -
 
@@ -42,19 +42,8 @@ premium-permission: 'nessuno'
 
 # - Messages -
 
-# Set automatically messages into the specifed language on plugin load?
-# Supported Languages:
-# it - Italiano
-# es - Espanol
-# en - English
-# If you provide an invaild language, messages language will be replaced with following messages's language: (see #2)
-# Auto Language is in BETA.
-auto-language: false
-language: 'it'
-
-#2:
-
 # NOTE:
+# Auto language has been removed due to messages issues.
 # Read the codes.yml for more info about special chars like the spanish N and how place them in messages.
 
 join-with-premium: '&cUnable to connect. Your session is not vaild.'

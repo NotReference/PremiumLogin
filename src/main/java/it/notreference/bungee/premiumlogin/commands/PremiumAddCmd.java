@@ -20,15 +20,17 @@ import net.md_5.bungee.api.plugin.Command;
 
 
 
+
 /**
  *
- * PremiumLogin 1.7 By NotReference
+ * PremiumLogin 1.7.1 By NotReference
  *
  * @author NotReference
- * @version 1.7
+ * @version 1.7.1
  * @destination BungeeCord
  *
  */
+
 
 public class PremiumAddCmd extends Command{
 
@@ -58,11 +60,6 @@ public class PremiumAddCmd extends Command{
 						return;
 					}
 
-					PremiumStaffSwitchEvent event = (PremiumStaffSwitchEvent) PremiumLoginEventManager.fire(new PremiumStaffSwitchEvent(args[0], SwitchType.PREMIUMLOGINENABLED));
-					if(event.isCancelled()) {
-						PluginUtils.send(p, "&cSorry. this action has been blocked (cancelled) from another plugin.");
-						return;
-					}
 					ConfigUtils.enablePremium(args[0]);
 					ConfigUtils.player_save();
 					ConfigUtils.player_reload();
@@ -109,11 +106,6 @@ public class PremiumAddCmd extends Command{
 					return;
 				}
 
-				PremiumStaffSwitchEvent event = (PremiumStaffSwitchEvent) PremiumLoginEventManager.fire(new PremiumStaffSwitchEvent(args[0], SwitchType.PREMIUMLOGINENABLED));
-				if(event.isCancelled()) {
-					PluginUtils.send(p, "&cSorry. this action has been blocked (cancelled) from another plugin.");
-					return;
-				}
 				ConfigUtils.enablePremium(args[0]);
 				ConfigUtils.player_save();
 				ConfigUtils.player_reload();

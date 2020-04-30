@@ -1,11 +1,11 @@
 package it.notreference.bungee.premiumlogin.utils.authentication;
 
-import io.github.karmaconfigs.Bungee.API.PlayerAPI;
-import io.github.karmaconfigs.Bungee.LockLoginBungee;
 import it.notreference.bungee.premiumlogin.PremiumLoginEventManager;
 import it.notreference.bungee.premiumlogin.PremiumLoginMain;
 import it.notreference.bungee.premiumlogin.api.events.PremiumAutologinEvent;
 import it.notreference.bungee.premiumlogin.utils.*;
+import ml.karmaconfigs.LockLogin.BungeeCord.API.PlayerAPI;
+import ml.karmaconfigs.LockLogin.BungeeCord.LockLoginBungee;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.config.ListenerInfo;
 import net.md_5.bungee.api.config.ServerInfo;
@@ -19,15 +19,17 @@ import java.net.InetSocketAddress;
 import java.util.UUID;
 
 
+
 /**
  *
- * PremiumLogin 1.7 By NotReference
+ * PremiumLogin 1.7.1 By NotReference
  *
  * @author NotReference
- * @version 1.7
+ * @version 1.7.1
  * @destination BungeeCord
  *
  */
+
 
 public class AuthenticationHandler {
 
@@ -84,31 +86,18 @@ public class AuthenticationHandler {
 		/*
 
 		1.4: Checking LockLogin Hook.
+		1.7.1: New API.
 
 		 */
 	    info("Checking LockLogin Status..");
+	    info("Note: Using LockLogin 3.0.2 New API!");
 		if (PremiumLoginMain.i().isHooked("LockLogin")) {
 			LockLoginBungee lockLogin = (LockLoginBungee) PremiumLoginMain.i().getProxy().getPluginManager().getPlugin("LockLogin");
 			info("Hooked into LockLogin!");
 		    info("Performing auto login to: " + p.getName());
 			try {
-				String version = lockLogin.getDescription().getVersion().replaceAll("[aA-zZ]", "").replace(".", "");
-				/*
-
-				LockLogin 2.1.8 implemented new API.
-				The minimum required version is 2.1.8 (218)
-				(In 1.6.2 was 215)
-
-				 */
-				if (Integer.parseInt(version) >= 218) {
-					PlayerAPI api = new PlayerAPI(p);
-					api.setLogged(true);
-				} else {
-					PlayerAPI api = new PlayerAPI(lockLogin, p);
-					api.setLogged(true);
-					PluginUtils.logConsole("[PremiumLogin - LockLogin] WARNING: You are using an old version of LockLogin ( " + lockLogin.getDescription().getVersion() + " )");
-					PluginUtils.logConsole("[PremiumLogin - LockLogin] Download the latest version from https://www.spigotmc.org/resources/gsa-locklogin.75156/");
-				}
+				PlayerAPI api = new PlayerAPI(p);
+				api.setLogged(true);
 				PluginUtils.sendParseColors(p, ConfigUtils.getConfStr("auto-login-premium"));
 			   info("Successfully logged in: user = " + p.getName());
 				PluginUtils.logConsole(p.getName() + " has been forcelogged (premium mode).");

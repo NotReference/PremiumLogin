@@ -2,7 +2,6 @@ package it.notreference.bungee.premiumlogin;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import io.github.karmaconfigs.Bungee.API.PlayerAPI;
 import it.notreference.bungee.premiumlogin.api.PremiumLoginUpdate;
 import it.notreference.bungee.premiumlogin.api.PremiumOnlineBuilder;
 import it.notreference.bungee.premiumlogin.api.PremiumOnlineConnection;
@@ -26,6 +25,7 @@ import it.notreference.bungee.premiumlogin.utils.data.PlayerDataHandler;
 import it.notreference.bungee.premiumlogin.utils.data.PlayerDataManager;
 import it.notreference.bungee.premiumlogin.utils.files.DataLoader;
 import it.notreference.bungee.premiumlogin.utils.files.PremiumLoginFilesUtils;
+import ml.karmaconfigs.LockLogin.BungeeCord.API.PlayerAPI;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.PendingConnection;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -52,8 +52,8 @@ public class PremiumLoginMain extends Plugin {
 	private boolean locklogin = false;
 	private boolean setupconfigfix = false;
 	private File tempFile;
-	private String ver = "1.7";
-	private String apiVersion = "17";
+	private String ver = "1.7.1";
+	private String apiVersion = "17-1";
 	private PremiumLoginFilesUtils configManager;
 	private String currentConfigPath = "";
 	private String SPIGOT_MC = "https://www.spigotmc.org/resources/premiumlogin.76336/";
@@ -184,7 +184,14 @@ public class PremiumLoginMain extends Plugin {
 	 */
     public PremiumLoginUpdate checkForUpdates() throws IOException {
     	try {
-			URL url = new URL("https://blackgriefing.com/api/v3/premiumlogin/?checkUpdate=" + apiVersion);
+
+    		/*
+
+    		New api (v4)
+
+    		 */
+
+			URL url = new URL("https://blackgriefing.com/api/v4/premiumlogin/?checkUpdate=" + apiVersion);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("GET");
 			con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36");
@@ -387,10 +394,19 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 		 */
 
 
-		if(ConfigUtils.getConfStr("auto-language") == null || !ConfigUtils.getConfBool("auto-language")) {
-			return;
-		}
+		/*
 
+		1.7.1: Bye bye autolanguage.
+
+		 */
+		return;
+
+
+	//	if(ConfigUtils.getConfStr("auto-language") == null || !ConfigUtils.getConfBool("auto-language")) {
+		//	return;
+		//}
+
+		/*
 		if(ConfigUtils.getConfBool("auto-language")) {
 			String lcode = ConfigUtils.getConfStr("language");
 			if(lcode.equalsIgnoreCase("it")) {
@@ -459,6 +475,8 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 
 			logConsole("Invaild language code: " + lcode + ". Using default config messages..");
 		}
+        */
+
 
 	}
 
@@ -839,11 +857,11 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 
 			/*
 
-			Da rimuovere nella  1.7.1
+			Da rimuovere nella  1.7.2
 
 			 */
 
-			//getLogger().info("NOTE - PremiumLogin 1.7.1 includes configuration fix ,some improvements and new features, if you don't deleted configuration, please delete now and restart.");
+			getLogger().info("NOTE - PremiumLogin 1.7.1 includes configuration fix ,some improvements and new features, if you don't deleted configuration, please delete now and restart.");
 		}
 	}
 

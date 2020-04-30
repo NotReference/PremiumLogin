@@ -2,7 +2,7 @@ name: PremiumLoginSpigot
 main: it.notreference.spigot.premiumlogin.PremiumLoginSpigot
 author: NotReference
 softdepend: [MinecraftOnlineAuthenticator, ProtocolLib]
-version: 1.7
+version: 1.7.1
 commands:
   premium:
     description: Enables or disable the premium login.

@@ -37,13 +37,14 @@ import net.md_5.bungee.event.EventPriority;
 
 /**
  *
- * PremiumLogin 1.7 By NotReference
+ * PremiumLogin 1.7.1 By NotReference
  *
  * @author NotReference
- * @version 1.7
+ * @version 1.7.1
  * @destination BungeeCord
  *
  */
+
 
 public class Eventi implements Listener {
 
@@ -127,10 +128,6 @@ public class Eventi implements Listener {
 			UUID nuovoUUID = UUID.fromString(spud);
 			try {
 				UUIDSetupEvent uuidEvent = PremiumLoginMain.i().getProxy().getPluginManager().callEvent(new UUIDSetupEvent(SetupMethod.SP, connection, nuovoUUID.toString(), oldUUID, 1));
-			    if(uuidEvent.isCancelled()) {
-					PremiumLoginMain.i().logConsole("WARNING - Another plugin cancelled the UUIDSetupEvent, the uuid setup has not not performed to this player.");
-					return;
-				}
 			} catch(Exception exc) {
 				PremiumLoginMain.i().logConsole("WARNING - Unable to fire the UUIDSetupEvent for API Plugins.");
 			}
