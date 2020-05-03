@@ -28,7 +28,7 @@ public class PremiumLoginCmd extends Command{
 		super("premiumlogin");
 	}
 
-	private static String by = "§7This server is using §bPremiumLogin 1.7.1  §7by §eNotReference§7.";
+	private static String by = "§7This server is using §bPremiumLogin 1.7.2  §7by §eNotReference§7.";
 
 	
 	@Override

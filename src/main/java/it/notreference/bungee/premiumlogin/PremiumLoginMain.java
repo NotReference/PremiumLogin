@@ -52,9 +52,10 @@ public class PremiumLoginMain extends Plugin {
 	private boolean locklogin = false;
 	private boolean setupconfigfix = false;
 	private File tempFile;
-	private String ver = "1.7.1";
-	private String apiVersion = "17-1";
+	private String ver = "1.7.2";
+	private String apiVersion = "17-2";
 	private PremiumLoginFilesUtils configManager;
+	private boolean ab = false;
 	private String currentConfigPath = "";
 	private String SPIGOT_MC = "https://www.spigotmc.org/resources/premiumlogin.76336/";
 	private boolean luckperms = false;
@@ -840,6 +841,12 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 			getLogger().info("HOOK - Hooked into LockLogin successfully!");
 		}
 
+		if(getProxy().getPluginManager().getPlugin("AuthMeBungee") != null) {
+			ab = true;
+			getLogger().info("HOOK - AuthMeBungee Found..");
+			getLogger().info("HOOK - Hooked into AuthMeBungee successfully!");
+		}
+
 		/*
 
 		^^
@@ -857,11 +864,11 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 
 			/*
 
-			Da rimuovere nella  1.7.2
+			Da rimuovere nella  1.7.3
 
 			 */
 
-			getLogger().info("NOTE - PremiumLogin 1.7.1 includes configuration fix ,some improvements and new features, if you don't deleted configuration, please delete now and restart.");
+			getLogger().info("NOTE - PremiumLogin 1.7.2 includes configuration fix ,some improvements and new features, if you don't deleted configuration, please delete now and restart.");
 		}
 	}
 
@@ -876,8 +883,8 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 		if(pluginName.equalsIgnoreCase("locklogin")) {
 			return locklogin;
 		}
-		if(pluginName.equalsIgnoreCase("luckperms")) {
-			return luckperms;
+		if(pluginName.equalsIgnoreCase("authmebungee")) {
+			return ab;
 		}
 		
 		return false;

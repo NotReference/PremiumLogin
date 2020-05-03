@@ -56,10 +56,12 @@ public class Eventi implements Listener {
 		}
 		PendingConnection connection = event.getConnection();
 
-		for(ProxiedPlayer player : PremiumLoginMain.i().getProxy().getPlayers()) {
+		for(ProxiedPlayer player : PremiumLoginMain.i().getProxy().getPlayers())  {
 			if(!player.getName().equals(connection.getName()) && player.getAddress().equals(connection.getAddress())) {
-				connection.disconnect(new TextComponent(PluginUtils.parse(ConfigUtils.getConfStr("multiple-ips".replace("{user}", player.getName())))));
-				return;
+				if(ConfigUtils.getConfBool("2-sessions-kick")) {
+					connection.disconnect(new TextComponent(PluginUtils.parse(ConfigUtils.getConfStr("multiple-ips".replace("{user}", player.getName())))));
+					return;
+				}
 			}
 		}
 

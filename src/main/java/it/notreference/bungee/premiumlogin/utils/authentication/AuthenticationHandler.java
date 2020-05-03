@@ -1,5 +1,6 @@
 package it.notreference.bungee.premiumlogin.utils.authentication;
 
+import com.google.common.collect.Iterables;
 import it.notreference.bungee.premiumlogin.PremiumLoginEventManager;
 import it.notreference.bungee.premiumlogin.PremiumLoginMain;
 import it.notreference.bungee.premiumlogin.api.events.PremiumAutologinEvent;
@@ -137,6 +138,8 @@ public class AuthenticationHandler {
 			try {
 				key.playerServer().sendData("BungeeCord", out.toByteArray());
 				p.getServer().sendData("BungeeCord", out.toByteArray());
+				simulateAuthMeBungeeLogin(key.playerServer(), "login", p.getName().toLowerCase());
+				simulateAuthMeBungeeLogin(p.getServer().getInfo(), "login", p.getName().toLowerCase());
 			} catch(Exception exc) {
 
 				PluginUtils.logConsole("The player server is invaild.");
@@ -178,4 +181,38 @@ public class AuthenticationHandler {
 			return 6;
 		}
 	}
+
+
+
+	/**
+	 *
+	 * Simulates an authmebungee login.
+	 *
+	 */
+	protected static void simulateAuthMeBungeeLogin(ServerInfo server, String... data) {
+
+		if(PremiumLoginMain.i().isHooked("AuthMeBungee")) {
+
+			try {
+				final ByteArrayDataOutput out = ByteStreams.newDataOutput();
+				out.writeUTF("Forward");
+				out.writeUTF("ONLINE");
+				out.writeUTF("AuthMe.v2.Broadcast");
+				final ByteArrayDataOutput dataOut = ByteStreams.newDataOutput();
+				for (final String element : data) {
+					dataOut.writeUTF(element);
+				}
+				final byte[] dataBytes = dataOut.toByteArray();
+				out.writeShort(dataBytes.length);
+				out.write(dataBytes);
+				server.sendData("BungeeCord", out.toByteArray());
+				PremiumLoginMain.i().logConsole("AuthMeBungee Login Request Successfully Sent.");
+			} catch(Exception exc) {
+				PremiumLoginMain.i().getLogger().severe("Unable to perform AuthMeBungee Login Request.");
+			}
+		}
+
+	}
+
+
 }
