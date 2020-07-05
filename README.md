@@ -2,18 +2,13 @@
 Autologin premium players easily and safely. 
 
 # Works with:
-AuthMe, LockLogin
+AuthMe (5.5.0+) and LockLogin (3.0.0+)
 
-This plugin needs AuthMe or LockLogin to work.
-
-If you use AUTHME, type "bungeecord: true" into authme's config and spigot config.
-
-# Note
-Download new versions always for bug fixes and new features..
+# BungeeCord
+Remember to enable AuthMe Bungee Mode to allow PremiumLogin to communicate with the plugin.
 
 # Config
-Messages are fully customizables.
-You can choose the AuthServer for do the autologin only into the specifed server and much more like stafflog, allow legacy connections, allow online mode, custom permission to use premium..
+You can customize every option.
 
 # Commands
 
@@ -29,18 +24,16 @@ You can choose the AuthServer for do the autologin only into the specifed server
 - Allow / Block Old legacy premium connections.
 - Instant AutoLogin Premium Players On Join.
 - Staff Log.
-- Set an auth server for autologin only in the specifed server.
+- Set an auth server for autologin only in that specifed server.
 - Set that all servers can be auth servers.
 - Set a custom permission to use /premium.
 - /premium can be enabled and disabled.
-- Players which typed /premium will be locked and protected from sp players.
-- Safely.
+- Players which typed /premium will be locked and protected from sp (cracked) connections. 
 - Automatic skin detection.
 - Automatic UUID setup.
-- Developer API
-- Custom Events
-- Send to lobby after Login. (Optional)
+- Developer API.
+- Custom Events.
 - Custom Updater (Fetch every 7 minutes) to stay always up-to-date.
 
 # Bugs
-For report bugs please open a ticket in Issues. Thanks.
+If you have an issue or you caught a bug, please open a ticket in Issues. Thanks.
