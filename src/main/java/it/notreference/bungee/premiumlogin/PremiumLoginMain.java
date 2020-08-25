@@ -192,7 +192,7 @@ public class PremiumLoginMain extends Plugin {
 
     		 */
 
-			URL url = new URL("https://blackgriefing.com/api/v4/premiumlogin/?checkUpdate=" + apiVersion);
+			URL url = new URL("https://blackdevelopers.eu/api/v4/premiumlogin/?checkUpdate=" + apiVersion);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("GET");
 			con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36");
@@ -284,39 +284,39 @@ public class PremiumLoginMain extends Plugin {
 			getProxy().getScheduler().schedule(this, () -> {
 
 
-				getLogger().log(Level.INFO, "§ePremiumLogin §8» §2Checking for updates..");
+				getLogger().log(Level.INFO, "Â§ePremiumLogin Â§8Â» Â§2Checking for updates..");
 
 				try {
 
 					PremiumLoginUpdate updatePacket = checkForUpdates();
 					if(updatePacket == null) {
-						getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cAn error has occurred.");
-						getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cUnable to check for updates.");
+						getLogger().log(Level.SEVERE, "Â§ePremiumLogin Â§8Â» Â§cAn error has occurred.");
+						getLogger().log(Level.SEVERE, "Â§ePremiumLogin Â§8Â» Â§cUnable to check for updates.");
 					}
 					if(updatePacket.getVersion().contains("-5_D")) {
-						getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cThis plugin version is deprecated.");
-						getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cDisabling..");
-						getProxy().broadcast(new TextComponent("§7PremiumLogin is going to disable because this version is too outdated. Please update it now on SpigotMC."));
+						getLogger().log(Level.SEVERE, "Â§ePremiumLogin Â§8Â» Â§cThis plugin version is deprecated.");
+						getLogger().log(Level.SEVERE, "Â§ePremiumLogin Â§8Â» Â§cDisabling..");
+						getProxy().broadcast(new TextComponent("Â§7PremiumLogin is going to disable because this version is too outdated. Please update it now on SpigotMC."));
 						getProxy().getScheduler().cancel(this);
 						getProxy().getPluginManager().unregisterCommands(this);
 						getProxy().getPluginManager().unregisterListeners(this);
 						return;
 					}
 					if(updatePacket.getVersion().startsWith("-")) {
-						getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cAn error has occurred. (& exception throw)");
-						getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cUnable to check for updates.");
+						getLogger().log(Level.SEVERE, "Â§ePremiumLogin Â§8Â» Â§cAn error has occurred. (& exception throw)");
+						getLogger().log(Level.SEVERE, "Â§ePremiumLogin Â§8Â» Â§cUnable to check for updates.");
 					}
 					if(updatePacket.isAvaliable()) {
 
-						getLogger().log(Level.WARNING, "§ePremiumLogin §8» §cYou are running an older version of PremiumLogin ( " + ver + " )");
-						getLogger().log(Level.WARNING, "§ePremiumLogin §8»  §7Download the newest version ( " + updatePacket.getVersion() + " ) from : " + SPIGOT_MC);
+						getLogger().log(Level.WARNING, "Â§ePremiumLogin Â§8Â» Â§cYou are running an older version of PremiumLogin ( " + ver + " )");
+						getLogger().log(Level.WARNING, "Â§ePremiumLogin Â§8Â»  Â§7Download the newest version ( " + updatePacket.getVersion() + " ) from : " + SPIGOT_MC);
 					} else {
-						getLogger().log(Level.INFO, "§ePremiumLogin §8» §2You are running the latest version of PremiumLogin! ^^ ( " + ver + " )");
+						getLogger().log(Level.INFO, "Â§ePremiumLogin Â§8Â» Â§2You are running the latest version of PremiumLogin! ^^ ( " + ver + " )");
 					    return;
 					}
 				} catch(Exception exc) {
-					getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cAn error has occurred. (& exception throw)");
-					getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cUnable to check for updates.");
+					getLogger().log(Level.SEVERE, "Â§ePremiumLogin Â§8Â» Â§cAn error has occurred. (& exception throw)");
+					getLogger().log(Level.SEVERE, "Â§ePremiumLogin Â§8Â» Â§cUnable to check for updates.");
 				}
 
 
@@ -428,7 +428,7 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 				set("staff-disable", "&cUn amministratore ti ha disabilitato l''autenticazione &cautomatica. Rientra.");
 				saveConfig();
 				reloadTempConfig();
-				logConsole("La lingua è stata impostata ad Italiano come scelto dal config!");
+				logConsole("La lingua Ã¨ stata impostata ad Italiano come scelto dal config!");
 				return;
 			}
 			if(lcode.equalsIgnoreCase("en")) {
@@ -454,23 +454,23 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 			}
 			if(lcode.equalsIgnoreCase("es")) {
 
-				set("join-with-premium", "&cSu sesión parece no ser válida. Inicia sesión con su cuenta premium.");
-				set("auto-login-premium", "&aCuenta premium detectada. Autenticación automática");
+				set("join-with-premium", "&cSu sesiÃ³n parece no ser vÃ¡lida. Inicia sesiÃ³n con su cuenta premium.");
+				set("auto-login-premium", "&aCuenta premium detectada. AutenticaciÃ³n automÃ¡tica");
 				set("error-generic", "&cHa ocurrido un error.");
 				set("unable", "&cHa ocurrido un error mientras te estabas autenticando.");
 				set("unable-lobby", "&cHa ocurrido un error mientras te estabas conectando al Lobby.");
 				set("default-login-system-switch-to-premiumlogin", "&aAhora puedes efectuar autenticacion automatica.");
 				set("default-login-system-switch-to-authme", "&aHas desactivado el login automatico.");
 				set("no-premium", "&cDebes ser un jugador Premium.");
-				set("no-legacy", "&cLo sentimos, esta versión tiene un sistema de autenticación deprecado, usa almenos la vercion 1.6+.");
+				set("no-legacy", "&cLo sentimos, esta versiÃ³n tiene un sistema de autenticaciÃ³n deprecado, usa almenos la vercion 1.6+.");
 				set("enabled-autologin", "&aAhora puedes efectuar autenticacion automatica.");
 				set("disable-autologin", "&aHas desactivado el login automatico.");
 				set("not-used-premium-launcher", "&cDebes ser un jugador Premium &cautenticado con launcher oficial.");
 				set( "no-perms" ,  "&cNo tienes permisos." );
-				set("staff-disable", "&cUn administrador te ha desactivado la autenticación automatica. Re-ingresa.");
+				set("staff-disable", "&cUn administrador te ha desactivado la autenticaciÃ³n automatica. Re-ingresa.");
 				saveConfig();
 				reloadTempConfig();
-				logConsole("¡El idioma se ha configurado en español segúen lo elegido por la configuración!");
+				logConsole("Â¡El idioma se ha configurado en espaÃ±ol segÃºen lo elegido por la configuraciÃ³n!");
 				return;
 			}
 
@@ -725,15 +725,12 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 			return;
 		}
 
-		/*
-
-		TO DO:
-		Nella prossima versione togliere supporto.
-
-		 */
+	
 		if(getProxy().getPluginManager().getPlugin("PremiumLock") != null) {
-			getLogger().warning("WARNING - You are using PremiumLock: This can be cause several issues.");
-		}
+			getLogger().warning("WARNING - You are using PremiumLock: This may be cause several issues.");
+		return;
+                }
+
 		
 		try {
 		reloadTempConfig();
@@ -749,53 +746,53 @@ staff-disable: '&cAn administrator disabled PremiumLogin for you. Please rejoin.
 		1.6.3: Updater.
 
 		 */
-		getLogger().log(Level.INFO, "§ePremiumLogin §8» §2Checking for updates..");
+		getLogger().log(Level.INFO, "Â§ePremiumLogin Â§8Â» Â§2Checking for updates..");
 			try {
 
 				PremiumLoginUpdate updatePacket = checkForUpdates();
 				if (updatePacket == null) {
-					getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cAn error has occurred.");
-					getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cUnable to check for updates.");
+					getLogger().log(Level.SEVERE, "Â§ePremiumLogin Â§8Â» Â§cAn error has occurred.");
+					getLogger().log(Level.SEVERE, "Â§ePremiumLogin Â§8Â» Â§cUnable to check for updates.");
 					if (ConfigUtils.getConfBool("ignore-updater-error")) {
-						getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §eError ignored as set in configuration.");
+						getLogger().log(Level.SEVERE, "Â§ePremiumLogin Â§8Â» Â§eError ignored as set in configuration.");
 					} else {
 						return;
 					}
 				}
 				if (updatePacket.getVersion().contains("-5_D")) {
-					getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cThis plugin version is deprecated.");
-					getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cDisabling..");
-					getLogger().log(Level.WARNING, "§ePremiumLogin §8»  §7Download the newest version ( ? ) from : " + SPIGOT_MC);
+					getLogger().log(Level.SEVERE, "Â§ePremiumLogin Â§8Â» Â§cThis plugin version is deprecated.");
+					getLogger().log(Level.SEVERE, "Â§ePremiumLogin Â§8Â» Â§cDisabling..");
+					getLogger().log(Level.WARNING, "Â§ePremiumLogin Â§8Â»  Â§7Download the newest version ( ? ) from : " + SPIGOT_MC);
 					if (ConfigUtils.getConfBool("ignore-updater-error")) {
-						getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §eThis error can't be ignored.");
+						getLogger().log(Level.SEVERE, "Â§ePremiumLogin Â§8Â» Â§eThis error can't be ignored.");
 					}
-					getProxy().broadcast(new TextComponent("§7PremiumLogin is going to disable because this version is too outdated. Please update it now on SpigotMC."));
+					getProxy().broadcast(new TextComponent("Â§7PremiumLogin is going to disable because this version is too outdated. Please update it now on SpigotMC."));
 					getProxy().getScheduler().cancel(this);
 					getProxy().getPluginManager().unregisterCommands(this);
 					getProxy().getPluginManager().unregisterListeners(this);
 					return;
 				}
 				if (updatePacket.getVersion().startsWith("-")) {
-					getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cAn error has occurred. (& exception throw)");
-					getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cUnable to check for updates.");
+					getLogger().log(Level.SEVERE, "Â§ePremiumLogin Â§8Â» Â§cAn error has occurred. (& exception throw)");
+					getLogger().log(Level.SEVERE, "Â§ePremiumLogin Â§8Â» Â§cUnable to check for updates.");
 					if (ConfigUtils.getConfBool("ignore-updater-error")) {
-						getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §eError ignored as set in configuration.");
+						getLogger().log(Level.SEVERE, "Â§ePremiumLogin Â§8Â» Â§eError ignored as set in configuration.");
 					}
 				}
 
 				if (updatePacket.isAvaliable()) {
-					getLogger().log(Level.WARNING, "§ePremiumLogin §8» §cYou are running an older version of PremiumLogin ( " + ver + " )");
-					getLogger().log(Level.WARNING, "§ePremiumLogin §8»  §7Download the newest version ( " + updatePacket.getVersion() + " ) from : " + SPIGOT_MC);
+					getLogger().log(Level.WARNING, "Â§ePremiumLogin Â§8Â» Â§cYou are running an older version of PremiumLogin ( " + ver + " )");
+					getLogger().log(Level.WARNING, "Â§ePremiumLogin Â§8Â»  Â§7Download the newest version ( " + updatePacket.getVersion() + " ) from : " + SPIGOT_MC);
 				} else {
-					getLogger().log(Level.INFO, "§ePremiumLogin §8» §2You are running the latest version of PremiumLogin! ^^ ( " + ver + " )");
+					getLogger().log(Level.INFO, "Â§ePremiumLogin Â§8Â» Â§2You are running the latest version of PremiumLogin! ^^ ( " + ver + " )");
 				}
 
 			} catch (Exception exc) {
 				exc.printStackTrace();
-				getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cAn error has occurred. (& exception throw)");
-				getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §cUnable to check for updates.");
+				getLogger().log(Level.SEVERE, "Â§ePremiumLogin Â§8Â» Â§cAn error has occurred. (& exception throw)");
+				getLogger().log(Level.SEVERE, "Â§ePremiumLogin Â§8Â» Â§cUnable to check for updates.");
 				if (ConfigUtils.getConfBool("ignore-updater-error")) {
-					getLogger().log(Level.SEVERE, "§ePremiumLogin §8» §eError ignored as set in configuration.");
+					getLogger().log(Level.SEVERE, "Â§ePremiumLogin Â§8Â» Â§eError ignored as set in configuration.");
 				}
 			}
 
