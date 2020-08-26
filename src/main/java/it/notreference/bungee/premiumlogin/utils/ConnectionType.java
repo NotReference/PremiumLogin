@@ -15,5 +15,5 @@ package it.notreference.bungee.premiumlogin.utils;
 
 
 public enum ConnectionType {
- LEGACY, NOTLEGACY
+ LEGACY, LATEST
 }
