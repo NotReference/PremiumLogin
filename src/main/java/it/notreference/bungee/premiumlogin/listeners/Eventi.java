@@ -1,10 +1,7 @@
 package it.notreference.bungee.premiumlogin.listeners;
 
-//import java.lang.reflect.Field;
-//import java.nio.charset.Charset;
 import java.lang.reflect.Field;
 import java.util.UUID;
-
 import it.notreference.bungee.premiumlogin.PremiumLoginEventManager;
 import it.notreference.bungee.premiumlogin.PremiumLoginMain;
 import it.notreference.bungee.premiumlogin.api.PremiumOnlineConnection;
@@ -68,15 +65,15 @@ public class Eventi implements Listener {
 		if (ConfigUtils.hasPremiumAutoLogin(connection.getName())) {
 			if(!UUIDUtils.isPremium(connection.getName())) {
 				ConfigUtils.disablePremium(connection.getName());
-				connection.disconnect(new TextComponent("&cYou are not a Premium Player. Please rejoin. Your profile data has been refreshed."));
+				connection.disconnect(new TextComponent("&cSomething went wrong. Please rejoin."));
 				return;
 			}
 			try {
 				connection.setOnlineMode(true);
 				PremiumLoginMain.i().logConsole("Successfully set " + connection.getName() + "'s connection to Premium.");
 			} catch(Exception exc) {
-				connection.disconnect(new TextComponent("§cUnable to join. Session server returned an invaild response. Please retry."));
-				PremiumLoginMain.i().getLogger().severe("ERROR - Unable to set " + connection.getName() + " to Premium. (Maybe sessions server offline?)");
+				connection.disconnect(new TextComponent("Â§cUnable to join. Please retry."));
+				PremiumLoginMain.i().getLogger().severe("ERROR - Unable to set " + connection.getName() + "'s connection to Premium.");
 			}
 		}
 	}
@@ -88,18 +85,9 @@ public class Eventi implements Listener {
 		if(event.isCancelled()) {
 			return;
 		}
-
 		if(!ConfigUtils.getConfBool("setup-uuid")) {
 			return;
 		}
-
-		/*
-
-		1.7: Now the uuid will be changed only if you have premium login activated.
-
-
-		 */
-
 		PendingConnection connection = event.getConnection();
 
 			if(!ConfigUtils.hasPremiumAutoLogin(event.getConnection().getName())) {
@@ -121,19 +109,10 @@ public class Eventi implements Listener {
 		try {
 
 			String spud = null;
-            spud = UUIDUtils.getCrackedUUID(connection.getName());
-			if(spud == null) {
-				PremiumLoginMain.i().logConsole("UUID Parser: You set an invaild setup method into the configuration. So, the uuid will be parsed with default method.");
-				spud = UUIDUtils.getCrackedUUID(connection.getName());
-			}
+                        spud = UUIDUtils.getCrackedUUID(connection.getName());
+			if(spud == null) spud = UUIDUtils.getCrackedUUID(connection.getName());
 			String oldUUID = event.getConnection().getUniqueId().toString();
 			UUID nuovoUUID = UUID.fromString(spud);
-			try {
-				UUIDSetupEvent uuidEvent = PremiumLoginMain.i().getProxy().getPluginManager().callEvent(new UUIDSetupEvent(SetupMethod.SP, connection, nuovoUUID.toString(), oldUUID, 1));
-			} catch(Exception exc) {
-				PremiumLoginMain.i().logConsole("WARNING - Unable to fire the UUIDSetupEvent for API Plugins.");
-			}
-
 			InitialHandler handler = (InitialHandler) connection;
 			Class<?> initialHandlerClass =  handler.getClass(); //connection.getClass();
 			Field uniqueIdField = initialHandlerClass.getDeclaredField("uniqueId");
@@ -143,7 +122,7 @@ public class Eventi implements Listener {
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			PremiumLoginMain.i().logConsole("Unable to setup " + connection.getName() + "'s UUID.");
-			connection.disconnect(new TextComponent("§cUnable to setup your account's UUID. Please retry."));
+			connection.disconnect(new TextComponent("Â§cUnable to setup your account's UUID. Please retry."));
 			return;
 		}
 	}
@@ -151,58 +130,6 @@ public class Eventi implements Listener {
 	@EventHandler (priority = EventPriority.NORMAL)
 	public void onJoin(PostLoginEvent event) {
 		final ProxiedPlayer p = event.getPlayer();
-
-		/*
-
-		Coming Soon!
-
-		 */
-		/*
-		boolean continueCode1 = false;
-
-		PlayerDataHandler handler = DataProvider.get(PlayerDataManager.class);
-
-		if(!handler.init()) {
-
-			if(!ConfigUtils.getConfBool("ignore-data-errors")) {
-
-				p.disconnect(new TextComponent(PluginUtils.parse(ConfigUtils.getConfStr("unable-data-init"))));
-				return;
-
-			} else {
-
-				continueCode1 = true;
-
-			}
-
-		}
-
-		if(!continueCode1) {
-			if (handler.exists(p.getName())) {
-
-				if(!handler.scanData(p.getName())) {
-					//data corrupt
-					return;
-				} else {
-
-					PlayerData playerData = handler.loadData(p.getName());
-					if (playerData == null) {
-						//kick null error data
-					}
-				}
-			} else {
-
-				//Creiamo la data.
-
-			}
-		}
-		 */
-
-
-
-		//1.2 - Now event is async.
-		//1.2 - Fixed console spam.
-
 		PremiumLoginMain.i().getProxy().getScheduler().runAsync(PremiumLoginMain.i(), new Runnable() {
 
 			@Override
@@ -255,7 +182,7 @@ public class Eventi implements Listener {
 						} else {
 							if (UUIDUtils.isPremiumConnection(p) && p.getPendingConnection().isLegacy() || !UUIDUtils.isPremiumConnection(p) && p.getPendingConnection().isLegacy()) {
 								PlaceholderConf c = new PlaceholderConf(p.getName(), p.getUniqueId(), p.getAddress().getHostString());
-								PluginUtils.logStaff(ConfigUtils.getConfStr("try-join-nopremium") + " §c(Legacy Not Supported)§7.", c);
+								PluginUtils.logStaff(ConfigUtils.getConfStr("try-join-nopremium") + " Â§c(Legacy Not Supported)Â§7.", c);
 								p.disconnect(new TextComponent(ConfigUtils.getConfStr("no-legacy")));
 							} else if (!UUIDUtils.isPremiumConnection(p)) {
 								PlaceholderConf c = new PlaceholderConf(p.getName(), p.getUniqueId(), p.getAddress().getHostString());
@@ -279,7 +206,7 @@ public class Eventi implements Listener {
 					}
 				} catch (Exception exc) {
 					//PluginUtils.send(p, ConfigUtils.getConfStr("unable"));
-					PremiumLoginMain.i().getLogger().severe("ERROR - Unable to autologin " + p.getName() + " (ignore this, this is not an error [sometimes], is just for block console spam.)");
+					PremiumLoginMain.i().getLogger().severe("ERROR - Unable to autologin " + p.getName() + "!");
 				}
 			}
 		});
@@ -351,7 +278,7 @@ public class Eventi implements Listener {
 				} else {
 					if (UUIDUtils.isPremiumConnection(p) && p.getPendingConnection().isLegacy() || !UUIDUtils.isPremiumConnection(p) && p.getPendingConnection().isLegacy()) {
 						PlaceholderConf c = new PlaceholderConf(p.getName(), p.getUniqueId(), p.getAddress().getHostString());
-						PluginUtils.logStaff(ConfigUtils.getConfStr("try-join-nopremium") + " §c(Legacy Not Supported)§7.", c);
+						PluginUtils.logStaff(ConfigUtils.getConfStr("try-join-nopremium") + " Â§c(Legacy Not Supported)Â§7.", c);
 						p.disconnect(new TextComponent(ConfigUtils.getConfStr("no-legacy")));
 						return;
 					} else if (!UUIDUtils.isPremiumConnection(p)) {
@@ -445,7 +372,7 @@ public class Eventi implements Listener {
 				} else {
 					if (UUIDUtils.isPremiumConnection(p) && p.getPendingConnection().isLegacy() || !UUIDUtils.isPremiumConnection(p) && p.getPendingConnection().isLegacy()) {
 						PlaceholderConf c = new PlaceholderConf(p.getName(), p.getUniqueId(), p.getAddress().getHostString());
-						PluginUtils.logStaff(ConfigUtils.getConfStr("try-join-nopremium") + " §c(Legacy Not Supported)§7.", c);
+						PluginUtils.logStaff(ConfigUtils.getConfStr("try-join-nopremium") + " Â§c(Legacy Not Allowed)Â§7.", c);
 						p.disconnect(new TextComponent(ConfigUtils.getConfStr("no-legacy")));
 					} else if (!UUIDUtils.isPremiumConnection(p)) {
 						PlaceholderConf c = new PlaceholderConf(p.getName(), p.getUniqueId(), p.getAddress().getHostString());
