@@ -27,12 +27,6 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class UUIDUtils {
 
-	/*
-
-     Fixed isPremium(UUID) bug that returns always true.
-
-	 */
-
 	public static boolean isPremium(UUID ud) {
 		ProxiedPlayer prox = PremiumLoginMain.i().getProxy().getPlayer(ud);
 		if(prox == null) {
