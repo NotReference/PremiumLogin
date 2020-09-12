@@ -21,7 +21,7 @@ public class PlaceholderConf {
 
 	private String name;
 	private UUID ud;
-	private String ipp; //inetsocketaddress
+	private String ipp;
 	
 	public PlaceholderConf(String nick, UUID uuid, String ip) {
 		name = nick;
