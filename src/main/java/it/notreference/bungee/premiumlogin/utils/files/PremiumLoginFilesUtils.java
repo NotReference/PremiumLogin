@@ -106,18 +106,11 @@ public class PremiumLoginFilesUtils {
                 return OS.UNKNOWN;
             }
         } catch(Exception exc) {
-            main.getLogger().warning("Unable to detect your OS. The temp file can be damaged.");
+            main.getLogger().warning("Unable to detect your OS.");
             return null;
         }
     }
 
-    /**
-     *
-     * Replaces the last temp file data with new file data.
-     *
-     * @param fileName the filename ex config.yml
-     * @return false for fail, true for success
-     */
     public boolean replaceData(String fileName) {
         if(last != null) {
             try (InputStream fileStream = getClass().getResourceAsStream(fileName)) {
@@ -150,23 +143,11 @@ public class PremiumLoginFilesUtils {
      return new FileInputStream(f);
     }
 
-    /**
-     *
-     * Deletes all temp files except config & players files.
-     *
-     * @return status code
-     */
-
-    /*
-
-    1.6.4: Little issue fix.
-
-     */
     public boolean deleteAllTempFiles() {
         try {
             File dir = main.getDataFolder();
 
-            //Prevent from deleting files if dir doesn't contains PremiumLogin
+            //Prevent from deleting files if dir doesn't contain PremiumLogin
             if (!dir.getAbsolutePath().toLowerCase().contains("PremiumLogin".toLowerCase())) {
                 return false;
             }
@@ -175,7 +156,6 @@ public class PremiumLoginFilesUtils {
             for (File file : dir.listFiles()) {
                 try {
                     if (file.getName().equalsIgnoreCase("config.yml") || file.getName().equalsIgnoreCase("players.yml") || file.getName().equalsIgnoreCase("codes.yml")) {
-                        //non eliminiamo
                     } else {
                         v.add(file.delete());
                     }
@@ -206,13 +186,6 @@ public class PremiumLoginFilesUtils {
         return new ByteArrayInputStream(e.getBytes());
     }
 
-    /**
-     *
-     * Replaces the last temp file data with new custom data.
-     *
-     * @param stringBuilderData new data
-     * @return false for fail, true for success
-     */
     public boolean writeData(StringBuilder stringBuilderData) {
         if(last != null) {
             try (InputStream dataStream = convertStr(stringBuilderData.toString())) {
@@ -312,7 +285,6 @@ public class PremiumLoginFilesUtils {
 
             if(os == null) {
                 main.logConsole("You are running an Unknown OS!");
-                main.logConsole("Using the WinFileWriter as default.");
                 Files.copy(fileStream, file.toPath());
                 fileStream.close();
                 last = file;
