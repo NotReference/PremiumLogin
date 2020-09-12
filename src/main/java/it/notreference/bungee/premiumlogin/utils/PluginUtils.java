@@ -20,121 +20,100 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 
 public class PluginUtils {
-
-
-	/*
-
-	Alias of sendParseColors.
-
-	 */
-
-	/*
-
-	1.6.5 Spanish N Support.
-
-	 */
-
-	/*
-
-	á, é, í, ó, ú
-
-     ñ
-
-	 */
-
+	
 	public static void send(ProxiedPlayer p, String m) {
-		String nuovoMessaggio = m.replace("&", "§");
+		String nuovoMessaggio = m.replace("&", "Â§");
 
 		if(nuovoMessaggio.contains(".N.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".N.", "ñ");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".N.", "Ã±");
 		}
 		if(nuovoMessaggio.contains(".e1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".e1.", "è");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".e1.", "Ã¨");
 		}
 
 		if(nuovoMessaggio.contains(".e2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".e2.", "é");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".e2.", "Ã©");
 		}
 
 		if(nuovoMessaggio.contains(".a1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".a1.", "à");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".a1.", "Ã ");
 		}
 
 		if(nuovoMessaggio.contains(".a2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".a2.", "á");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".a2.", "Ã¡");
 		}
 
 		if(nuovoMessaggio.contains(".i1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".i1.", "ì");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".i1.", "Ã¬");
 		}
 
 		if(nuovoMessaggio.contains(".i2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".i2.", "í");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".i2.", "Ã­");
 		}
 
 		if(nuovoMessaggio.contains(".o1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".o1.", "ò");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".o1.", "Ã²");
 		}
 
 		if(nuovoMessaggio.contains(".o2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".o2.", "ó");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".o2.", "Ã³");
 		}
 
 		if(nuovoMessaggio.contains(".u1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".u1.", "ù");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".u1.", "Ã¹");
 		}
 
 		if(nuovoMessaggio.contains(".u2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".u2.", "ú");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".u2.", "Ãº");
 		}
 
 		p.sendMessage(new TextComponent(nuovoMessaggio));
 	}
 	
 	public static void send(CommandSender c, String m) {
-		String nuovoMessaggio = m.replace("&", "§");
+		String nuovoMessaggio = m.replace("&", "Â§");
 
 		if(nuovoMessaggio.contains(".N.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".N.", "ñ");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".N.", "Ã±");
 		}
 		if(nuovoMessaggio.contains(".e1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".e1.", "è");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".e1.", "Ã¨");
 		}
 
 		if(nuovoMessaggio.contains(".e2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".e2.", "é");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".e2.", "Ã©");
 		}
 
 		if(nuovoMessaggio.contains(".a1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".a1.", "à");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".a1.", "Ã ");
 		}
 
 		if(nuovoMessaggio.contains(".a2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".a2.", "á");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".a2.", "Ã¡");
 		}
 
 		if(nuovoMessaggio.contains(".i1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".i1.", "ì");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".i1.", "Ã¬");
 		}
 
 		if(nuovoMessaggio.contains(".i2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".i2.", "í");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".i2.", "Ã­");
 		}
 
 		if(nuovoMessaggio.contains(".o1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".o1.", "ò");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".o1.", "Ã²");
 		}
 
 		if(nuovoMessaggio.contains(".o2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".o2.", "ó");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".o2.", "Ã³");
 		}
 
 		if(nuovoMessaggio.contains(".u1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".u1.", "ù");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".u1.", "Ã¹");
 		}
 
 		if(nuovoMessaggio.contains(".u2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".u2.", "ú");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".u2.", "Ãº");
 		}
 
 		c.sendMessage(new TextComponent(nuovoMessaggio));
@@ -143,107 +122,99 @@ public class PluginUtils {
 	
 	public static String parse(String f) {
 
-			/*
-
-	á, é, í, ó, ú
-
-     ñ
-
-	 */
-
-		String nuovoMessaggio = f.replace("&", "§");
+		String nuovoMessaggio = f.replace("&", "Â§");
 
 
 		if(nuovoMessaggio.contains(".N.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".N.", "ñ");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".N.", "Ã±");
 		}
 		if(nuovoMessaggio.contains(".e1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".e1.", "è");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".e1.", "Ã¨");
 		}
 
 		if(nuovoMessaggio.contains(".e2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".e2.", "é");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".e2.", "Ã©");
 		}
 
 		if(nuovoMessaggio.contains(".a1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".a1.", "à");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".a1.", "Ã ");
 		}
 
 		if(nuovoMessaggio.contains(".a2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".a2.", "á");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".a2.", "Ã¡");
 		}
 
 		if(nuovoMessaggio.contains(".i1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".i1.", "ì");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".i1.", "Ã¬");
 		}
 
 		if(nuovoMessaggio.contains(".i2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".i2.", "í");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".i2.", "Ã­");
 		}
 
 		if(nuovoMessaggio.contains(".o1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".o1.", "ò");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".o1.", "Ã²");
 		}
 
 		if(nuovoMessaggio.contains(".o2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".o2.", "ó");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".o2.", "Ã³");
 		}
 
 		if(nuovoMessaggio.contains(".u1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".u1.", "ù");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".u1.", "Ã¹");
 		}
 
 		if(nuovoMessaggio.contains(".u2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".u2.", "ú");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".u2.", "Ãº");
 		}
 
 		return nuovoMessaggio;
 	}
 	
 	public static void sendParseColors(ProxiedPlayer p, String m) {
-		String nuovoMessaggio = m.replace("&", "§");
+		String nuovoMessaggio = m.replace("&", "Â§");
 
 		if(nuovoMessaggio.contains(".N.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".N.", "ñ");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".N.", "Ã±");
 		}
 		if(nuovoMessaggio.contains(".e1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".e1.", "è");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".e1.", "Ã¨");
 		}
 
 		if(nuovoMessaggio.contains(".e2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".e2.", "é");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".e2.", "Ã©");
 		}
 
 		if(nuovoMessaggio.contains(".a1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".a1.", "à");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".a1.", "Ã ");
 		}
 
 		if(nuovoMessaggio.contains(".a2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".a2.", "á");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".a2.", "Ã¡");
 		}
 
 		if(nuovoMessaggio.contains(".i1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".i1.", "ì");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".i1.", "Ã¬");
 		}
 
 		if(nuovoMessaggio.contains(".i2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".i2.", "í");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".i2.", "Ã­");
 		}
 
 		if(nuovoMessaggio.contains(".o1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".o1.", "ò");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".o1.", "Ã²");
 		}
 
 		if(nuovoMessaggio.contains(".o2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".o2.", "ó");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".o2.", "Ã³");
 		}
 
 		if(nuovoMessaggio.contains(".u1.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".u1.", "ù");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".u1.", "Ã¹");
 		}
 
 		if(nuovoMessaggio.contains(".u2.")) {
-			nuovoMessaggio = nuovoMessaggio.replaceAll(".u2.", "ú");
+			nuovoMessaggio = nuovoMessaggio.replaceAll(".u2.", "Ãº");
 		}
 
 		p.sendMessage(new TextComponent(nuovoMessaggio));
@@ -259,7 +230,7 @@ public class PluginUtils {
 		}
 		for(ProxiedPlayer staff: PremiumLoginMain.i().getProxy().getPlayers()) {
 			if(staff.hasPermission("premiumlogin.staff")) {
-				String placeholderModifica1 = s.replace("[utente]", conf.getName());
+				String placeholderModifica1 = s.replace("[user]", conf.getName());
 				String placeholderModifica2 = placeholderModifica1.replace("[uuid]", conf.getUUID().toString());
 				String placeholderFinale = placeholderModifica2.replace("[ip]", conf.ip());
 				sendParseColors(staff, placeholderFinale);
